@@ -1,0 +1,11 @@
+/.vscode
+# Ignore preprocessed source files
+*.i
+
+# Ignore object files
+*.o
+#ignore assembly
+*.s
+
+# Ignore Visual Studio Code settings folder
+.vscode/
