@@ -2,6 +2,11 @@
 #include "mode0.h"
 #include "sprites.h"
 #include "print.h"
+#include "player.h"
+
+// sprite imports
+#include "gengar.h"
+#include "background.h"
 
 void start();
 void goToStart();
@@ -68,6 +73,7 @@ int main() {
 
 void goToStart() {
     //initGame();
+    initPlayer();
 }
 
 void start() {
@@ -80,9 +86,28 @@ void start() {
 
 void goToGame() {
     mgba_printf("going to game");
+
+    //initGame();
+    // later put this in initGame maybe
+    DMANow(3, backgroundTiles, &CHARBLOCK[2], backgroundTilesLen/2);
+    DMANow(3, backgroundPal, BG_PALETTE, backgroundPalLen / 2);
+    DMANow(3, backgroundMap, &SCREENBLOCK[0], backgroundMapLen / 2);
+
+     // DMA sprite info 
+    DMANow(3, gengarTiles, &CHARBLOCK[4], gengarTilesLen / 2);
+    DMANow(3, gengarPal, SPRITE_PAL, gengarPalLen / 2);
+
+    //hideSprites();
+    waitForVBlank();
+    DMANow(3, shadowOAM, OAM, 128*8);
     state = GAME;
+
 }
 
 void game() {
-
+    //shineLight(1, 1, 100, 100);
+    updatePlayer();
+    drawPlayer();
+    waitForVBlank();
+    DMANow(3, shadowOAM, OAM, 128*4);
 }
