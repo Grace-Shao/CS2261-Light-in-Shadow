@@ -2,6 +2,7 @@
 #include "mode0.h"
 #include "sprites.h"
 #include "print.h"
+#include "game.h"
 #include "player.h"
 #include "enemy.h"
 #include <stdlib.h>
@@ -34,6 +35,7 @@ typedef enum {DOWN, RIGHT, UP, LEFT} DIRECTION;
 unsigned short buttons;
 unsigned short oldButtons;
 
+
 void initialize() {
     // Set up basic registers 
     REG_DISPCTL = MODE(0) | BG_ENABLE(2) | SPRITE_ENABLE;
@@ -55,7 +57,8 @@ int main() {
     while(1) {
         oldButtons = buttons;
         buttons = REG_BUTTONS;
-             
+        
+        frameCount += 1;
         // State Machine
         switch(state) {
             case START:
@@ -77,8 +80,6 @@ int main() {
 }
 
 void goToStart() {
-    //initGame();
-    initPlayer();
 }
 
 void start() {
@@ -92,9 +93,8 @@ void start() {
 void goToGame() {
     mgba_printf("going to game");
 
-    //initGame();
-    initEnemies();
-    // later put this in initGame maybe
+    initGame();
+
     DMANow(3, backgroundTiles, &CHARBLOCK[2], backgroundTilesLen/2);
     DMANow(3, backgroundPal, BG_PALETTE, backgroundPalLen / 2);
     DMANow(3, backgroundMap, &SCREENBLOCK[0], backgroundMapLen / 2);
@@ -112,9 +112,8 @@ void goToGame() {
 
 void game() {
     //shineLight(1, 1, 100, 100);
-    updatePlayer();
-    drawPlayer();
-    drawEnemies();
+    updateGame();
+    drawGame();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*4);
 }

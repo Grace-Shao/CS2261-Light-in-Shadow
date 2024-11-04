@@ -78,6 +78,7 @@ typedef struct {
     int isActive;
     int currentFrame;
     int numFrames;
+    int movementType;
 
     int hide;
     u8 oamIndex; 
