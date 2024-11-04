@@ -3,6 +3,9 @@
 #include "sprites.h"
 #include "print.h"
 #include "player.h"
+#include "enemy.h"
+#include <stdlib.h>
+#include <time.h>
 
 // sprite imports
 #include "gengar.h"
@@ -39,6 +42,8 @@ void initialize() {
     buttons = REG_BUTTONS;
     oldButtons = 0;
 
+    // not actually random
+    srand(time(NULL));
     mgba_open();
     mgba_printf("initialized");
     //initSound();
@@ -88,6 +93,7 @@ void goToGame() {
     mgba_printf("going to game");
 
     //initGame();
+    initEnemies();
     // later put this in initGame maybe
     DMANow(3, backgroundTiles, &CHARBLOCK[2], backgroundTilesLen/2);
     DMANow(3, backgroundPal, BG_PALETTE, backgroundPalLen / 2);
@@ -108,6 +114,7 @@ void game() {
     //shineLight(1, 1, 100, 100);
     updatePlayer();
     drawPlayer();
+    drawEnemies();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*4);
 }
