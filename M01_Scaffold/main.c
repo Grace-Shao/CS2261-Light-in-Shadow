@@ -8,9 +8,10 @@
 #include <stdlib.h>
 #include <time.h>
 
-// sprite imports
+// bg/sprite imports
 #include "gengar.h"
 #include "background.h"
+#include "light.h"
 
 void start();
 void goToStart();
@@ -38,9 +39,12 @@ unsigned short oldButtons;
 
 void initialize() {
     // Set up basic registers 
-    REG_DISPCTL = MODE(0) | BG_ENABLE(2) | SPRITE_ENABLE;
-    REG_BG2CNT = BG_SCREENBLOCK(0) | BG_CHARBLOCK(2);
-    
+    REG_DISPCTL = MODE(0) | BG_ENABLE(2) | BG_ENABLE(3) | SPRITE_ENABLE;
+    // set up orignal background
+    REG_BG2CNT = BG_SCREENBLOCK(0) | BG_CHARBLOCK(2) | 2;
+    // light bg
+    REG_BG3CNT = BG_SCREENBLOCK(1) | BG_CHARBLOCK(3) | 1;
+
     buttons = REG_BUTTONS;
     oldButtons = 0;
 
@@ -95,9 +99,15 @@ void goToGame() {
 
     initGame();
 
+    // DMA bg
     DMANow(3, backgroundTiles, &CHARBLOCK[2], backgroundTilesLen/2);
     DMANow(3, backgroundPal, BG_PALETTE, backgroundPalLen / 2);
     DMANow(3, backgroundMap, &SCREENBLOCK[0], backgroundMapLen / 2);
+
+    // dma light 
+    DMANow(3, lightTiles, &CHARBLOCK[3], lightTilesLen/2);
+    //DMANow(3, lightPal, BG_PALETTE, lightPalLen / 2);
+    DMANow(3, lightMap, &SCREENBLOCK[1], lightMapLen / 2);
 
      // DMA sprite info 
     DMANow(3, gengarTiles, &CHARBLOCK[4], gengarTilesLen / 2);

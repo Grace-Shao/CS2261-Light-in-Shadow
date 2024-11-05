@@ -122,7 +122,7 @@ void drawEnemies() {
         if (enemies[i].isActive) {
             shadowOAM[enemies[i].oamIndex].attr0 = ATTR0_TALL | ATTR0_Y(enemies[i].y);
             shadowOAM[enemies[i].oamIndex].attr1 = ATTR1_X(enemies[i].x) | ATTR1_MEDIUM;
-            shadowOAM[enemies[i].oamIndex].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(0) | 
+            shadowOAM[enemies[i].oamIndex].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(2) | 
             ATTR2_TILEID(0 + enemies[i].currentFrame * 3, 16 + (enemies[i].direction * 3));
         }
     }  
