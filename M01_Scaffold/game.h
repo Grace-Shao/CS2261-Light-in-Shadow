@@ -2,6 +2,7 @@
 #define GAME_H
 
 extern int frameCount;
+extern int isFlashlightOn;
 extern int score;
 extern int lives;
 

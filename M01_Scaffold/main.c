@@ -104,10 +104,10 @@ void goToGame() {
     DMANow(3, backgroundPal, BG_PALETTE, backgroundPalLen / 2);
     DMANow(3, backgroundMap, &SCREENBLOCK[0], backgroundMapLen / 2);
 
-    // dma light 
-    DMANow(3, lightTiles, &CHARBLOCK[3], lightTilesLen/2);
-    //DMANow(3, lightPal, BG_PALETTE, lightPalLen / 2);
-    DMANow(3, lightMap, &SCREENBLOCK[1], lightMapLen / 2);
+    // // dma light 
+    // DMANow(3, lightTiles, &CHARBLOCK[3], lightTilesLen/2);
+    // //DMANow(3, lightPal, BG_PALETTE, lightPalLen / 2);
+    // DMANow(3, lightMap, &SCREENBLOCK[1], lightMapLen / 2);
 
      // DMA sprite info 
     DMANow(3, gengarTiles, &CHARBLOCK[4], gengarTilesLen / 2);
