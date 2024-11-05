@@ -4,7 +4,5 @@
 void initPlayer();
 void updatePlayer();
 void drawPlayer();
-void shineLight();
-
 
 #endif // PLAYER_H

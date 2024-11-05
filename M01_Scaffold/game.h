@@ -3,6 +3,7 @@
 
 extern int frameCount;
 extern int isFlashlightOn;
+extern int flashlightDirection;
 extern int score;
 extern int lives;
 

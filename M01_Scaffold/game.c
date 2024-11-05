@@ -10,10 +10,14 @@
 // sprite imports
 #include "gengar.h"
 #include "background.h"
-#include "light.h"
+#include "lightRight.h"
+#include "lightLeft.h"
+#include "lightUp.h"
+#include "lightDown.h"
 
 int frameCount = 0;
 int isFlashlightOn = 0;
+int flashlightDirection = 0;
 
 void initGame() {
     initEnemies();
@@ -42,19 +46,63 @@ void toggleFlashlight() {
         // Code to toggle the flashlight
         isFlashlightOn = !isFlashlightOn;
         if (isFlashlightOn) {
+            flashlightDirection = 1;
             mgba_printf("Flashlight turned on");
         } else {
             mgba_printf("Flashlight turned off");
         }
     }
+    if (BUTTON_PRESSED(BUTTON_LEFT)) {
+        // Code to toggle the flashlight
+        isFlashlightOn = !isFlashlightOn;
+        if (isFlashlightOn) {
+            flashlightDirection = -1;
+            mgba_printf("Flashlight turned on");
+        } else {
+            mgba_printf("Flashlight turned off");
+        }
+    }
+    if (BUTTON_PRESSED(BUTTON_UP)) {
+        // Code to toggle the flashlight
+        isFlashlightOn = !isFlashlightOn;
+        if (isFlashlightOn) {
+            flashlightDirection = 2;
+            mgba_printf("Flashlight turned on");
+        } else {
+            mgba_printf("Flashlight turned off");
+        }
+    }
+    if (BUTTON_PRESSED(BUTTON_DOWN)) {
+        // Code to toggle the flashlight
+        isFlashlightOn = !isFlashlightOn;
+        if (isFlashlightOn) {
+            flashlightDirection = -2;
+            mgba_printf("Flashlight turned on");
+        } else {
+            mgba_printf("Flashlight turned off");
+        }
+    }
+
 }
 
 void drawFlashlight() {
     if (isFlashlightOn) {
-        // dma light 
-        DMANow(3, lightTiles, &CHARBLOCK[3], lightTilesLen/2);
-        //DMANow(3, lightPal, BG_PALETTE, lightPalLen / 2);
-        DMANow(3, lightMap, &SCREENBLOCK[1], lightMapLen / 2);
+        // dma light
+        if (flashlightDirection == 1) {
+            DMANow(3, lightRightTiles, &CHARBLOCK[3], lightRightTilesLen/2);
+            DMANow(3, lightRightMap, &SCREENBLOCK[1], lightRightMapLen / 2);
+        } else if (flashlightDirection == -1)
+        {
+            DMANow(3, lightLeftTiles, &CHARBLOCK[3], lightLeftTilesLen/2);
+            DMANow(3, lightLeftMap, &SCREENBLOCK[1], lightLeftMapLen / 2);
+        } 
+        else if (flashlightDirection == 2) {
+            DMANow(3, lightUpTiles, &CHARBLOCK[3], lightUpTilesLen/2);
+            DMANow(3, lightUpMap, &SCREENBLOCK[1], lightUpMapLen / 2);
+        } else if (flashlightDirection == -2) {
+            DMANow(3, lightDownTiles, &CHARBLOCK[3], lightDownTilesLen/2);
+            DMANow(3, lightDownMap, &SCREENBLOCK[1], lightDownMapLen / 2);
+        }
     } else {
         // Clear the light map
         DMANow(3, 0, &SCREENBLOCK[1], backgroundMapLen / 2);

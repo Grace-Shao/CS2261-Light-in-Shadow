@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-
+  
 
 SPRITE enemies[ENEMYCOUNT]; // Definition of the global enemies array
 SPRITE player;

@@ -10,6 +10,7 @@
 
 // bg/sprite imports
 #include "gengar.h"
+#include "instructions.h"
 #include "background.h"
 #include "light.h"
 
@@ -68,9 +69,9 @@ int main() {
             case START:
                 start();
                 break;
-            // case INSTRUCTIONS:
-            //     instructions();
-            //     break;
+            case INSTRUCTIONS:
+                instructions();
+                break;
             case GAME:
                 game();
                 break;
@@ -84,12 +85,26 @@ int main() {
 }
 
 void goToStart() {
+    state = START;
 }
 
 void start() {
-    state = START;
-    if (BUTTON_HELD(BUTTON_START)) {
-        mgba_printf("start button pressed");
+    if (BUTTON_PRESSED(BUTTON_START)) {
+        mgba_printf("start button pressed, go to Instructions");
+        goToInstructions();
+    }
+}
+
+void goToInstructions() {
+    DMANow(3, instructionsTiles, &CHARBLOCK[2], instructionsTilesLen/2);
+    DMANow(3, instructionsPal, BG_PALETTE, instructionsPalLen / 2);
+    DMANow(3, instructionsMap, &SCREENBLOCK[0], instructionsMapLen / 2);
+    state = INSTRUCTIONS;
+}
+
+void instructions() {
+    if (BUTTON_PRESSED(BUTTON_START)) {
+        mgba_printf("start button pressed, go to game");
         goToGame();
     }
 }
