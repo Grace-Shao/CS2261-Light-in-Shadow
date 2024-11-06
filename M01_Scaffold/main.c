@@ -75,6 +75,9 @@ int main() {
             case GAME:
                 game();
                 break;
+            case PAUSE:
+                pause();
+                break;
             // case LOSE:
             //     lose();
             //     break;
@@ -136,9 +139,23 @@ void goToGame() {
 }
 
 void game() {
-    //shineLight(1, 1, 100, 100);
+    if (BUTTON_PRESSED(BUTTON_START)) {
+        mgba_printf("start button pressed, go to pause");
+        goToPause();
+    }
     updateGame();
     drawGame();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*4);
+}
+
+void goToPause() {
+    state = PAUSE;
+}
+
+void pause() {
+    if (BUTTON_PRESSED(BUTTON_START)) {
+        mgba_printf("start button pressed, go to pause");
+        goToGame();
+    }
 }
