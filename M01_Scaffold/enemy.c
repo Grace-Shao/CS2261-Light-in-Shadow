@@ -27,6 +27,7 @@ void initEnemies() {
         enemies[i].width = 12;
         enemies[i].height = 12;
         enemies[i].isActive = 0;
+        enemies[i].isAttacking = 0;
         enemies[i].movementType = rand() % ENEMYCOUNT;
     }
 }
@@ -54,6 +55,7 @@ void enemyMovement() {
             chosenEnemy->x = 10;
             chosenEnemy->y = 10;
             chosenEnemy->movementType = 1;
+            enemyAttack(chosenEnemyIndex);
             break;
         // right side, move left
         case 2:
@@ -63,6 +65,7 @@ void enemyMovement() {
             chosenEnemy->x = 240;
             chosenEnemy->y = 0;
             chosenEnemy->movementType = 2;
+            enemyAttack(chosenEnemyIndex);
             break;
         // right side, move up
         case 3:
@@ -72,7 +75,15 @@ void enemyMovement() {
             chosenEnemy->x = 0;
             chosenEnemy->y = 240;
             chosenEnemy->movementType = 3;
+            enemyAttack(chosenEnemyIndex);
             break;
+    }
+}
+
+void enemyAttack(int i) {
+    if (enemies[i].isActive && (rand() % 4 == 0)) {
+        mgba_printf("Enemy %d is attacking!\n", i);
+        enemies[i].isAttacking = 1;
     }
 }
 
@@ -82,7 +93,7 @@ void enemyMovement() {
 // have it move to the player
 void updateEnemies() {
     for (int i = 0; i < ENEMYCOUNT; i++) {
-        if (enemies[i].isActive) {
+        if (enemies[i].isActive && enemies[i].isAttacking == 0) {
             switch (enemies[i].movementType) {
                 case 0:
                     enemies[i].x += 1;
@@ -112,6 +123,20 @@ void updateEnemies() {
                     mgba_printf("Unknown movement type for enemy %d\n", i);
                     break;
             
+            }
+        }
+        // Implement attack logic here
+        // For example, move towards the player
+        if (enemies[i].isActive && enemies[i].isAttacking) {
+            if (enemies[i].x < player.x) {
+                enemies[i].x += 1;
+            } else if (enemies[i].x > player.x) {
+                enemies[i].x -= 1;
+            }
+            if (enemies[i].y < player.y) {
+                enemies[i].y += 1;
+            } else if (enemies[i].y > player.y) {
+                enemies[i].y -= 1;
             }
         }
     }

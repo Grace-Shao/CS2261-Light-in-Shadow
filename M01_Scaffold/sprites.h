@@ -76,6 +76,7 @@ typedef struct {
     int direction;
     int isAnimating;
     int isActive;
+    int isAttacking;
     int currentFrame;
     int numFrames;
     int movementType;

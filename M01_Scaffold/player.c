@@ -12,8 +12,8 @@ SPRITE player;
 typedef enum {DOWN, RIGHT, UP, LEFT} DIRECTION;
 
 void initPlayer() {
-    player.x = 30;
-    player.y = 20;
+    player.x = 88;
+    player.y = 55;
     player.width = 16;
     player.height = 24;
     player.xVel = 1;
