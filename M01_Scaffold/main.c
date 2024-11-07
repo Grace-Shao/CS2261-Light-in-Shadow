@@ -9,7 +9,8 @@
 #include <time.h>
 
 // bg/sprite imports
-#include "gengar.h"
+#include "spritesheet1.h"
+#include "venomMonster.h"
 #include "instructions.h"
 #include "forestBG.h"
 #include "light.h"
@@ -128,8 +129,11 @@ void goToGame() {
     // DMANow(3, lightMap, &SCREENBLOCK[1], lightMapLen / 2);
 
      // DMA sprite info 
-    DMANow(3, gengarTiles, &CHARBLOCK[4], gengarTilesLen / 2);
-    DMANow(3, gengarPal, SPRITE_PAL, gengarPalLen / 2);
+    DMANow(3, spritesheet1Tiles, &CHARBLOCK[4], spritesheet1TilesLen / 2);
+    DMANow(3, spritesheet1Pal, SPRITE_PAL, spritesheet1PalLen / 2);
+
+    //DMANow(3, venomMonsterTiles, &CHARBLOCK[5], venomMonsterTilesLen / 2);
+    //DMANow(3, venomMonsterPal, SPRITE_PAL, venomMonsterPalLen / 2);
 
     //hideSprites();
     waitForVBlank();
