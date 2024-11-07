@@ -49,8 +49,6 @@ void initialize() {
     buttons = REG_BUTTONS;
     oldButtons = 0;
 
-    // not actually random
-    srand(time(NULL));
     mgba_open();
     mgba_printf("initialized");
     //initSound();
@@ -116,6 +114,8 @@ void goToGame() {
     mgba_printf("going to game");
 
     initGame();
+    // not actually random
+    srand(frameCount);
 
     // DMA bg
     DMANow(3, backgroundTiles, &CHARBLOCK[2], backgroundTilesLen/2);

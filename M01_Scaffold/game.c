@@ -30,7 +30,6 @@ void updateGame() {
     updatePlayer();
     toggleFlashlight();
     if (frameCount % 500 == 0) {
-        mgba_printf("enemy movement triggered");
         enemyMovement();
     }
 }
