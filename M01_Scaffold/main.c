@@ -11,7 +11,7 @@
 // bg/sprite imports
 #include "gengar.h"
 #include "instructions.h"
-#include "background.h"
+#include "forestBG.h"
 #include "light.h"
 
 void start();
@@ -118,9 +118,9 @@ void goToGame() {
     srand(frameCount);
 
     // DMA bg
-    DMANow(3, backgroundTiles, &CHARBLOCK[2], backgroundTilesLen/2);
-    DMANow(3, backgroundPal, BG_PALETTE, backgroundPalLen / 2);
-    DMANow(3, backgroundMap, &SCREENBLOCK[0], backgroundMapLen / 2);
+    DMANow(3, forestBGTiles, &CHARBLOCK[2], forestBGTilesLen/2);
+    DMANow(3, forestBGPal, BG_PALETTE, forestBGPalLen / 2);
+    DMANow(3, forestBGMap, &SCREENBLOCK[0], forestBGMapLen / 2);
 
     // // dma light 
     // DMANow(3, lightTiles, &CHARBLOCK[3], lightTilesLen/2);
