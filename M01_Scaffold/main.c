@@ -12,6 +12,7 @@
 #include "spritesheet1.h"
 #include "venomMonster.h"
 #include "instructions.h"
+#include "loseScreen.h"
 #include "forestBG.h"
 #include "light.h"
 
@@ -77,9 +78,9 @@ int main() {
             case PAUSE:
                 pause();
                 break;
-            // case LOSE:
-            //     lose();
-            //     break;
+            case LOSE:
+                lose();
+                break;
             default:
                 break;
         }      
@@ -123,12 +124,7 @@ void goToGame() {
     DMANow(3, forestBGPal, BG_PALETTE, forestBGPalLen / 2);
     DMANow(3, forestBGMap, &SCREENBLOCK[0], forestBGMapLen / 2);
 
-    // // dma light 
-    // DMANow(3, lightTiles, &CHARBLOCK[3], lightTilesLen/2);
-    // //DMANow(3, lightPal, BG_PALETTE, lightPalLen / 2);
-    // DMANow(3, lightMap, &SCREENBLOCK[1], lightMapLen / 2);
-
-     // DMA sprite info 
+    // DMA sprite info 
     DMANow(3, spritesheet1Tiles, &CHARBLOCK[4], spritesheet1TilesLen / 2);
     DMANow(3, spritesheet1Pal, SPRITE_PAL, spritesheet1PalLen / 2);
 
@@ -147,6 +143,9 @@ void game() {
         mgba_printf("start button pressed, go to pause");
         goToPause();
     }
+    if (lives < 1) {
+        goToLose();
+    }
     updateGame();
     drawGame();
     waitForVBlank();
@@ -161,5 +160,20 @@ void pause() {
     if (BUTTON_PRESSED(BUTTON_START)) {
         mgba_printf("start button pressed, go to pause");
         goToGame();
+    }
+}
+
+void goToLose() {
+    DMANow(3, LoseScreenTiles, &CHARBLOCK[2], LoseScreenTilesLen/2);
+    DMANow(3, LoseScreenPal, BG_PALETTE, LoseScreenPalLen / 2);
+    DMANow(3, LoseScreenMap, &SCREENBLOCK[0], LoseScreenMapLen / 2);
+    state = LOSE;
+
+}
+
+void lose() {
+    if (BUTTON_PRESSED(BUTTON_START)) {
+        mgba_printf("start button pressed, go to start from lose");
+        goToStart();
     }
 }

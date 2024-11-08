@@ -4,7 +4,7 @@
 #include "print.h"
 #include "game.h"
 #include "background.h"
-#include "gengar.h"
+#include "spritesheet1.h"
 #include "enemy.h"
 #include <stdlib.h>
 #include <time.h>
@@ -138,7 +138,22 @@ void updateEnemies() {
             } else if (enemies[i].y > player.y) {
                 enemies[i].y -= 1;
             }
+            checkEnemyCollision(i);
         }
+    }
+}
+
+// could prob combine it w enemy movement to make it more efficient
+void checkEnemyCollision(int i) {
+    if (enemies[i].isActive) {
+        // Check for collision with player
+        if (collision(player.x, player.y, 10, 10, enemies[i].x, enemies[i].y, 10, 10)) {
+            player.currentFrame = 0;
+            lives -= 1;
+            mgba_printf("Lives remaining: %d\n", lives);
+            mgba_printf("Collision with enemy %d at x = %d, y = %d\n", i, enemies[i].x, enemies[i].y);
+            mgba_printf("Player coordinates: x = %d, y = %d\n", player.x, player.y);
+        }           
     }
 }
 

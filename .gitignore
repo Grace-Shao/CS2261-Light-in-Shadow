@@ -9,3 +9,8 @@
 
 # Ignore Visual Studio Code settings folder
 .vscode/
+
+# Ignore Game Boy Advance files
+*.gba
+*.elf
+*.sav

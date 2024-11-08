@@ -8,7 +8,7 @@
 #include <time.h>
 
 // sprite imports
-#include "gengar.h"
+#include "spritesheet1.h"
 #include "background.h"
 #include "lightRight.h"
 #include "lightLeft.h"
@@ -18,11 +18,12 @@
 int frameCount = 0;
 int isFlashlightOn = 0;
 int flashlightDirection = 0;
+int lives = 1;
 
 void initGame() {
     initEnemies();
     initPlayer();
-
+    lives = 1;
 }
 
 void updateGame() {
