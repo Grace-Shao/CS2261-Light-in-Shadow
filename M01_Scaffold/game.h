@@ -6,8 +6,6 @@
 #define MAPHEIGHT 170
 
 extern int frameCount;
-extern int isFlashlightOn;
-extern int flashlightDirection;
 extern int score;
 extern int lives;
 extern int hOff;

@@ -10,6 +10,7 @@ void initEnemies();
 void enemyMovement();
 void updateEnemies();
 void drawEnemies();
+void freezeEnemies();
 void checkEnemyCollision();
 
 extern SPRITE enemies[ENEMYCOUNT]; 

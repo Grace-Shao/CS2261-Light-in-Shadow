@@ -137,14 +137,32 @@ void updateEnemies() {
             } else if (enemies[i].y > player.y) {
                 enemies[i].y -= 1;
             }
-            checkEnemyCollision(i);
         }
+        checkEnemyCollision(i);
     }
+}
+// collision not really working
+// is on all the time (should be whenever the flashlight is on)
+void freezeEnemies(enemyX, enemyY, enemyWidth, enemyHeight) {
+    if (collision(128, 71, 17, 16, enemyX, enemyY, enemyWidth, enemyHeight) ||
+        collision(145, 63, 22, 34, enemyX, enemyY, enemyWidth, enemyHeight) ||
+        collision(168, 48, 21, 63, enemyX, enemyY, enemyWidth, enemyHeight) ||
+        collision(199, 39, 25, 88, enemyX, enemyY, enemyWidth, enemyHeight) ||
+        collision(225, 26, 14, 109, enemyX, enemyY, enemyWidth, enemyHeight)) {
+        mgba_printf("collided w flashlight");
+    } 
+    if (collision(112, 56, 15, 15, enemyX, enemyY, enemyWidth, enemyHeight) ||
+        collision(104, 32, 32, 32, enemyX, enemyY, enemyWidth, enemyHeight) ||
+        collision(88, 9, 64, 22, enemyX, enemyY, enemyWidth, enemyHeight)) {
+        mgba_printf("collided w flashlight");
+    } 
 }
 
 // could prob combine it w enemy movement to make it more efficient
 void checkEnemyCollision(int i) {
     if (enemies[i].isActive) {
+        // check enemy collision with flashlight
+        freezeEnemies(enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height);
         // Check for collision with player
         if (collision(player.x, player.y, 10, 10, enemies[i].x, enemies[i].y, 10, 10)) {
             player.currentFrame = 0;
