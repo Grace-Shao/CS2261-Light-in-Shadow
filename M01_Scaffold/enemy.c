@@ -3,8 +3,7 @@
 #include "sprites.h"
 #include "print.h"
 #include "game.h"
-#include "background.h"
-#include "spritesheet1.h"
+#include "player.h"
 #include "enemy.h"
 #include <stdlib.h>
 #include <time.h>

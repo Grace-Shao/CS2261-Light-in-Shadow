@@ -12,7 +12,7 @@ void updateEnemies();
 void drawEnemies();
 void checkEnemyCollision();
 
-extern SPRITE enemies[ENEMYCOUNT]; // Declaration of the global enemies array
+extern SPRITE enemies[ENEMYCOUNT]; 
 SPRITE *enemyToErase;
 
 #endif

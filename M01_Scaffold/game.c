@@ -2,6 +2,7 @@
 #include "mode0.h"
 #include "sprites.h"
 #include "print.h"
+#include "game.h"
 #include "player.h"
 #include "enemy.h"
 #include <stdlib.h>
@@ -19,11 +20,15 @@ int frameCount = 0;
 int isFlashlightOn = 0;
 int flashlightDirection = 0;
 int lives = 1;
+int hOff = 120;
+int vOff = 80;
 
 void initGame() {
     initEnemies();
     initPlayer();
     lives = 1;
+    hOff = 120;
+    vOff = 80;
 }
 
 void updateGame() {
@@ -39,6 +44,10 @@ void drawGame() {
     drawPlayer();
     drawEnemies();
     drawFlashlight();
+    // for parallax
+    // todo: this isn't working?
+    REG_BG2HOFF = hOff;
+    REG_BG2VOFF = vOff;
 }
 
 void toggleFlashlight() {
@@ -82,6 +91,14 @@ void toggleFlashlight() {
             mgba_printf("Flashlight turned off");
         }
     }
+
+}
+
+void parallax() {
+
+}
+
+void freezeEnemies() {
 
 }
 

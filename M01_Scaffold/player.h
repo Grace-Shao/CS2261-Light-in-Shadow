@@ -3,6 +3,7 @@
 
 void initPlayer();
 void updatePlayer();
+void centerPlayer();
 void drawPlayer();
 
 #endif // PLAYER_H
