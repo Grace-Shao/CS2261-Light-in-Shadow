@@ -131,7 +131,7 @@ void goToGame() {
     //DMANow(3, venomMonsterTiles, &CHARBLOCK[5], venomMonsterTilesLen / 2);
     //DMANow(3, venomMonsterPal, SPRITE_PAL, venomMonsterPalLen / 2);
 
-    //hideSprites();
+    hideSprites();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*8);
     state = GAME;

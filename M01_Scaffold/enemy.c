@@ -143,11 +143,11 @@ void updateEnemies() {
     }
 }
 // todo: enemy doesn't freeze
-void freezeEnemies(SPRITE enemy) {
-    int enemyX = enemy.x;
-    int enemyY = enemy.y;
-    int enemyWidth = enemy.width;
-    int enemyHeight = enemy.height;
+void freezeEnemies(SPRITE *enemy) {
+    int enemyX = enemy->x;
+    int enemyY = enemy->y;
+    int enemyWidth = enemy->width;
+    int enemyHeight = enemy->height;
     // right
     if (flashlightDirection == 1 && isFlashlightOn) {
         if (collision(128, 71, 17, 16, enemyX, enemyY, enemyWidth, enemyHeight) ||
@@ -156,8 +156,9 @@ void freezeEnemies(SPRITE enemy) {
             collision(199, 39, 25, 88, enemyX, enemyY, enemyWidth, enemyHeight) ||
             collision(225, 26, 14, 109, enemyX, enemyY, enemyWidth, enemyHeight)) {
             mgba_printf("collided w flashlight");
-            enemy.isActive = 0;
-            mgba_printf("Enemy isActive: %d\n", enemy.isActive);
+            shadowOAM[enemy->oamIndex].attr0 = ATTR0_HIDE;
+            enemy->isActive = 0;
+            mgba_printf("Enemy isActive: %d\n", enemy->isActive);
         } 
     } 
     // up
@@ -166,18 +167,20 @@ void freezeEnemies(SPRITE enemy) {
             collision(104, 32, 32, 32, enemyX, enemyY, enemyWidth, enemyHeight) ||
             collision(88, 9, 64, 22, enemyX, enemyY, enemyWidth, enemyHeight)) {
             mgba_printf("collided w flashlight");
-            enemy.isActive = 0;
-            mgba_printf("Enemy isActive: %d\n", enemy.isActive);
+            shadowOAM[enemy->oamIndex].attr0 = ATTR0_HIDE;
+            enemy->isActive = 0;
+            mgba_printf("Enemy isActive: %d\n", enemy->isActive);
         }
     } 
     // left
-    if (flashlightDirection == 2 && isFlashlightOn) {
+    if (flashlightDirection == -1 && isFlashlightOn) {
         if (collision(12, 40, 28, 80, enemyX, enemyY, enemyWidth, enemyHeight) ||
             collision(40, 48, 32, 56, enemyX, enemyY, enemyWidth, enemyHeight) ||
             collision(80, 65, 32, 30, enemyX, enemyY, enemyWidth, enemyHeight)) {
             mgba_printf("collided w flashlight");
-            enemy.isActive = 0;
-            mgba_printf("Enemy isActive: %d\n", enemy.isActive);
+            shadowOAM[enemy->oamIndex].attr0 = ATTR0_HIDE;
+            enemy->isActive = 0;
+            mgba_printf("Enemy isActive: %d\n", enemy->isActive);
         }
     } 
     // add bottom later
@@ -187,10 +190,11 @@ void freezeEnemies(SPRITE enemy) {
 void checkEnemyCollision(int i) {
     if (enemies[i].isActive) {
         // check enemy collision with flashlight
-        freezeEnemies(enemies[i]);
+        freezeEnemies(&enemies[i]);
         // Check for collision with player
         if (collision(player.x, player.y, 10, 10, enemies[i].x, enemies[i].y, 10, 10)) {
             player.currentFrame = 0;
+            enemies[i].isActive = 0;
             lives -= 1;
             mgba_printf("Lives remaining: %d\n", lives);
             mgba_printf("Collision with enemy %d at x = %d, y = %d\n", i, enemies[i].x, enemies[i].y);
