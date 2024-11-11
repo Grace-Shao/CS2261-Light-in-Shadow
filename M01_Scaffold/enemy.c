@@ -5,6 +5,7 @@
 #include "game.h"
 #include "player.h"
 #include "enemy.h"
+#include "flashlight.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -141,28 +142,52 @@ void updateEnemies() {
         checkEnemyCollision(i);
     }
 }
-// collision not really working
-// is on all the time (should be whenever the flashlight is on)
-void freezeEnemies(enemyX, enemyY, enemyWidth, enemyHeight) {
-    if (collision(128, 71, 17, 16, enemyX, enemyY, enemyWidth, enemyHeight) ||
-        collision(145, 63, 22, 34, enemyX, enemyY, enemyWidth, enemyHeight) ||
-        collision(168, 48, 21, 63, enemyX, enemyY, enemyWidth, enemyHeight) ||
-        collision(199, 39, 25, 88, enemyX, enemyY, enemyWidth, enemyHeight) ||
-        collision(225, 26, 14, 109, enemyX, enemyY, enemyWidth, enemyHeight)) {
-        mgba_printf("collided w flashlight");
+// todo: enemy doesn't freeze
+void freezeEnemies(SPRITE enemy) {
+    int enemyX = enemy.x;
+    int enemyY = enemy.y;
+    int enemyWidth = enemy.width;
+    int enemyHeight = enemy.height;
+    // right
+    if (flashlightDirection == 1 && isFlashlightOn) {
+        if (collision(128, 71, 17, 16, enemyX, enemyY, enemyWidth, enemyHeight) ||
+            collision(145, 63, 22, 34, enemyX, enemyY, enemyWidth, enemyHeight) ||
+            collision(168, 48, 21, 63, enemyX, enemyY, enemyWidth, enemyHeight) ||
+            collision(199, 39, 25, 88, enemyX, enemyY, enemyWidth, enemyHeight) ||
+            collision(225, 26, 14, 109, enemyX, enemyY, enemyWidth, enemyHeight)) {
+            mgba_printf("collided w flashlight");
+            enemy.isActive = 0;
+            mgba_printf("Enemy isActive: %d\n", enemy.isActive);
+        } 
     } 
-    if (collision(112, 56, 15, 15, enemyX, enemyY, enemyWidth, enemyHeight) ||
-        collision(104, 32, 32, 32, enemyX, enemyY, enemyWidth, enemyHeight) ||
-        collision(88, 9, 64, 22, enemyX, enemyY, enemyWidth, enemyHeight)) {
-        mgba_printf("collided w flashlight");
+    // up
+    if (flashlightDirection == 2 && isFlashlightOn) {
+        if (collision(112, 56, 15, 15, enemyX, enemyY, enemyWidth, enemyHeight) ||
+            collision(104, 32, 32, 32, enemyX, enemyY, enemyWidth, enemyHeight) ||
+            collision(88, 9, 64, 22, enemyX, enemyY, enemyWidth, enemyHeight)) {
+            mgba_printf("collided w flashlight");
+            enemy.isActive = 0;
+            mgba_printf("Enemy isActive: %d\n", enemy.isActive);
+        }
     } 
+    // left
+    if (flashlightDirection == 2 && isFlashlightOn) {
+        if (collision(12, 40, 28, 80, enemyX, enemyY, enemyWidth, enemyHeight) ||
+            collision(40, 48, 32, 56, enemyX, enemyY, enemyWidth, enemyHeight) ||
+            collision(80, 65, 32, 30, enemyX, enemyY, enemyWidth, enemyHeight)) {
+            mgba_printf("collided w flashlight");
+            enemy.isActive = 0;
+            mgba_printf("Enemy isActive: %d\n", enemy.isActive);
+        }
+    } 
+    // add bottom later
 }
 
 // could prob combine it w enemy movement to make it more efficient
 void checkEnemyCollision(int i) {
     if (enemies[i].isActive) {
         // check enemy collision with flashlight
-        freezeEnemies(enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height);
+        freezeEnemies(enemies[i]);
         // Check for collision with player
         if (collision(player.x, player.y, 10, 10, enemies[i].x, enemies[i].y, 10, 10)) {
             player.currentFrame = 0;
