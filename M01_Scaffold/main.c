@@ -9,7 +9,7 @@
 #include <time.h>
 
 // bg/sprite imports
-#include "spritesheet1.h"
+#include "spritesheet2.h"
 #include "venomMonster.h"
 #include "instructions.h"
 #include "loseScreen.h"
@@ -125,8 +125,8 @@ void goToGame() {
     DMANow(3, forestBGMap, &SCREENBLOCK[0], forestBGMapLen / 2);
 
     // DMA sprite info 
-    DMANow(3, spritesheet1Tiles, &CHARBLOCK[4], spritesheet1TilesLen / 2);
-    DMANow(3, spritesheet1Pal, SPRITE_PAL, spritesheet1PalLen / 2);
+    DMANow(3, spritesheet2Tiles, &CHARBLOCK[4], spritesheet2TilesLen / 2);
+    DMANow(3, spritesheet2Pal, SPRITE_PAL, spritesheet2PalLen / 2);
 
     //DMANow(3, venomMonsterTiles, &CHARBLOCK[5], venomMonsterTilesLen / 2);
     //DMANow(3, venomMonsterPal, SPRITE_PAL, venomMonsterPalLen / 2);

@@ -13,7 +13,7 @@
 
 
 SPRITE player;
-typedef enum {DOWN, RIGHT, UP, LEFT} DIRECTION;
+typedef enum {DOWN, RIGHT, LEFT} DIRECTION;
 
 void initPlayer() {
     player.x = 120;

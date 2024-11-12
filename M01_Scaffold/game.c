@@ -10,7 +10,7 @@
 #include <time.h>
 
 // sprite imports
-#include "spritesheet1.h"
+#include "spritesheet2.h"
 #include "background.h"
 #include "lightRight.h"
 #include "lightLeft.h"
