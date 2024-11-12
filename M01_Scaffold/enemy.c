@@ -146,7 +146,7 @@ void updateEnemies() {
         if (enemies[i].isAnimating) {
             enemies[i].timeUntilNextFrame--;
             if (enemies[i].timeUntilNextFrame == 0) {
-                enemies[i].currentFrame = (player.currentFrame + 1) % player.numFrames;
+                enemies[i].currentFrame = (enemies[i].currentFrame + 1) % enemies[i].numFrames;
                 enemies[i].timeUntilNextFrame = 13;
             }
         } else {
@@ -209,6 +209,12 @@ void checkEnemyCollision(int i) {
         if (collision(player.x, player.y, 10, 10, enemies[i].x, enemies[i].y, 10, 10)) {
             player.currentFrame = 0;
             enemies[i].isActive = 0;
+            // hide sprites isn't working
+            shadowOAM[player.oamIndex].attr0 = ATTR0_HIDE;
+            mgba_printf("Player index: %d\n", player.oamIndex);
+            mgba_printf("Enemy index: %d\n", enemies[i].oamIndex);
+
+            shadowOAM[enemies[i].oamIndex].attr0 = ATTR0_HIDE;
             lives -= 1;
             mgba_printf("Lives remaining: %d\n", lives);
             mgba_printf("Collision with enemy %d at x = %d, y = %d\n", i, enemies[i].x, enemies[i].y);
@@ -217,13 +223,27 @@ void checkEnemyCollision(int i) {
     }
 }
 
+// if on palRow 1, can only see red eyes, if flashlight shone on them, show whole body
 void drawEnemies() {
     for (int i = 0; i < ENEMYCOUNT; i++) {
         if (enemies[i].isActive) {
+            drawEnemyEyes(&enemies[i]);
             shadowOAM[enemies[i].oamIndex].attr0 = ATTR0_TALL | ATTR0_Y(enemies[i].y);
             shadowOAM[enemies[i].oamIndex].attr1 = ATTR1_X(enemies[i].x) | ATTR1_MEDIUM;
-            shadowOAM[enemies[i].oamIndex].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(2) | 
-            ATTR2_TILEID(enemies[i].currentFrame * 3, 16 + enemies[i].direction * 3);
+            // another way is the hide the sprite in random intervals (first tile is w eyes, 2nd is no eyes)
+            int tileID = (rand() % 4 == 0) ? ATTR2_TILEID(0, 16) : ATTR2_TILEID(3, 16);
+            shadowOAM[enemies[i].oamIndex].attr2 = ATTR2_PALROW(1) | ATTR2_PRIORITY(0) | tileID; 
+            //ATTR2_TILEID(enemies[i].currentFrame * 3, 16 + enemies[i].direction * 3);
         }
     }  
+}
+
+// todo: ask TA's how to implement enemy eyes, at oam index 20
+// enemy eyes will reveal the sprite behind
+void drawEnemyEyes(SPRITE *enemy) {
+    // shadowOAM[20].attr0 = ATTR0_SQUARE | ATTR0_Y(enemy->y);
+    // shadowOAM[20].attr1 = ATTR1_X(enemy->x) | ATTR1_SMALL;
+    // shadowOAM[20].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(0) | 
+    // ATTR2_TILEID(0, 23);
+ 
 }

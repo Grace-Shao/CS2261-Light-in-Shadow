@@ -44,7 +44,7 @@ void initialize() {
     // Set up basic registers 
     REG_DISPCTL = MODE(0) | BG_ENABLE(2) | BG_ENABLE(3) | SPRITE_ENABLE;
     // set up orignal background
-    REG_BG2CNT = BG_SCREENBLOCK(0) | BG_CHARBLOCK(2) | 2;
+    REG_BG2CNT = BG_SCREENBLOCK(0) | BG_CHARBLOCK(2) | 3;
     // light bg
     REG_BG3CNT = BG_SCREENBLOCK(1) | BG_CHARBLOCK(3) | 1;
 
@@ -128,9 +128,6 @@ void goToGame() {
     DMANow(3, spritesheet2Tiles, &CHARBLOCK[4], spritesheet2TilesLen / 2);
     DMANow(3, spritesheet2Pal, SPRITE_PAL, spritesheet2PalLen / 2);
 
-    //DMANow(3, venomMonsterTiles, &CHARBLOCK[5], venomMonsterTilesLen / 2);
-    //DMANow(3, venomMonsterPal, SPRITE_PAL, venomMonsterPalLen / 2);
-
     hideSprites();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*8);
@@ -143,10 +140,10 @@ void game() {
         mgba_printf("start button pressed, go to pause");
         goToPause();
     }
+    updateGame();
     if (lives < 1) {
         goToLose();
     }
-    updateGame();
     drawGame();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*4);
@@ -164,6 +161,8 @@ void pause() {
 }
 
 void goToLose() {
+    hideSprites();
+    // replaces the flashlight bg so it covers up the other sprites
     DMANow(3, LoseScreenTiles, &CHARBLOCK[2], LoseScreenTilesLen/2);
     DMANow(3, LoseScreenPal, BG_PALETTE, LoseScreenPalLen / 2);
     DMANow(3, LoseScreenMap, &SCREENBLOCK[0], LoseScreenMapLen / 2);

@@ -44,7 +44,6 @@ void drawGame() {
     drawEnemies();
     drawFlashlight();
     // for parallax
-    // todo: this isn't working?
     REG_BG2HOFF = hOff;
     REG_BG2VOFF = vOff;
 }
