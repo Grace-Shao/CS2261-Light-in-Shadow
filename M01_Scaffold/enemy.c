@@ -36,6 +36,7 @@ void enemyMovement() {
     int chosenEnemyIndex = rand() % ENEMYCOUNT;
     mgba_printf("Randomly chosen index: %d\n", chosenEnemyIndex);
     SPRITE *chosenEnemy = &enemies[chosenEnemyIndex];
+    chosenEnemy->isAnimating = 1; 
 
     switch (chosenEnemy->movementType) {
         // left side, move right
@@ -139,6 +140,19 @@ void updateEnemies() {
                 enemies[i].y -= 1;
             }
         }
+
+        // animate enemies here
+        // player animation
+        if (enemies[i].isAnimating) {
+            enemies[i].timeUntilNextFrame--;
+            if (enemies[i].timeUntilNextFrame == 0) {
+                enemies[i].currentFrame = (player.currentFrame + 1) % player.numFrames;
+                enemies[i].timeUntilNextFrame = 13;
+            }
+        } else {
+            enemies[i].currentFrame = 0;
+            enemies[i].timeUntilNextFrame = 13;
+        }
         checkEnemyCollision(i);
     }
 }
@@ -209,7 +223,7 @@ void drawEnemies() {
             shadowOAM[enemies[i].oamIndex].attr0 = ATTR0_TALL | ATTR0_Y(enemies[i].y);
             shadowOAM[enemies[i].oamIndex].attr1 = ATTR1_X(enemies[i].x) | ATTR1_MEDIUM;
             shadowOAM[enemies[i].oamIndex].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(2) | 
-            ATTR2_TILEID(0, 16);
+            ATTR2_TILEID(enemies[i].currentFrame * 3, 16 + enemies[i].direction * 3);
         }
     }  
 }

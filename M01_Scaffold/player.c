@@ -66,7 +66,7 @@ void centerPlayer() {
     // restrict camera movement to map
     if (hOff < 0) hOff = 0;
     if (vOff < 0) vOff = 0;
-    if (hOff > (MAPWIDTH - SCREENWIDTH)) hOff = (MAPWIDTH - SCREENHEIGHT);
+    if (hOff > (MAPWIDTH - SCREENWIDTH)) hOff = (MAPWIDTH - SCREENWIDTH);
     if (vOff > (MAPHEIGHT - SCREENHEIGHT)) vOff = (MAPHEIGHT - SCREENHEIGHT);
 
 
