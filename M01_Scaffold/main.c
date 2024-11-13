@@ -31,7 +31,7 @@ void goToLose();
 void lose();
 
 // States
-enum STATE {START, INSTRUCTIONS, GAME, PAUSE, LOSE, WIN} state;
+enum STATE {START, INSTRUCTIONS, GAME, LEVEL2, PAUSE, LOSE, WIN} state;
 OBJ_ATTR shadowOAM[128];
 typedef enum {DOWN, RIGHT, UP, LEFT} DIRECTION;
 
@@ -74,6 +74,9 @@ int main() {
                 break;
             case GAME:
                 game();
+                break;
+            case LEVEL2:
+                level2();
                 break;
             case PAUSE:
                 pause();
@@ -140,6 +143,28 @@ void game() {
         mgba_printf("start button pressed, go to pause");
         goToPause();
     }
+    updateGame();
+    drawGame();
+    waitForVBlank();
+    DMANow(3, shadowOAM, OAM, 128*4);
+    if (lives < 1) {
+        goToLose();
+    }
+    if (BUTTON_PRESSED(BUTTON_SELECT)) {
+        mgba_printf("select button pressed, go to lvl2");
+        goToLevel2();
+    }
+}
+void goToLevel2() {
+    initGame();
+    hideSprites();
+    waitForVBlank();
+    DMANow(3, shadowOAM, OAM, 128*8);
+    // initGame();
+    state = LEVEL2;    
+}
+
+void level2() {
     updateGame();
     drawGame();
     waitForVBlank();
