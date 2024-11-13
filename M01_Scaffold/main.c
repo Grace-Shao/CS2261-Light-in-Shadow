@@ -141,12 +141,12 @@ void game() {
         goToPause();
     }
     updateGame();
-    if (lives < 1) {
-        goToLose();
-    }
     drawGame();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*4);
+    if (lives < 1) {
+        goToLose();
+    }
 }
 
 void goToPause() {
@@ -162,6 +162,8 @@ void pause() {
 
 void goToLose() {
     hideSprites();
+    waitForVBlank();
+    DMANow(3, shadowOAM, OAM, 128*4);
     // replaces the flashlight bg so it covers up the other sprites
     DMANow(3, LoseScreenTiles, &CHARBLOCK[2], LoseScreenTilesLen/2);
     DMANow(3, LoseScreenPal, BG_PALETTE, LoseScreenPalLen / 2);
