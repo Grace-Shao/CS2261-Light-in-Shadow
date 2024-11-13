@@ -4,6 +4,8 @@
 
 extern int isFlashlightOn;
 extern int flashlightDirection;
+// number of clicks before runs out of battern
+extern int batteryRemaining;
 
 void toggleFlashlight();
 void drawFlashlight();

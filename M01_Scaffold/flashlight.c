@@ -17,53 +17,34 @@
 #include "lightUp.h"
 #include "lightDown.h"
 
+// variable intial settings are redefined in main
 int isFlashlightOn = 0;
 int flashlightDirection = 0;
-
-
+int batteryRemaining;
 
 void toggleFlashlight() {
-    if (BUTTON_PRESSED(BUTTON_RIGHT)) {
-        // Code to toggle the flashlight
+    if (BUTTON_PRESSED(BUTTON_RIGHT) || BUTTON_PRESSED(BUTTON_LEFT) || BUTTON_PRESSED(BUTTON_UP) || BUTTON_PRESSED(BUTTON_DOWN)) {
         isFlashlightOn = !isFlashlightOn;
-        if (isFlashlightOn) {
+        if (isFlashlightOn == 0) {
+            batteryRemaining -= 1;
+            mgba_printf("Battery remaining: %d", batteryRemaining);
+        }
+        // Check specific button presses for direction
+        if (BUTTON_PRESSED(BUTTON_RIGHT)) {
             flashlightDirection = 1;
-            mgba_printf("Flashlight turned on");
-        } else {
-            mgba_printf("Flashlight turned off");
-        }
-    }
-    if (BUTTON_PRESSED(BUTTON_LEFT)) {
-        // Code to toggle the flashlight
-        isFlashlightOn = !isFlashlightOn;
-        if (isFlashlightOn) {
+            mgba_printf("Flashlight turned right");
+        } else if (BUTTON_PRESSED(BUTTON_LEFT)) {
             flashlightDirection = -1;
-            mgba_printf("Flashlight turned on");
-        } else {
-            mgba_printf("Flashlight turned off");
-        }
-    }
-    if (BUTTON_PRESSED(BUTTON_UP)) {
-        // Code to toggle the flashlight
-        isFlashlightOn = !isFlashlightOn;
-        if (isFlashlightOn) {
+            mgba_printf("Flashlight turned left");
+        } else if (BUTTON_PRESSED(BUTTON_UP)) {
             flashlightDirection = 2;
-            mgba_printf("Flashlight turned on");
-        } else {
-            mgba_printf("Flashlight turned off");
-        }
-    }
-    if (BUTTON_PRESSED(BUTTON_DOWN)) {
-        // Code to toggle the flashlight
-        isFlashlightOn = !isFlashlightOn;
-        if (isFlashlightOn) {
+            mgba_printf("Flashlight turned up");
+        } else if (BUTTON_PRESSED(BUTTON_DOWN)) {
             flashlightDirection = -2;
-            mgba_printf("Flashlight turned on");
-        } else {
-            mgba_printf("Flashlight turned off");
+            mgba_printf("Flashlight turned down");
         }
     }
-
+    
 }
 
 void drawFlashlight() {

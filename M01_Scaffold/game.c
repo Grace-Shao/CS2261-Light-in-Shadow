@@ -28,6 +28,8 @@ void initGame() {
     lives = 1;
     hOff = 120;
     vOff = 80;
+    batteryRemaining = 30;
+
 }
 
 void updateGame() {

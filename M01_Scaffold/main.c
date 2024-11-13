@@ -5,6 +5,7 @@
 #include "game.h"
 #include "player.h"
 #include "enemy.h"
+#include "flashlight.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -147,7 +148,7 @@ void game() {
     drawGame();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*4);
-    if (lives < 1) {
+    if (lives < 1 || batteryRemaining < 0) {
         goToLose();
     }
     if (BUTTON_PRESSED(BUTTON_SELECT)) {
@@ -169,7 +170,7 @@ void level2() {
     drawGame();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*4);
-    if (lives < 1) {
+    if (lives < 1 || batteryRemaining < 0) {
         goToLose();
     }
 }
