@@ -25,6 +25,7 @@ int vOff = 80;
 void initGame() {
     initEnemies();
     initPlayer();
+    initFlashlightBattery();
     lives = 1;
     hOff = 120;
     vOff = 80;
@@ -45,6 +46,7 @@ void drawGame() {
     drawPlayer();
     drawEnemies();
     drawFlashlight();
+    drawFlashlightBattery();
     // for parallax
     REG_BG2HOFF = hOff;
     REG_BG2VOFF = vOff;

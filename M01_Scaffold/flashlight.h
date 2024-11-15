@@ -9,5 +9,6 @@ extern int batteryRemaining;
 
 void toggleFlashlight();
 void drawFlashlight();
+void drawFlashlightBattery();
 
 #endif
