@@ -6,7 +6,8 @@
 #include "player.h"
 #include "enemy.h"
 #include "flashlight.h"
-#include <stdlib.h>
+#include "doorKeys.h"
+#include <stdlib.h> 
 #include <time.h>
 
 // sprite imports
@@ -26,6 +27,7 @@ void initGame() {
     initEnemies();
     initPlayer();
     initFlashlightBattery();
+    initBasicKeys();
     lives = 1;
     hOff = 120;
     vOff = 80;
@@ -47,6 +49,7 @@ void drawGame() {
     drawEnemies();
     drawFlashlight();
     drawFlashlightBattery();
+    drawKeys();
     // for parallax
     REG_BG2HOFF = hOff;
     REG_BG2VOFF = vOff;

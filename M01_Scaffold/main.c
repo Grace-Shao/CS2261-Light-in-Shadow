@@ -6,6 +6,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "flashlight.h"
+#include "doorKeys.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -120,6 +121,7 @@ void goToGame() {
     mgba_printf("going to game");
 
     initGame();
+    initKeysLevel1();
     // not actually random
     srand(frameCount);
 
