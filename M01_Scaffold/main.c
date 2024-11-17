@@ -119,11 +119,12 @@ void instructions() {
 
 void goToGame() {
     mgba_printf("going to game");
-
+    srand(frameCount);
+    
     initGame();
     initKeysLevel1();
-    // not actually random
-    srand(frameCount);
+    initDoorsLevel1();
+    
 
     // DMA bg
     DMANow(3, forestBGTiles, &CHARBLOCK[2], forestBGTilesLen/2);

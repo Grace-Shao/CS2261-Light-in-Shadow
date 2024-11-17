@@ -28,6 +28,7 @@ void initGame() {
     initPlayer();
     initFlashlightBattery();
     initBasicKeys();
+    initBasicDoors();
     lives = 1;
     hOff = 120;
     vOff = 80;
@@ -39,6 +40,8 @@ void updateGame() {
     updateEnemies();
     updatePlayer();
     toggleFlashlight();
+    keyCollision();
+    enterDoor();
     if (frameCount % 500 == 0) {
         enemyMovement();
     }
@@ -50,6 +53,7 @@ void drawGame() {
     drawFlashlight();
     drawFlashlightBattery();
     drawKeys();
+    drawDoors();
     // for parallax
     REG_BG2HOFF = hOff;
     REG_BG2VOFF = vOff;

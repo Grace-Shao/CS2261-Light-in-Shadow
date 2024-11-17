@@ -10,38 +10,95 @@
 #include <stdlib.h>
 #include <time.h>
 
-SPRITE keys[KEYCOUNT];
+KEY keys[KEYCOUNT];
+DOOR doors[DOORCOUNT];
+SPRITE player;
 
-// keys are oam 20
-// doors oam 21
+// keys are oam 20-22
+// doors oam 25 - 29
 void initBasicKeys() {
     for (int i = 0; i < KEYCOUNT; i++) {
-        keys[i].oamIndex = 20;
-        keys[i].height = 16;
-        keys[i].width = 8;
+        keys[i].base.oamIndex = 20 + i;
+        keys[i].base.height = 16;
+        keys[i].base.width = 8;
+        keys[i].isCollected = 0;
+    }
+}
+
+void initBasicDoors() {
+    for (int i = 0; i < DOORCOUNT; i++) {
+        doors[i].base.oamIndex = 25 + i;
+        doors[i].base.height = 32;
+        doors[i].base.width = 16;
     }
 }
 void initKeysLevel1(){
     // Manually set unique x and y positions for each key
     for (int i = 0; i < 2; i++) {
-        keys[i].isActive = 1;
+        keys[i].base.isActive = 1;
     }
-    keys[0].x = 30;
-    keys[0].y = 50;
-    keys[1].x = 60;
-    keys[1].y = 100;
+    keys[0].base.x = 100;
+    keys[0].base.y = 50;
+    keys[1].base.x = 60;
+    keys[1].base.y = 100;
+}
+
+void initDoorsLevel1(){
+    for (int i = 0; i < 2; i++) {
+        doors[i].base.isActive = 1;
+    }
+    doors[0].base.x = 150;
+    doors[0].base.y = 75;
+    doors[1].base.x = 200;
+    doors[1].base.y = 120;
+
+    doors[0].leadsTo = &doors[1];
+    doors[1].leadsTo = &doors[0];
+}
+void keyCollision() {
+    for (int i = 0; i < KEYCOUNT; i++) {
+        if (keys[i].base.isActive && collision(player.x, player.y, player.width, player.height, keys[i].base.x, keys[i].base.y, keys[i].base.width, keys[i].base.height)) {
+            keys[i].base.isActive = 0;
+            keys[i].isCollected = 1;
+            shadowOAM[keys[i].base.oamIndex].attr0 = ATTR0_HIDE;
+            mgba_printf("Collided with key %d\n", i);
+        }
+    }
+}
+
+void enterDoor() {
+    // todo: change this to doorcount later
+    for (int i = 0; i < 2; i++) {
+        if (doors[i].base.isActive && collision(player.x, player.y, player.width, player.height, doors[i].base.x, doors[i].base.y, doors[i].base.width, doors[i].base.height)) {
+            player.x = doors[i].leadsTo->base.x;
+            player.y = doors[i].leadsTo->base.y;
+            //player.y = doors[i].leadsTo->y;
+            shadowOAM[player.oamIndex].attr2 = ATTR2_TILEID(0, 0);
+            mgba_printf("Entered door %d\n", i);
+            // } else {
+            //     mgba_printf("Can't enter door %d\n", i);
+            // }
+            // Add any additional logic for entering the door here
+        }
+    }
 }
 
 void drawKeys() {
     for (int i = 0; i < KEYCOUNT; i++) {
-        if (keys[i].isActive) {
-            shadowOAM[keys[i].oamIndex].attr0 = ATTR0_TALL | ATTR0_Y(keys[i].y);
-            shadowOAM[keys[i].oamIndex].attr1 = ATTR1_X(keys[i].x) | ATTR1_TINY;
-            shadowOAM[keys[i].oamIndex].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(1) | ATTR2_TILEID(6, 25);
+        if (keys[i].base.isActive) {
+            shadowOAM[keys[i].base.oamIndex].attr0 = ATTR0_TALL | ATTR0_Y(keys[i].base.y - vOff);
+            shadowOAM[keys[i].base.oamIndex].attr1 = ATTR1_X(keys[i].base.x - hOff) | ATTR1_TINY;
+            shadowOAM[keys[i].base.oamIndex].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(1) | ATTR2_TILEID(6, 25);
         }
     }
 }
 
 void drawDoors() {
-
+    for (int i = 0; i < DOORCOUNT; i++) {
+        if (doors[i].base.isActive) {
+            shadowOAM[doors[i].base.oamIndex].attr0 = ATTR0_TALL | ATTR0_Y(doors[i].base.y - vOff);
+            shadowOAM[doors[i].base.oamIndex].attr1 = ATTR1_X(doors[i].base.x - hOff) | ATTR1_MEDIUM;
+            shadowOAM[doors[i].base.oamIndex].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(1) | ATTR2_TILEID(16, 4);
+        }
+    }
 }
