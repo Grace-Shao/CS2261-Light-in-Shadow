@@ -37,8 +37,8 @@ void initKeysLevel1(){
     for (int i = 0; i < 2; i++) {
         keys[i].base.isActive = 1;
     }
-    keys[0].base.x = 100;
-    keys[0].base.y = 50;
+    keys[0].base.x = 200;
+    keys[0].base.y = 100;
     keys[1].base.x = 60;
     keys[1].base.y = 100;
 }
@@ -47,13 +47,17 @@ void initDoorsLevel1(){
     for (int i = 0; i < 2; i++) {
         doors[i].base.isActive = 1;
     }
-    doors[0].base.x = 150;
+    doors[0].base.x = 230;
     doors[0].base.y = 75;
+    doors[0].level = 1;
+
     doors[1].base.x = 200;
     doors[1].base.y = 120;
+    doors[1].level = 2;
+
 
     doors[0].leadsTo = &doors[1];
-    doors[1].leadsTo = &doors[0];
+    //doors[1].leadsTo = &doors[0];
 }
 void keyCollision() {
     for (int i = 0; i < KEYCOUNT; i++) {
@@ -66,21 +70,23 @@ void keyCollision() {
     }
 }
 
-void enterDoor() {
+int enterDoor() {
     // todo: change this to doorcount later
     for (int i = 0; i < 2; i++) {
         if (doors[i].base.isActive && collision(player.x, player.y, player.width, player.height, doors[i].base.x, doors[i].base.y, doors[i].base.width, doors[i].base.height)) {
             player.x = doors[i].leadsTo->base.x;
             player.y = doors[i].leadsTo->base.y;
-            //player.y = doors[i].leadsTo->y;
             shadowOAM[player.oamIndex].attr2 = ATTR2_TILEID(0, 0);
             mgba_printf("Entered door %d\n", i);
+            // TODO: change this later
+            return 1;
             // } else {
             //     mgba_printf("Can't enter door %d\n", i);
             // }
             // Add any additional logic for entering the door here
         }
     }
+    return 0;
 }
 
 void drawKeys() {

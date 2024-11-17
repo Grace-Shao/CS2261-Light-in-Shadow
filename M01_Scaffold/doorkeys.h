@@ -11,7 +11,7 @@ void initKeysLevel1();
 void initDoorsLevel1();
 void keyCollision();
 void drawKeys();
-void enterDoor();
+int enterDoor();
 void drawDoors();
 
 // special key struct that inherits from sprite, w few extra capabilities
@@ -22,7 +22,7 @@ typedef struct KEY{
 
 typedef struct DOOR{
     SPRITE base; // Embed the SPRITE struct
-    int isUpDoor;
+    int level;
     struct DOOR* leadsTo;
     //struct KEY* assignedKey;    
 } DOOR;

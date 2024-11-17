@@ -33,7 +33,7 @@ void goToLose();
 void lose();
 
 // States
-enum STATE {START, INSTRUCTIONS, GAME, LEVEL2, PAUSE, LOSE, WIN} state;
+STATE state = START;
 OBJ_ATTR shadowOAM[128];
 typedef enum {DOWN, RIGHT, UP, LEFT} DIRECTION;
 
@@ -120,7 +120,7 @@ void instructions() {
 void goToGame() {
     mgba_printf("going to game");
     srand(frameCount);
-    
+
     initGame();
     initKeysLevel1();
     initDoorsLevel1();
@@ -154,12 +154,16 @@ void game() {
     if (lives < 1 || batteryRemaining < 0) {
         goToLose();
     }
+    if (enterDoor() == 1) {
+        goToLevel2();
+    }
     if (BUTTON_PRESSED(BUTTON_SELECT)) {
         mgba_printf("select button pressed, go to lvl2");
         goToLevel2();
     }
 }
 void goToLevel2() {
+    mgba_printf("going to lvl2");
     initGame();
     hideSprites();
     waitForVBlank();
