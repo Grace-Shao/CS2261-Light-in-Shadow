@@ -5,11 +5,13 @@
 #include "game.h"
 #include "player.h"
 #include "enemy.h"
+#include "flashlight.h"
+#include "doorKeys.h"
 #include <stdlib.h>
 #include <time.h>
 
 // bg/sprite imports
-#include "spritesheet1.h"
+#include "spritesheet2.h"
 #include "venomMonster.h"
 #include "instructions.h"
 #include "loseScreen.h"
@@ -31,7 +33,7 @@ void goToLose();
 void lose();
 
 // States
-enum STATE {START, INSTRUCTIONS, GAME, PAUSE, LOSE, WIN} state;
+STATE state = START;
 OBJ_ATTR shadowOAM[128];
 typedef enum {DOWN, RIGHT, UP, LEFT} DIRECTION;
 
@@ -44,7 +46,7 @@ void initialize() {
     // Set up basic registers 
     REG_DISPCTL = MODE(0) | BG_ENABLE(2) | BG_ENABLE(3) | SPRITE_ENABLE;
     // set up orignal background
-    REG_BG2CNT = BG_SCREENBLOCK(0) | BG_CHARBLOCK(2) | 2;
+    REG_BG2CNT = BG_SCREENBLOCK(0) | BG_CHARBLOCK(2) | 3;
     // light bg
     REG_BG3CNT = BG_SCREENBLOCK(1) | BG_CHARBLOCK(3) | 1;
 
@@ -74,6 +76,9 @@ int main() {
                 break;
             case GAME:
                 game();
+                break;
+            case LEVEL2:
+                level2();
                 break;
             case PAUSE:
                 pause();
@@ -114,10 +119,12 @@ void instructions() {
 
 void goToGame() {
     mgba_printf("going to game");
+    srand(frameCount);
 
     initGame();
-    // not actually random
-    srand(frameCount);
+    initKeysLevel1();
+    initDoorsLevel1();
+    
 
     // DMA bg
     DMANow(3, forestBGTiles, &CHARBLOCK[2], forestBGTilesLen/2);
@@ -125,13 +132,10 @@ void goToGame() {
     DMANow(3, forestBGMap, &SCREENBLOCK[0], forestBGMapLen / 2);
 
     // DMA sprite info 
-    DMANow(3, spritesheet1Tiles, &CHARBLOCK[4], spritesheet1TilesLen / 2);
-    DMANow(3, spritesheet1Pal, SPRITE_PAL, spritesheet1PalLen / 2);
+    DMANow(3, spritesheet2Tiles, &CHARBLOCK[4], spritesheet2TilesLen / 2);
+    DMANow(3, spritesheet2Pal, SPRITE_PAL, spritesheet2PalLen / 2);
 
-    //DMANow(3, venomMonsterTiles, &CHARBLOCK[5], venomMonsterTilesLen / 2);
-    //DMANow(3, venomMonsterPal, SPRITE_PAL, venomMonsterPalLen / 2);
-
-    //hideSprites();
+    hideSprites();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*8);
     state = GAME;
@@ -143,13 +147,39 @@ void game() {
         mgba_printf("start button pressed, go to pause");
         goToPause();
     }
-    if (lives < 1) {
-        goToLose();
-    }
     updateGame();
     drawGame();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*4);
+    if (lives < 1 || batteryRemaining < 0) {
+        goToLose();
+    }
+    if (enterDoor() == 1) {
+        goToLevel2();
+    }
+    if (BUTTON_PRESSED(BUTTON_SELECT)) {
+        mgba_printf("select button pressed, go to lvl2");
+        goToLevel2();
+    }
+}
+void goToLevel2() {
+    mgba_printf("going to lvl2");
+    initGame();
+    hideSprites();
+    waitForVBlank();
+    DMANow(3, shadowOAM, OAM, 128*8);
+    // initGame();
+    state = LEVEL2;    
+}
+
+void level2() {
+    updateGame();
+    drawGame();
+    waitForVBlank();
+    DMANow(3, shadowOAM, OAM, 128*4);
+    if (lives < 1 || batteryRemaining < 0) {
+        goToLose();
+    }
 }
 
 void goToPause() {
@@ -164,6 +194,10 @@ void pause() {
 }
 
 void goToLose() {
+    hideSprites();
+    waitForVBlank();
+    DMANow(3, shadowOAM, OAM, 128*4);
+    // replaces the flashlight bg so it covers up the other sprites
     DMANow(3, LoseScreenTiles, &CHARBLOCK[2], LoseScreenTilesLen/2);
     DMANow(3, LoseScreenPal, BG_PALETTE, LoseScreenPalLen / 2);
     DMANow(3, LoseScreenMap, &SCREENBLOCK[0], LoseScreenMapLen / 2);

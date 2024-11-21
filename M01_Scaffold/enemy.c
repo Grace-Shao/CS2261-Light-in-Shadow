@@ -3,9 +3,9 @@
 #include "sprites.h"
 #include "print.h"
 #include "game.h"
-#include "background.h"
-#include "spritesheet1.h"
+#include "player.h"
 #include "enemy.h"
+#include "flashlight.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -36,6 +36,7 @@ void enemyMovement() {
     int chosenEnemyIndex = rand() % ENEMYCOUNT;
     mgba_printf("Randomly chosen index: %d\n", chosenEnemyIndex);
     SPRITE *chosenEnemy = &enemies[chosenEnemyIndex];
+    chosenEnemy->isAnimating = 1; 
 
     switch (chosenEnemy->movementType) {
         // left side, move right
@@ -138,17 +139,82 @@ void updateEnemies() {
             } else if (enemies[i].y > player.y) {
                 enemies[i].y -= 1;
             }
-            checkEnemyCollision(i);
         }
+
+        // animate enemies here
+        // player animation
+        if (enemies[i].isAnimating) {
+            enemies[i].timeUntilNextFrame--;
+            if (enemies[i].timeUntilNextFrame == 0) {
+                enemies[i].currentFrame = (enemies[i].currentFrame + 1) % enemies[i].numFrames;
+                enemies[i].timeUntilNextFrame = 13;
+            }
+        } else {
+            enemies[i].currentFrame = 0;
+            enemies[i].timeUntilNextFrame = 13;
+        }
+        checkEnemyCollision(i);
     }
+}
+// todo: enemy doesn't freeze
+void freezeEnemies(SPRITE *enemy) {
+    int enemyX = enemy->x;
+    int enemyY = enemy->y;
+    int enemyWidth = enemy->width;
+    int enemyHeight = enemy->height;
+    // right
+    if (flashlightDirection == 1 && isFlashlightOn) {
+        if (collision(128, 71, 17, 16, enemyX, enemyY, enemyWidth, enemyHeight) ||
+            collision(145, 63, 22, 34, enemyX, enemyY, enemyWidth, enemyHeight) ||
+            collision(168, 48, 21, 63, enemyX, enemyY, enemyWidth, enemyHeight) ||
+            collision(199, 39, 25, 88, enemyX, enemyY, enemyWidth, enemyHeight) ||
+            collision(225, 26, 14, 109, enemyX, enemyY, enemyWidth, enemyHeight)) {
+            mgba_printf("collided w flashlight");
+            shadowOAM[enemy->oamIndex].attr0 = ATTR0_HIDE;
+            enemy->isActive = 0;
+            mgba_printf("Enemy isActive: %d\n", enemy->isActive);
+        } 
+    } 
+    // up
+    if (flashlightDirection == 2 && isFlashlightOn) {
+        if (collision(112, 56, 15, 15, enemyX, enemyY, enemyWidth, enemyHeight) ||
+            collision(104, 32, 32, 32, enemyX, enemyY, enemyWidth, enemyHeight) ||
+            collision(88, 9, 64, 22, enemyX, enemyY, enemyWidth, enemyHeight)) {
+            mgba_printf("collided w flashlight");
+            shadowOAM[enemy->oamIndex].attr0 = ATTR0_HIDE;
+            enemy->isActive = 0;
+            mgba_printf("Enemy isActive: %d\n", enemy->isActive);
+        }
+    } 
+    // left
+    if (flashlightDirection == -1 && isFlashlightOn) {
+        if (collision(12, 40, 28, 80, enemyX, enemyY, enemyWidth, enemyHeight) ||
+            collision(40, 48, 32, 56, enemyX, enemyY, enemyWidth, enemyHeight) ||
+            collision(80, 65, 32, 30, enemyX, enemyY, enemyWidth, enemyHeight)) {
+            mgba_printf("collided w flashlight");
+            shadowOAM[enemy->oamIndex].attr0 = ATTR0_HIDE;
+            enemy->isActive = 0;
+            mgba_printf("Enemy isActive: %d\n", enemy->isActive);
+        }
+    } 
+    // add bottom later
 }
 
 // could prob combine it w enemy movement to make it more efficient
 void checkEnemyCollision(int i) {
     if (enemies[i].isActive) {
+        // check enemy collision with flashlight
+        freezeEnemies(&enemies[i]);
         // Check for collision with player
         if (collision(player.x, player.y, 10, 10, enemies[i].x, enemies[i].y, 10, 10)) {
             player.currentFrame = 0;
+            enemies[i].isActive = 0;
+            // hide sprites isn't working
+            shadowOAM[player.oamIndex].attr0 = ATTR0_HIDE;
+            mgba_printf("Player index: %d\n", player.oamIndex);
+            mgba_printf("Enemy index: %d\n", enemies[i].oamIndex);
+
+            shadowOAM[enemies[i].oamIndex].attr0 = ATTR0_HIDE;
             lives -= 1;
             mgba_printf("Lives remaining: %d\n", lives);
             mgba_printf("Collision with enemy %d at x = %d, y = %d\n", i, enemies[i].x, enemies[i].y);
@@ -157,13 +223,27 @@ void checkEnemyCollision(int i) {
     }
 }
 
+// if on palRow 1, can only see red eyes, if flashlight shone on them, show whole body
 void drawEnemies() {
     for (int i = 0; i < ENEMYCOUNT; i++) {
         if (enemies[i].isActive) {
+            drawEnemyEyes(&enemies[i]);
             shadowOAM[enemies[i].oamIndex].attr0 = ATTR0_TALL | ATTR0_Y(enemies[i].y);
             shadowOAM[enemies[i].oamIndex].attr1 = ATTR1_X(enemies[i].x) | ATTR1_MEDIUM;
-            shadowOAM[enemies[i].oamIndex].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(2) | 
-            ATTR2_TILEID(0, 16);
+            // another way is the hide the sprite in random intervals (first tile is w eyes, 2nd is no eyes)
+            int tileID = (rand() % 4 == 0) ? ATTR2_TILEID(0, 16) : ATTR2_TILEID(3, 16);
+            shadowOAM[enemies[i].oamIndex].attr2 = ATTR2_PALROW(1) | ATTR2_PRIORITY(0) | tileID; 
+            //ATTR2_TILEID(enemies[i].currentFrame * 3, 16 + enemies[i].direction * 3);
         }
     }  
+}
+
+// todo: ask TA's how to implement enemy eyes, at oam index 20
+// enemy eyes will reveal the sprite behind
+void drawEnemyEyes(SPRITE *enemy) {
+    // shadowOAM[20].attr0 = ATTR0_SQUARE | ATTR0_Y(enemy->y);
+    // shadowOAM[20].attr1 = ATTR1_X(enemy->x) | ATTR1_SMALL;
+    // shadowOAM[20].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(0) | 
+    // ATTR2_TILEID(0, 23);
+ 
 }
