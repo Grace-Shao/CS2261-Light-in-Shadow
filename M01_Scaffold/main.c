@@ -3,6 +3,7 @@
 #include "sprites.h"
 #include "print.h"
 #include "game.h"
+#include "state.h"
 #include "player.h"
 #include "enemy.h"
 #include "flashlight.h"
@@ -67,33 +68,8 @@ int main() {
         
         frameCount += 1;
         // State Machine
-        switch(state) {
-            case START:
-                start();
-                break;
-            case INSTRUCTIONS:
-                instructions();
-                break;
-            case GAME:
-                game();
-                break;
-            case LEVEL2:
-                level2();
-                break;
-            case PAUSE:
-                pause();
-                break;
-            case LOSE:
-                lose();
-                break;
-            default:
-                break;
-        }      
+        updateGameState(state);
     }
-}
-
-void goToStart() {
-    state = START;
 }
 
 void start() {
@@ -103,43 +79,11 @@ void start() {
     }
 }
 
-void goToInstructions() {
-    DMANow(3, instructionsTiles, &CHARBLOCK[2], instructionsTilesLen/2);
-    DMANow(3, instructionsPal, BG_PALETTE, instructionsPalLen / 2);
-    DMANow(3, instructionsMap, &SCREENBLOCK[0], instructionsMapLen / 2);
-    state = INSTRUCTIONS;
-}
-
 void instructions() {
     if (BUTTON_PRESSED(BUTTON_START)) {
         mgba_printf("start button pressed, go to game");
         goToGame();
     }
-}
-
-void goToGame() {
-    mgba_printf("going to game");
-    srand(frameCount);
-
-    initGame();
-    initKeysLevel1();
-    initDoorsLevel1();
-    
-
-    // DMA bg
-    DMANow(3, forestBGTiles, &CHARBLOCK[2], forestBGTilesLen/2);
-    DMANow(3, forestBGPal, BG_PALETTE, forestBGPalLen / 2);
-    DMANow(3, forestBGMap, &SCREENBLOCK[0], forestBGMapLen / 2);
-
-    // DMA sprite info 
-    DMANow(3, spritesheet2Tiles, &CHARBLOCK[4], spritesheet2TilesLen / 2);
-    DMANow(3, spritesheet2Pal, SPRITE_PAL, spritesheet2PalLen / 2);
-
-    hideSprites();
-    waitForVBlank();
-    DMANow(3, shadowOAM, OAM, 128*8);
-    state = GAME;
-
 }
 
 void game() {
@@ -154,22 +98,11 @@ void game() {
     if (lives < 1 || batteryRemaining < 0) {
         goToLose();
     }
-    if (enterDoor() == 1) {
-        goToLevel2();
-    }
+ 
     if (BUTTON_PRESSED(BUTTON_SELECT)) {
         mgba_printf("select button pressed, go to lvl2");
         goToLevel2();
     }
-}
-void goToLevel2() {
-    mgba_printf("going to lvl2");
-    initGame();
-    hideSprites();
-    waitForVBlank();
-    DMANow(3, shadowOAM, OAM, 128*8);
-    // initGame();
-    state = LEVEL2;    
 }
 
 void level2() {
@@ -182,27 +115,13 @@ void level2() {
     }
 }
 
-void goToPause() {
-    state = PAUSE;
-}
+
 
 void pause() {
     if (BUTTON_PRESSED(BUTTON_START)) {
         mgba_printf("start button pressed, go to pause");
         goToGame();
     }
-}
-
-void goToLose() {
-    hideSprites();
-    waitForVBlank();
-    DMANow(3, shadowOAM, OAM, 128*4);
-    // replaces the flashlight bg so it covers up the other sprites
-    DMANow(3, LoseScreenTiles, &CHARBLOCK[2], LoseScreenTilesLen/2);
-    DMANow(3, LoseScreenPal, BG_PALETTE, LoseScreenPalLen / 2);
-    DMANow(3, LoseScreenMap, &SCREENBLOCK[0], LoseScreenMapLen / 2);
-    state = LOSE;
-
 }
 
 void lose() {

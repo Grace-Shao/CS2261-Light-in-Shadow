@@ -41,7 +41,7 @@ void updateGame() {
     updatePlayer();
     toggleFlashlight();
     keyCollision();
-    //enterDoor();
+    enterDoor();
     if (frameCount % 500 == 0) {
         enemyMovement();
     }

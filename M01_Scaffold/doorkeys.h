@@ -2,7 +2,7 @@
 #define DOORKEYS_H
 
 #define KEYCOUNT 3
-#define DOORCOUNT 4
+#define DOORCOUNT 5
 
 void initBasicKeys();
 void initBasicDoors();
@@ -11,7 +11,7 @@ void initKeysLevel1();
 void initDoorsLevel1();
 void keyCollision();
 void drawKeys();
-int enterDoor();
+void enterDoor();
 void drawDoors();
 
 // special key struct that inherits from sprite, w few extra capabilities

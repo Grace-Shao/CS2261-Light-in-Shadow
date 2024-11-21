@@ -3,10 +3,11 @@
 #include "sprites.h"
 #include "print.h"
 #include "game.h"
+#include "state.h"
 #include "player.h"
 #include "enemy.h"
 #include "flashlight.h"
-#include "doorkeys.h"
+#include "doorKeys.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -31,33 +32,51 @@ void initBasicDoors() {
         doors[i].base.height = 32;
         doors[i].base.width = 16;
     }
+
+    // set up the position of all 4 doors (some r not active yet)
+    doors[0].base.x = 150;
+    doors[0].base.y = 75;
+    doors[1].base.x = 200;
+    doors[1].base.y = 75;
+    doors[2].base.x = 50;
+    doors[2].base.y = 75;
+    doors[3].base.x = 220;
+    doors[3].base.y = 75;
+    doors[4].base.x = 15;
+    doors[4].base.y = 75;
+
+    // each door has a different lvl they belong in (lvl 1 is first game lvl)
+    doors[0].level = 1;
+    doors[3].level = 1;
+
+    doors[1].level = 2;
+    doors[2].level = 2;
+
+    doors[4].level = 3;
+
+    // some door links up to another door
+    doors[0].leadsTo = &doors[1];
+    //doors[1].leadsTo = &doors[3];
+    doors[2].leadsTo = &doors[4];
 }
 void initKeysLevel1(){
     // Manually set unique x and y positions for each key
     for (int i = 0; i < 2; i++) {
         keys[i].base.isActive = 1;
     }
-    keys[0].base.x = 200;
-    keys[0].base.y = 100;
-    keys[1].base.x = 60;
-    keys[1].base.y = 100;
 }
 
 void initDoorsLevel1(){
-    for (int i = 0; i < 2; i++) {
-        doors[i].base.isActive = 1;
-    }
-    doors[0].base.x = 230;
-    doors[0].base.y = 75;
-    doors[0].level = 1;
+    doors[0].base.isActive = 1;
+    doors[3].base.isActive = 1;
+}
 
-    doors[1].base.x = 200;
-    doors[1].base.y = 120;
-    doors[1].level = 2;
+void initDoorsLevel2(){
+    doors[0].base.isActive = 0;
+    doors[3].base.isActive = 0;
 
-
-    doors[0].leadsTo = &doors[1];
-    //doors[1].leadsTo = &doors[0];
+    doors[2].base.isActive = 1;
+    doors[1].base.isActive = 1;
 }
 void keyCollision() {
     for (int i = 0; i < KEYCOUNT; i++) {
@@ -70,20 +89,20 @@ void keyCollision() {
     }
 }
 
-int enterDoor() {
+void enterDoor() {
     // todo: change this to doorcount later
-    for (int i = 0; i < 2; i++) {
-        if (doors[i].base.isActive && collision(player.x, player.y, player.width, player.height, doors[i].base.x, doors[i].base.y, doors[i].base.width, doors[i].base.height)) {
+    for (int i = 0; i < DOORCOUNT; i++) {
+        if (doors[i].base.isActive && doors[i].leadsTo != NULL && collision(player.x, player.y, player.width, player.height, doors[i].base.x, doors[i].base.y, doors[i].base.width, doors[i].base.height)) {
             player.x = doors[i].leadsTo->base.x;
             player.y = doors[i].leadsTo->base.y;
+            mgba_printf("New player position: x = %d, y = %d\n", player.x, player.y);
             shadowOAM[player.oamIndex].attr2 = ATTR2_TILEID(0, 0);
             mgba_printf("Entered door %d\n", i);
-            // TODO: change this later
-            return 1;
-            // } else {
-            //     mgba_printf("Can't enter door %d\n", i);
-            // }
-            // Add any additional logic for entering the door here
+            if (doors[i].leadsTo->level == 1) {
+                goToGame();
+            } else {
+                goToLevel2();
+            }
         }
     }
     return 0;
