@@ -1,5 +1,5 @@
-#include "gba.h"
-#include "mode0.h"
+#include "helpers/gba.h"
+#include "helpers/mode0.h"
 #include "sprites.h"
 #include "print.h"
 #include "game.h"
@@ -13,6 +13,7 @@
 
 // bg/sprite imports
 #include "spritesheet2.h"
+#include "artAssetsGBA/apartmentBGMap.h"
 #include "venomMonster.h"
 #include "instructions.h"
 #include "loseScreen.h"

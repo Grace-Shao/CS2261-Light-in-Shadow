@@ -1,6 +1,6 @@
 #ifndef ENEMY_H
 #define ENEMY_H
-#include "gba.h"
+#include "helpers/gba.h"
 #include "game.h"
 #include "sprites.h"
 

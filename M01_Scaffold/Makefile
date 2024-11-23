@@ -3,7 +3,7 @@ PRODUCT_NAME       = Project
 # You probably won't need to touch anything below here!!!
 # The one exception is the cleanup stuff.
 
-SOURCES            = $(wildcard *.c)
+SOURCES            = $(wildcard *.c) $(wildcard artAssetsGBA/*.c) $(wildcard helpers/*.c)
 ASMSOURCES         = $(wildcard *.asm)
 AUDIOSOURCES       = $(wildcard *.wav)
 DKPATH             = /opt/devkitpro

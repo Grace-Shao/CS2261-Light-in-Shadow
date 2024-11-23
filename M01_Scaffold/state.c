@@ -1,5 +1,5 @@
-#include "gba.h"
-#include "mode0.h"
+#include "helpers/gba.h"
+#include "helpers/mode0.h"
 #include "sprites.h"
 #include "print.h"
 #include "game.h"
@@ -13,6 +13,7 @@
 
 // bg/sprite imports
 #include "spritesheet2.h"
+#include "artAssetsGBA/apartmentBGMap.h"
 #include "venomMonster.h"
 #include "instructions.h"
 #include "loseScreen.h"
@@ -65,9 +66,9 @@ void goToGame() {
     
 
     // DMA bg
-    DMANow(3, forestBGTiles, &CHARBLOCK[2], forestBGTilesLen/2);
-    DMANow(3, forestBGPal, BG_PALETTE, forestBGPalLen / 2);
-    DMANow(3, forestBGMap, &SCREENBLOCK[0], forestBGMapLen / 2);
+    //DMANow(3, forestBGTiles, &CHARBLOCK[2], forestBGTilesLen/2);
+    //DMANow(3, forestBGPal, BG_PALETTE, forestBGPalLen / 2);
+    DMANow(3, apartmentBGMapMap, &SCREENBLOCK[0], apartmentBGMapLen / 2);
 
     // DMA sprite info 
     DMANow(3, spritesheet2Tiles, &CHARBLOCK[4], spritesheet2TilesLen / 2);

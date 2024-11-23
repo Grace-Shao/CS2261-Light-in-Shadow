@@ -1,7 +1,7 @@
 #ifndef GBA_SPRITES_H
 #define GBA_SPRITES_H
 
-#include "gba.h"
+#include "helpers/gba.h"
 
 // Sprite Palette
 #define SPRITE_PAL ((u16 *)0x5000200)
