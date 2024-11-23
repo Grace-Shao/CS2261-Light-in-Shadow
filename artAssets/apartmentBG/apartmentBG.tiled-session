@@ -8,6 +8,28 @@
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "PixelLandInteriors.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "apartmentBGMap.tmx": {
+            "scale": 3.16171875,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": -18.977020014825797,
+                "y": 107.53644675067953
+            }
+        },
+        "apartmentBGMap.tmx#PixelLandInteriors": {
+            "scaleInDock": 1
+        },
+        "interiorsPalette.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "interiorsPalette2.tsx": {
+            "scaleInEditor": 1
+        }
     },
     "last.exportedFilePath": "G:/Code/LowLevel/CS2261/CS2261-Light-in-Shadow/M01_Scaffold/artAssetsGBA",
     "last.imagePath": "G:/Code/LowLevel/CS2261/CS2261-Light-in-Shadow/artAssets/apartmentBG",
@@ -21,6 +43,10 @@
     ],
     "project": "apartmentBG.tiled-project",
     "recentFiles": [
+        "interiorsPalette2.tsx",
+        "interiorsPalette.tsx",
+        "apartmentBGMap.tmx",
+        "PixelLandInteriors.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

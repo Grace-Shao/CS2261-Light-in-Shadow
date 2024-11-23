@@ -14,6 +14,8 @@
 // bg/sprite imports
 #include "spritesheet2.h"
 #include "artAssetsGBA/apartmentBGMap.h"
+#include "artAssetsGBA/interiorsPalette.h"
+#include "lightRight.h"
 #include "venomMonster.h"
 #include "instructions.h"
 #include "loseScreen.h"
@@ -66,9 +68,13 @@ void goToGame() {
     
 
     // DMA bg
-    //DMANow(3, forestBGTiles, &CHARBLOCK[2], forestBGTilesLen/2);
-    //DMANow(3, forestBGPal, BG_PALETTE, forestBGPalLen / 2);
+    DMANow(3, interiorsPaletteTiles, &CHARBLOCK[2], interiorsPaletteTilesLen /2);
+    DMANow(3, interiorsPalettePal, BG_PALETTE, interiorsPalettePalLen / 2);
     DMANow(3, apartmentBGMapMap, &SCREENBLOCK[0], apartmentBGMapLen / 2);
+
+    // DMA flashlight (starts r)
+    DMANow(3, lightRightTiles, &CHARBLOCK[3], lightRightTilesLen/2);
+    DMANow(3, lightRightMap, &SCREENBLOCK[1], lightRightMapLen / 2);
 
     // DMA sprite info 
     DMANow(3, spritesheet2Tiles, &CHARBLOCK[4], spritesheet2TilesLen / 2);
