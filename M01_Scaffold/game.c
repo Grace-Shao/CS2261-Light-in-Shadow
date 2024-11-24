@@ -47,6 +47,6 @@ void drawGame() {
     drawKeys();
     drawDoors();
     // for parallax
-    REG_BG2HOFF = hOff;
-    REG_BG2VOFF = vOff;
+    REG_BG3HOFF = hOff;
+    REG_BG3VOFF = vOff;
 }

@@ -15,6 +15,7 @@
 #include "artAssetsGBA/spritesheet2.h"
 #include "artAssetsGBA/apartmentBGMap.h"
 #include "artAssetsGBA/interiorsPalette.h"
+#include "artAssetsGBA/letters.h"
 #include "artAssetsGBA/lightRight.h"
 #include "artAssetsGBA/instructions.h"
 #include "artAssetsGBA/loseScreen.h"
@@ -51,7 +52,7 @@ void goToStart() {
 }
 
 void goToInstructions() {
-    DMANow(3, instructionsTiles, &CHARBLOCK[2], instructionsTilesLen/2);
+    DMANow(3, instructionsTiles, &CHARBLOCK[3], instructionsTilesLen/2);
     DMANow(3, instructionsPal, BG_PALETTE, instructionsPalLen / 2);
     DMANow(3, instructionsMap, &SCREENBLOCK[0], instructionsMapLen / 2);
     state = INSTRUCTIONS;
@@ -64,19 +65,24 @@ void goToGame() {
     initKeysLevel1();
     initDoorsLevel1();
     
-
     // DMA bg
-    DMANow(3, interiorsPaletteTiles, &CHARBLOCK[2], interiorsPaletteTilesLen /2);
+    // DMANow(3, forestBGTiles, &CHARBLOCK[3], forestBGTilesLen/2);
+    // DMANow(3, forestBGPal, BG_PALETTE, forestBGPalLen / 2);
+    // DMANow(3, forestBGMap, &SCREENBLOCK[0], forestBGMapLen / 2);
+    DMANow(3, interiorsPaletteTiles, &CHARBLOCK[3], interiorsPaletteTilesLen /2);
     DMANow(3, interiorsPalettePal, BG_PALETTE, interiorsPalettePalLen / 2);
     DMANow(3, apartmentBGMapMap, &SCREENBLOCK[0], apartmentBGMapLen / 2);
 
     // DMA flashlight (starts r)
-    DMANow(3, lightRightTiles, &CHARBLOCK[3], lightRightTilesLen/2);
+    DMANow(3, lightRightTiles, &CHARBLOCK[2], lightRightTilesLen/2);
     DMANow(3, lightRightMap, &SCREENBLOCK[1], lightRightMapLen / 2);
 
     // DMA sprite info 
     DMANow(3, spritesheet2Tiles, &CHARBLOCK[4], spritesheet2TilesLen / 2);
     DMANow(3, spritesheet2Pal, SPRITE_PAL, spritesheet2PalLen / 2);
+
+    // dma letters (will use the same bg pal)
+    //DMANow(3, lettersTiles, &CHARBLOCK[0], lettersTilesLen / 2);
 
     hideSprites();
     waitForVBlank();
@@ -96,6 +102,22 @@ void goToLevel2() {
     state = LEVEL2;    
 }
 
+void goToLevel3() {
+    mgba_printf("going to lvl3");
+
+    // DMA bg
+    DMANow(3, forestBGTiles, &CHARBLOCK[3], forestBGTilesLen /2);
+    DMANow(3, forestBGPal, BG_PALETTE, forestBGPalLen / 2);
+    DMANow(3, forestBGMap, &SCREENBLOCK[0], forestBGMapLen / 2);
+
+    hideSprites();
+    waitForVBlank();
+    DMANow(3, shadowOAM, OAM, 128*8);
+    
+    // initGame();
+    state = LEVEL2;    
+}
+
 void goToPause() {
     state = PAUSE;
 }
@@ -105,7 +127,7 @@ void goToLose() {
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*4);
     // replaces the flashlight bg so it covers up the other sprites
-    DMANow(3, LoseScreenTiles, &CHARBLOCK[2], LoseScreenTilesLen/2);
+    DMANow(3, LoseScreenTiles, &CHARBLOCK[3], LoseScreenTilesLen/2);
     DMANow(3, LoseScreenPal, BG_PALETTE, LoseScreenPalLen / 2);
     DMANow(3, LoseScreenMap, &SCREENBLOCK[0], LoseScreenMapLen / 2);
     state = LOSE;

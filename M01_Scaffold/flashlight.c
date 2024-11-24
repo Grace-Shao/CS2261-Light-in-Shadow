@@ -61,18 +61,18 @@ void drawFlashlight() {
     if (isFlashlightOn) {
         // dma light
         if (flashlightDirection == 1) {
-            DMANow(3, lightRightTiles, &CHARBLOCK[3], lightRightTilesLen/2);
+            DMANow(3, lightRightTiles, &CHARBLOCK[2], lightRightTilesLen/2);
             DMANow(3, lightRightMap, &SCREENBLOCK[1], lightRightMapLen / 2);
         } else if (flashlightDirection == -1)
         {
-            DMANow(3, lightLeftTiles, &CHARBLOCK[3], lightLeftTilesLen/2);
+            DMANow(3, lightLeftTiles, &CHARBLOCK[2], lightLeftTilesLen/2);
             DMANow(3, lightLeftMap, &SCREENBLOCK[1], lightLeftMapLen / 2);
         } 
         else if (flashlightDirection == 2) {
-            DMANow(3, lightUpTiles, &CHARBLOCK[3], lightUpTilesLen/2);
+            DMANow(3, lightUpTiles, &CHARBLOCK[2], lightUpTilesLen/2);
             DMANow(3, lightUpMap, &SCREENBLOCK[1], lightUpMapLen / 2);
         } else if (flashlightDirection == -2) {
-            DMANow(3, lightDownTiles, &CHARBLOCK[3], lightDownTilesLen/2);
+            DMANow(3, lightDownTiles, &CHARBLOCK[2], lightDownTilesLen/2);
             DMANow(3, lightDownMap, &SCREENBLOCK[1], lightDownMapLen / 2);
         }
     } else {
