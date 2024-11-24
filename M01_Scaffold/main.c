@@ -50,7 +50,7 @@ void initialize() {
     // light bg
     REG_BG2CNT = BG_SCREENBLOCK(1) | BG_CHARBLOCK(2) | 1;
     // for letters (prob should not be called bg1)
-    //REG_BG1CNT = BG_SCREENBLOCK(2) | BG_CHARBLOCK(0) | 0;
+    REG_BG0CNT = BG_SCREENBLOCK(2) | BG_CHARBLOCK(0) | 0;
 
     buttons = REG_BUTTONS;
     oldButtons = 0;
