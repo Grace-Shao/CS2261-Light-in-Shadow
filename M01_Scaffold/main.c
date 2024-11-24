@@ -44,13 +44,13 @@ unsigned short oldButtons;
 
 void initialize() {
     // Set up basic registers 
-    REG_DISPCTL = MODE(0) | BG_ENABLE(2) | BG_ENABLE(3) | SPRITE_ENABLE;
+    REG_DISPCTL = MODE(0) | BG_ENABLE(0) |BG_ENABLE(2) | BG_ENABLE(3) | SPRITE_ENABLE;
     // set up orignal background
     REG_BG3CNT = BG_SCREENBLOCK(0) | BG_CHARBLOCK(3) | 3;
     // light bg
     REG_BG2CNT = BG_SCREENBLOCK(1) | BG_CHARBLOCK(2) | 1;
     // for letters (prob should not be called bg1)
-    REG_BG0CNT = BG_SCREENBLOCK(2) | BG_CHARBLOCK(0) | 0;
+    REG_BG0CNT = BG_SCREENBLOCK(2) | BG_CHARBLOCK(1) | 0;
 
     buttons = REG_BUTTONS;
     oldButtons = 0;

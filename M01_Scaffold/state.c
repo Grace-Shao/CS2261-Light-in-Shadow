@@ -82,7 +82,11 @@ void goToGame() {
     DMANow(3, spritesheet2Pal, SPRITE_PAL, spritesheet2PalLen / 2);
 
     // dma letters (will use the same bg pal)
-    //DMANow(3, lettersTiles, &CHARBLOCK[0], lettersTilesLen / 2);
+    DMANow(3, lettersTiles, &CHARBLOCK[1], lettersTilesLen / 2);
+    //DMANow(3, lettersMap, &SCREENBLOCK[2], lettersMapLen / 2);
+    
+    // Clear what was on bg0cnt letters bg before
+    DMANow(3, 0, &SCREENBLOCK[2], lettersMapLen / 2);
 
     hideSprites();
     waitForVBlank();
