@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "apartmentBGMap.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -13,11 +13,11 @@
             "scaleInEditor": 1
         },
         "apartmentBGMap.tmx": {
-            "scale": 3.16171875,
+            "scale": 2.1412109375,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": -18.977020014825797,
-                "y": 107.53644675067953
+                "x": 297.96223661406555,
+                "y": 158.55514001641887
             }
         },
         "apartmentBGMap.tmx#PixelLandInteriors": {
@@ -28,6 +28,7 @@
             "scaleInEditor": 1
         },
         "interiorsPalette2.tsx": {
+            "scaleInDock": 1.5,
             "scaleInEditor": 1
         }
     },
@@ -40,12 +41,13 @@
     "map.tileWidth": 8,
     "map.width": 32,
     "openFiles": [
+        "apartmentBGMap.tmx"
     ],
     "project": "apartmentBG.tiled-project",
     "recentFiles": [
+        "apartmentBGMap.tmx",
         "interiorsPalette2.tsx",
         "interiorsPalette.tsx",
-        "apartmentBGMap.tmx",
         "PixelLandInteriors.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",

@@ -1,6 +1,6 @@
 #include "helpers/gba.h"
 #include "helpers/mode0.h"
-#include "sprites.h"
+#include "helpers/sprites.h"
 #include "print.h"
 #include "game.h"
 #include "player.h"

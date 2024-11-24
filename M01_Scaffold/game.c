@@ -1,6 +1,6 @@
 #include "helpers/gba.h"
 #include "helpers/mode0.h"
-#include "sprites.h"
+#include "helpers/sprites.h"
 #include "print.h"
 #include "game.h"
 #include "player.h"
@@ -9,14 +9,6 @@
 #include "doorKeys.h"
 #include <stdlib.h> 
 #include <time.h>
-
-// sprite imports
-#include "spritesheet2.h"
-#include "background.h"
-#include "lightRight.h"
-#include "lightLeft.h"
-#include "lightUp.h"
-#include "lightDown.h"
 
 int frameCount = 0;
 int lives = 1;

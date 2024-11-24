@@ -1,6 +1,6 @@
 #include "helpers/gba.h"
 #include "helpers/mode0.h"
-#include "sprites.h"
+#include "helpers/sprites.h"
 #include "print.h"
 #include "game.h"
 #include "player.h"
@@ -10,12 +10,12 @@
 #include <time.h>
 
 // sprite imports
-#include "spritesheet1.h"
-#include "background.h"
-#include "lightRight.h"
-#include "lightLeft.h"
-#include "lightUp.h"
-#include "lightDown.h"
+#include "artAssetsGBA/spritesheet2.h"
+#include "artAssetsGBA/background.h"
+#include "artAssetsGBA/lightRight.h"
+#include "artAssetsGBA/lightLeft.h"
+#include "artAssetsGBA/lightUp.h"
+#include "artAssetsGBA/lightDown.h"
 
 // variable intial settings are redefined in main
 int isFlashlightOn = 0;

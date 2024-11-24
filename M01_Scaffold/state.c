@@ -1,6 +1,6 @@
 #include "helpers/gba.h"
 #include "helpers/mode0.h"
-#include "sprites.h"
+#include "helpers/sprites.h"
 #include "print.h"
 #include "game.h"
 #include "state.h"
@@ -12,15 +12,13 @@
 #include <time.h>
 
 // bg/sprite imports
-#include "spritesheet2.h"
+#include "artAssetsGBA/spritesheet2.h"
 #include "artAssetsGBA/apartmentBGMap.h"
 #include "artAssetsGBA/interiorsPalette.h"
-#include "lightRight.h"
-#include "venomMonster.h"
-#include "instructions.h"
-#include "loseScreen.h"
-#include "forestBG.h"
-#include "light.h"
+#include "artAssetsGBA/lightRight.h"
+#include "artAssetsGBA/instructions.h"
+#include "artAssetsGBA/loseScreen.h"
+#include "artAssetsGBA/forestBG.h"
 
 void updateGameState(STATE state) {
     switch(state) {

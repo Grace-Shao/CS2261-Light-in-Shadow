@@ -1,6 +1,6 @@
 #include "helpers/gba.h"
 #include "helpers/mode0.h"
-#include "sprites.h"
+#include "helpers/sprites.h"
 #include "print.h"
 #include "game.h"
 #include "player.h"
@@ -9,7 +9,7 @@
 #include <time.h>
 
 // sprite imports
-#include "background.h"
+#include "artAssetsGBA/background.h"
 
 
 SPRITE player;
