@@ -62,6 +62,7 @@ void goToGame() {
     mgba_printf("going to game");
     srand(frameCount);
 
+    deactivateAllDoors();
     initKeysLevel1();
     initDoorsLevel1();
     
@@ -96,13 +97,13 @@ void goToGame() {
 
 void goToLevel2() {
     mgba_printf("going to lvl2");
-    //initGame();
     hideSprites();
+    deactivateAllDoors();
     initDoorsLevel2();
+    initKeysLevel2();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*8);
     
-    // initGame();
     state = LEVEL2;    
 }
 
@@ -114,6 +115,7 @@ void goToLevel3() {
     DMANow(3, forestBGPal, BG_PALETTE, forestBGPalLen / 2);
     DMANow(3, forestBGMap, &SCREENBLOCK[0], forestBGMapLen / 2);
 
+    deactivateAllDoors();
     hideSprites();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*8);

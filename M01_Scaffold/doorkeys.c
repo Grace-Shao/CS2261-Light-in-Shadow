@@ -34,7 +34,7 @@ void initBasicDoors() {
     }
 
     // set up the position of all 4 doors (some r not active yet)
-    doors[0].base.x = 150;
+    doors[0].base.x = 200;
     doors[0].base.y = 75;
     doors[1].base.x = 200;
     doors[1].base.y = 75;
@@ -55,15 +55,45 @@ void initBasicDoors() {
     doors[4].level = 3;
 
     // some door links up to another door
-    doors[0].leadsTo = &doors[1];
-    //doors[1].leadsTo = &doors[3];
+    doors[0].leadsTo = &doors[2];
+    doors[1].leadsTo = &doors[3];
     doors[2].leadsTo = &doors[4];
+
+    // assign them keys
+    doors[0].assignedKey = &keys[0];
+    doors[1].assignedKey = &keys[1];
+    doors[2].assignedKey = &keys[2];
+
 }
+
+// this is the reset the doors before initDoorsLevel1 (where doors and keys r draw again)
+void deactivateAllDoors() {
+    for (int i = 0; i < DOORCOUNT; i++) {
+        doors[i].base.isActive = 0;
+    }
+}
+
 void initKeysLevel1(){
     // Manually set unique x and y positions for each key
-    for (int i = 0; i < 2; i++) {
-        keys[i].base.isActive = 1;
+    if (!keys[0].isCollected) {
+        keys[0].base.isActive = 1;
     }
+    keys[0].base.x = 100;
+    keys[0].base.y = 75;
+}
+
+void initKeysLevel2() {
+    // Manually set unique x and y positions for each key
+    if (!keys[1].isCollected) {
+        keys[1].base.isActive = 1;
+    }
+    if (!keys[2].isCollected) {
+        keys[2].base.isActive = 1;
+    }
+    keys[1].base.x = 100;
+    keys[1].base.y = 75;
+    keys[2].base.x = 200;
+    keys[2].base.y = 75;
 }
 
 void initDoorsLevel1(){
@@ -72,9 +102,6 @@ void initDoorsLevel1(){
 }
 
 void initDoorsLevel2(){
-    doors[0].base.isActive = 0;
-    doors[3].base.isActive = 0;
-
     doors[2].base.isActive = 1;
     doors[1].base.isActive = 1;
 }
@@ -90,9 +117,9 @@ void keyCollision() {
 }
 
 void enterDoor() {
-    // todo: change this to doorcount later
     for (int i = 0; i < DOORCOUNT; i++) {
-        if (doors[i].base.isActive && doors[i].leadsTo != NULL && collision(player.x, player.y, player.width, player.height, doors[i].base.x, doors[i].base.y, doors[i].base.width, doors[i].base.height)) {
+        // if the door is active and leads to somewhere and u collected the correct key
+        if (doors[i].base.isActive && doors[i].leadsTo != NULL && doors[i].assignedKey->isCollected && collision(player.x, player.y, player.width, player.height, doors[i].base.x, doors[i].base.y, doors[i].base.width, doors[i].base.height)) {
             player.x = doors[i].leadsTo->base.x;
             player.y = doors[i].leadsTo->base.y;
             mgba_printf("New player position: x = %d, y = %d\n", player.x, player.y);

@@ -6,9 +6,11 @@
 
 void initBasicKeys();
 void initBasicDoors();
+void deactivateAllDoors();
 void initDoorsLevel1();
+void initDoorsLevel2();
 void initKeysLevel1();
-void initDoorsLevel1();
+void initKeysLevel2();
 void keyCollision();
 void drawKeys();
 void enterDoor();
@@ -24,7 +26,7 @@ typedef struct DOOR{
     SPRITE base; // Embed the SPRITE struct
     int level;
     struct DOOR* leadsTo;
-    //struct KEY* assignedKey;    
+    struct KEY* assignedKey;    
 } DOOR;
 // needs to be extern to not get "dereferencing pointer to incomplete type 'struct DOOR''
 
