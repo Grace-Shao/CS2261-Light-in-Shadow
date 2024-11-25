@@ -1,6 +1,6 @@
-#include "gba.h"
-#include "mode0.h"
-#include "sprites.h"
+#include "helpers/gba.h"
+#include "helpers/mode0.h"
+#include "helpers/sprites.h"
 #include "print.h"
 #include "game.h"
 #include "player.h"
@@ -9,14 +9,6 @@
 #include "doorKeys.h"
 #include <stdlib.h> 
 #include <time.h>
-
-// sprite imports
-#include "spritesheet2.h"
-#include "background.h"
-#include "lightRight.h"
-#include "lightLeft.h"
-#include "lightUp.h"
-#include "lightDown.h"
 
 int frameCount = 0;
 int lives = 1;
@@ -41,7 +33,7 @@ void updateGame() {
     updatePlayer();
     toggleFlashlight();
     keyCollision();
-    //enterDoor();
+    enterDoor();
     if (frameCount % 500 == 0) {
         enemyMovement();
     }
@@ -55,6 +47,6 @@ void drawGame() {
     drawKeys();
     drawDoors();
     // for parallax
-    REG_BG2HOFF = hOff;
-    REG_BG2VOFF = vOff;
+    REG_BG3HOFF = hOff;
+    REG_BG3VOFF = vOff;
 }

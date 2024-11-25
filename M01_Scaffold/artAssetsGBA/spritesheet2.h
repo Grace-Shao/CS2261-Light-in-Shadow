@@ -1,28 +1,28 @@
 
-//{{BLOCK(venomMonster)
+//{{BLOCK(spritesheet2)
 
 //======================================================================
 //
-//	venomMonster, 256x256@4, 
+//	spritesheet2, 256x256@4, 
 //	+ palette 256 entries, not compressed
 //	+ 1024 tiles not compressed
 //	Total size: 512 + 32768 = 33280
 //
-//	Time-stamp: 2024-11-07, 16:05:56
+//	Time-stamp: 2024-11-25, 14:41:56
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.3
 //	( http://www.coranac.com/projects/#grit )
 //
 //======================================================================
 
-#ifndef GRIT_VENOMMONSTER_H
-#define GRIT_VENOMMONSTER_H
+#ifndef GRIT_SPRITESHEET2_H
+#define GRIT_SPRITESHEET2_H
 
-#define venomMonsterTilesLen 32768
-extern const unsigned short venomMonsterTiles[16384];
+#define spritesheet2TilesLen 32768
+extern const unsigned short spritesheet2Tiles[16384];
 
-#define venomMonsterPalLen 512
-extern const unsigned short venomMonsterPal[256];
+#define spritesheet2PalLen 512
+extern const unsigned short spritesheet2Pal[256];
 
-#endif // GRIT_VENOMMONSTER_H
+#endif // GRIT_SPRITESHEET2_H
 
-//}}BLOCK(venomMonster)
+//}}BLOCK(spritesheet2)

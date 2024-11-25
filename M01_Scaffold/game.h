@@ -2,9 +2,6 @@
 #ifndef GAME_H
 #define GAME_H
 
-typedef enum STATE {START, INSTRUCTIONS, GAME, LEVEL2, PAUSE, LOSE, WIN} STATE;
-extern STATE state;
-
 #define MAPWIDTH 300
 #define MAPHEIGHT 170
 
