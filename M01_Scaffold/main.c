@@ -1,6 +1,8 @@
 #include "helpers/gba.h"
 #include "helpers/mode0.h"
 #include "helpers/sprites.h"
+#include "helpers/digitalSound.h"
+#include "playSound.h"
 #include "print.h"
 #include "game.h"
 #include "state.h"
@@ -57,7 +59,8 @@ void initialize() {
 
     mgba_open();
     mgba_printf("initialized");
-    //initSound();
+    setUpInterrupts();
+    setupSounds();
     goToStart();
 }
 
@@ -106,6 +109,9 @@ void game() {
     updateGame();
     drawGame();
     waitForVBlank();
+    // for parallax
+    REG_BG3HOFF = hOff;
+    REG_BG3VOFF = vOff;
     DMANow(3, shadowOAM, OAM, 128*4);
     if (lives < 1 || batteryRemaining < 0) {
         goToLose();
@@ -140,8 +146,6 @@ void level3() {
         goToLose();
     }
 }
-
-
 
 void pause() {
     if (BUTTON_PRESSED(BUTTON_START)) {

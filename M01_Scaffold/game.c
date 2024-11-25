@@ -46,7 +46,4 @@ void drawGame() {
     drawFlashlightBattery();
     drawKeys();
     drawDoors();
-    // for parallax
-    REG_BG3HOFF = hOff;
-    REG_BG3VOFF = vOff;
 }

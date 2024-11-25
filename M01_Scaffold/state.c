@@ -49,6 +49,7 @@ void updateGameState(STATE state) {
 }
 
 void goToStart() {
+    playTheme();
     initGame();
 
     // dma the moon into bg3
@@ -88,8 +89,8 @@ void goToGame() {
     DMANow(3, apartmentBGMapMap, &SCREENBLOCK[0], apartmentBGMapLen / 2);
 
     // DMA flashlight (starts r)
-    DMANow(3, lightRightTiles, &CHARBLOCK[2], lightRightTilesLen/2);
-    DMANow(3, lightRightMap, &SCREENBLOCK[1], lightRightMapLen / 2);
+    // DMANow(3, lightRightTiles, &CHARBLOCK[2], lightRightTilesLen/2);
+    // DMANow(3, lightRightMap, &SCREENBLOCK[1], lightRightMapLen / 2);
 
     // DMA sprite info 
     DMANow(3, spritesheet2Tiles, &CHARBLOCK[4], spritesheet2TilesLen / 2);

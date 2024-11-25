@@ -6,6 +6,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "flashlight.h"
+#include "playSound.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -34,6 +35,7 @@ void initFlashlightBattery() {
 
 void toggleFlashlight() {
     if (BUTTON_PRESSED(BUTTON_RIGHT) || BUTTON_PRESSED(BUTTON_LEFT) || BUTTON_PRESSED(BUTTON_UP) || BUTTON_PRESSED(BUTTON_DOWN)) {
+        playButtonClick();
         isFlashlightOn = !isFlashlightOn;
         if (isFlashlightOn == 0) {
             batteryRemaining -= 1;
@@ -77,7 +79,8 @@ void drawFlashlight() {
         }
     } else {
         // Clear the light map
-        DMANow(3, 0, &SCREENBLOCK[1], backgroundMapLen / 2);
+        volatile short zero = 0;
+        DMANow(3, &zero, &SCREENBLOCK[1], DMA_SOURCE_FIXED | 1024);
     }
 }
 
