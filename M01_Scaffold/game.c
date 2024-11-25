@@ -35,7 +35,7 @@ void updateGame() {
     keyCollision();
     enterDoor();
     if (frameCount % 500 == 0) {
-        //enemyMovement();
+        enemyMovement();
     }
 }
 

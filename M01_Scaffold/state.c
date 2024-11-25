@@ -16,6 +16,8 @@
 #include "artAssetsGBA/apartmentBGMap.h"
 #include "artAssetsGBA/interiorsPalette.h"
 #include "artAssetsGBA/letters.h"
+#include "artAssetsGBA/clouds.h"
+#include "artAssetsGBA/redMoon.h"
 #include "artAssetsGBA/lightRight.h"
 #include "artAssetsGBA/instructions.h"
 #include "artAssetsGBA/loseScreen.h"
@@ -48,6 +50,16 @@ void updateGameState(STATE state) {
 
 void goToStart() {
     initGame();
+
+    // dma the moon into bg3
+    DMANow(3, redMoonTiles, &CHARBLOCK[3], redMoonTilesLen /2);
+    //DMANow(3, redMoonPal, BG_PALETTE, interiorsPalettePalLen / 2);
+    DMANow(3, redMoonMap, &SCREENBLOCK[0], redMoonMapLen / 2);
+
+    DMANow(3, cloudsTiles, &CHARBLOCK[2], cloudsMapLen/2);
+    DMANow(3, cloudsPal, BG_PALETTE, cloudsPalLen / 2);
+    DMANow(3, cloudsMap, &SCREENBLOCK[1], cloudsMapLen / 2);
+
     state = START;
 }
 
@@ -62,14 +74,15 @@ void goToGame() {
     mgba_printf("going to game");
     srand(frameCount);
 
+    //reset bg2 hoff (if not, will mess w flashlight)
+    REG_BG2HOFF = 0;
+
+
     deactivateAllDoors();
     initKeysLevel1();
     initDoorsLevel1();
     
     // DMA bg
-    // DMANow(3, forestBGTiles, &CHARBLOCK[3], forestBGTilesLen/2);
-    // DMANow(3, forestBGPal, BG_PALETTE, forestBGPalLen / 2);
-    // DMANow(3, forestBGMap, &SCREENBLOCK[0], forestBGMapLen / 2);
     DMANow(3, interiorsPaletteTiles, &CHARBLOCK[3], interiorsPaletteTilesLen /2);
     DMANow(3, interiorsPalettePal, BG_PALETTE, interiorsPalettePalLen / 2);
     DMANow(3, apartmentBGMapMap, &SCREENBLOCK[0], apartmentBGMapLen / 2);
@@ -129,6 +142,9 @@ void goToPause() {
 }
 
 void goToLose() {
+    // reset bg3 hoff so lose screen is centered
+    REG_BG3HOFF = 0;
+    
     hideSprites();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*4);

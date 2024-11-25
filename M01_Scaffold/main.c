@@ -74,10 +74,17 @@ int main() {
 }
 
 void start() {
+    if (frameCount % 5 == 0) {
+        hOff += 1;
+    }
+
     if (BUTTON_PRESSED(BUTTON_START)) {
         mgba_printf("start button pressed, go to Instructions");
         goToInstructions();
     }
+    waitForVBlank();
+    REG_BG2HOFF = hOff;
+
 }
 
 void instructions() {
