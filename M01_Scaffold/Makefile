@@ -40,7 +40,7 @@ GBAFIX             = $(DKPATH)/tools/bin/gbafix
 
 # --- Delete
 RM                 = rm -f
-
+# TODO: also delete in other folders?
 ASMOBJECTS = $(ASMSOURCES:.asm=.o)
 AUDIOOBJECTS = $(AUDIOSOURCES:.wav=.c)
 AUDIOHEADERS = $(AUDIOSOURCES:.wav=.h)

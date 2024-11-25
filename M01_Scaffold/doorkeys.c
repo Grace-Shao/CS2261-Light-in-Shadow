@@ -35,15 +35,15 @@ void initBasicDoors() {
 
     // set up the position of all 4 doors (some r not active yet)
     doors[0].base.x = 200;
-    doors[0].base.y = 75;
+    doors[0].base.y = 80;
     doors[1].base.x = 200;
-    doors[1].base.y = 75;
+    doors[1].base.y = 80;
     doors[2].base.x = 50;
-    doors[2].base.y = 75;
+    doors[2].base.y = 80;
     doors[3].base.x = 220;
-    doors[3].base.y = 75;
+    doors[3].base.y = 80;
     doors[4].base.x = 15;
-    doors[4].base.y = 75;
+    doors[4].base.y = 80;
 
     // each door has a different lvl they belong in (lvl 1 is first game lvl)
     doors[0].level = 1;
@@ -78,6 +78,10 @@ void initKeysLevel1(){
     if (!keys[0].isCollected) {
         keys[0].base.isActive = 1;
     }
+    // turn keys of other lvls off
+    keys[1].base.isActive = 0;
+    keys[2].base.isActive = 0;
+
     keys[0].base.x = 100;
     keys[0].base.y = 75;
 }
@@ -90,9 +94,12 @@ void initKeysLevel2() {
     if (!keys[2].isCollected) {
         keys[2].base.isActive = 1;
     }
+    // turn keys of other levels off
+    keys[0].base.isActive = 1;
+
     keys[1].base.x = 100;
     keys[1].base.y = 75;
-    keys[2].base.x = 200;
+    keys[2].base.x = 180;
     keys[2].base.y = 75;
 }
 
@@ -122,13 +129,22 @@ void enterDoor() {
         if (doors[i].base.isActive && doors[i].leadsTo != NULL && doors[i].assignedKey->isCollected && collision(player.x, player.y, player.width, player.height, doors[i].base.x, doors[i].base.y, doors[i].base.width, doors[i].base.height)) {
             player.x = doors[i].leadsTo->base.x;
             player.y = doors[i].leadsTo->base.y;
-            mgba_printf("New player position: x = %d, y = %d\n", player.x, player.y);
             shadowOAM[player.oamIndex].attr2 = ATTR2_TILEID(0, 0);
-            mgba_printf("Entered door %d\n", i);
-            if (doors[i].leadsTo->level == 1) {
-                goToGame();
-            } else {
-                goToLevel2();
+            mgba_printf("New player position: x = %d, y = %d\n", player.x, player.y);
+            mgba_printf("Entered door %d with key collected %d\n", i, keys[i].isCollected);
+           
+            switch (doors[i].leadsTo->level) {
+                case 1:
+                    goToGame();
+                    break;
+                case 2:
+                    goToLevel2();
+                    break;
+                case 3:
+                    goToLevel3();
+                    break;
+                default:
+                    break;
             }
         }
     }
