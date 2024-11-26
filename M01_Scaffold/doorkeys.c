@@ -118,7 +118,7 @@ void keyCollision() {
             keys[i].base.isActive = 0;
             keys[i].isCollected = 1;
             shadowOAM[keys[i].base.oamIndex].attr0 = ATTR0_HIDE;
-            displayKeysInUI();
+            displayKeysInUI(i);
             mgba_printf("Collided with key %d\n", i);
         }
     }
@@ -172,7 +172,11 @@ void drawDoors() {
     }
 }
 
-void displayKeysInUI() {
-    SCREENBLOCK[0].tilemap[OFFSET(15, 2, 32)] = TILEMAP_ENTRY_TILEID(2);
+// TODO: has a problem of not saving after each lvl, fix later
+void displayKeysInUI(i) {
+    shadowOAM[keys[i].base.oamIndex].attr0 = ATTR0_TALL | ATTR0_Y(5);
+    // space out the keys based on their index
+    shadowOAM[keys[i].base.oamIndex].attr1 = ATTR1_X(50 + (i * 5)) | ATTR1_TINY;
+    //SCREENBLOCK[0].tilemap[OFFSET(15, 2, 32)] = TILEMAP_ENTRY_TILEID(2);
 
 }

@@ -14,6 +14,7 @@
 // bg/sprite imports
 #include "artAssetsGBA/spritesheet2.h"
 #include "artAssetsGBA/apartmentBGMap.h"
+#include "artAssetsGBA/apartmentBGMapOnly.h"
 #include "artAssetsGBA/interiorsPalette.h"
 #include "artAssetsGBA/letters.h"
 #include "artAssetsGBA/clouds.h"
@@ -84,9 +85,9 @@ void goToGame() {
     initDoorsLevel1();
     
     // DMA bg
-    DMANow(3, apartmentBGMapTiles, &CHARBLOCK[3], apartmentBGMapTilesLen /2);
-    DMANow(3, apartmentBGMapPal, BG_PALETTE, apartmentBGMapPalLen / 2);
-    DMANow(3, apartmentBGMapMap, &SCREENBLOCK[0], apartmentBGMapMapLen / 2);
+    DMANow(3, interiorsPaletteTiles, &CHARBLOCK[3], interiorsPaletteTilesLen /2);
+    DMANow(3, interiorsPalettePal, BG_PALETTE, interiorsPalettePalLen / 2);
+    DMANow(3, apartmentBGMapOnlyMap, &SCREENBLOCK[0], apartmentBGMapOnlyLen / 2);
 
     // DMA flashlight (starts r)
     // DMANow(3, lightRightTiles, &CHARBLOCK[2], lightRightTilesLen/2);

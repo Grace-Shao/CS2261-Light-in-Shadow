@@ -102,6 +102,11 @@ void game() {
         mgba_printf("start button pressed, go to pause");
         goToPause();
     }
+    if (BUTTON_PRESSED(BUTTON_DOWN)) {
+        mgba_printf("modified tile");
+        SCREENBLOCK[0].tilemap[OFFSET(6, 2, 32)] = TILEMAP_ENTRY_TILEID(12);
+    }
+
     // if (BUTTON_PRESSED(BUTTON_DOWN)) {
     //     mgba_printf("modified tile");
     //     SCREENBLOCK[2].tilemap[OFFSET(6, 2, 32)] = TILEMAP_ENTRY_TILEID(2);
