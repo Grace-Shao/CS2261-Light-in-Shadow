@@ -15,6 +15,7 @@
 #include "artAssetsGBA/spritesheet2.h"
 #include "artAssetsGBA/apartmentBGMap.h"
 #include "artAssetsGBA/apartmentBGMapOnly.h"
+#include "artAssetsGBA/apartmentBGWide.h"
 #include "artAssetsGBA/interiorsPalette.h"
 #include "artAssetsGBA/letters.h"
 #include "artAssetsGBA/clouds.h"
@@ -60,7 +61,7 @@ void goToStart() {
 
     DMANow(3, cloudsTiles, &CHARBLOCK[2], cloudsMapLen/2);
     DMANow(3, cloudsPal, BG_PALETTE, cloudsPalLen / 2);
-    DMANow(3, cloudsMap, &SCREENBLOCK[1], cloudsMapLen / 2);
+    DMANow(3, cloudsMap, &SCREENBLOCK[2], cloudsMapLen / 2);
 
     state = START;
 }
@@ -81,13 +82,13 @@ void goToGame() {
 
 
     deactivateAllDoors();
-    initKeysLevel1();
-    initDoorsLevel1();
+    // initKeysLevel1();
+    // initDoorsLevel1();
     
     // DMA bg
     DMANow(3, interiorsPaletteTiles, &CHARBLOCK[3], interiorsPaletteTilesLen /2);
     DMANow(3, interiorsPalettePal, BG_PALETTE, interiorsPalettePalLen / 2);
-    DMANow(3, apartmentBGMapOnlyMap, &SCREENBLOCK[0], apartmentBGMapOnlyLen / 2);
+    DMANow(3, apartmentBGWideMap, &SCREENBLOCK[0], apartmentBGWideLen / 2);
 
     // DMA flashlight (starts r)
     // DMANow(3, lightRightTiles, &CHARBLOCK[2], lightRightTilesLen/2);
@@ -114,8 +115,8 @@ void goToLevel2() {
     mgba_printf("going to lvl2");
     hideSprites();
     deactivateAllDoors();
-    initDoorsLevel2();
-    initKeysLevel2();
+    // initDoorsLevel2();
+    // initKeysLevel2();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*8);
     

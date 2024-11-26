@@ -20,7 +20,7 @@ void initGame() {
     initPlayer();
     initFlashlightBattery();
     initBasicKeys();
-    initBasicDoors();
+    //initBasicDoors();
     lives = 1;
     hOff = 120;
     vOff = 80;
