@@ -118,6 +118,7 @@ void keyCollision() {
             keys[i].base.isActive = 0;
             keys[i].isCollected = 1;
             shadowOAM[keys[i].base.oamIndex].attr0 = ATTR0_HIDE;
+            displayKeysInUI();
             mgba_printf("Collided with key %d\n", i);
         }
     }
@@ -169,4 +170,9 @@ void drawDoors() {
             shadowOAM[doors[i].base.oamIndex].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(2) | ATTR2_TILEID(16, 4);
         }
     }
+}
+
+void displayKeysInUI() {
+    SCREENBLOCK[0].tilemap[OFFSET(15, 2, 32)] = TILEMAP_ENTRY_TILEID(2);
+
 }
