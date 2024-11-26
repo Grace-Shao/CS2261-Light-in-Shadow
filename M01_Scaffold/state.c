@@ -84,9 +84,9 @@ void goToGame() {
     initDoorsLevel1();
     
     // DMA bg
-    DMANow(3, interiorsPaletteTiles, &CHARBLOCK[3], interiorsPaletteTilesLen /2);
-    DMANow(3, interiorsPalettePal, BG_PALETTE, interiorsPalettePalLen / 2);
-    DMANow(3, apartmentBGMapMap, &SCREENBLOCK[0], apartmentBGMapLen / 2);
+    DMANow(3, apartmentBGMapTiles, &CHARBLOCK[3], apartmentBGMapTilesLen /2);
+    DMANow(3, apartmentBGMapPal, BG_PALETTE, apartmentBGMapPalLen / 2);
+    DMANow(3, apartmentBGMapMap, &SCREENBLOCK[0], apartmentBGMapMapLen / 2);
 
     // DMA flashlight (starts r)
     // DMANow(3, lightRightTiles, &CHARBLOCK[2], lightRightTilesLen/2);
@@ -99,9 +99,9 @@ void goToGame() {
     // dma letters (will use the same bg pal)
     DMANow(3, lettersTiles, &CHARBLOCK[1], lettersTilesLen / 2);
     //DMANow(3, lettersMap, &SCREENBLOCK[2], lettersMapLen / 2);
-    
+      
     // Clear what was on bg0cnt letters bg before
-    DMANow(3, 0, &SCREENBLOCK[2], lettersMapLen / 2);
+    //DMANow(3, 0, &SCREENBLOCK[4], lettersMapLen / 2);
 
     hideSprites();
     waitForVBlank();

@@ -17,6 +17,7 @@
 #include "artAssetsGBA/lightLeft.h"
 #include "artAssetsGBA/lightUp.h"
 #include "artAssetsGBA/lightDown.h"
+#include "artAssetsGBA/allBlack.h"
 
 // variable intial settings are redefined in main
 int isFlashlightOn = 0;
@@ -79,9 +80,15 @@ void drawFlashlight() {
         }
     } else {
         // Clear the light map
+        // TODO: DEL LATER, CLEARS FLASHLIGHT TESTING PURP
+       
         volatile short zero = 0;
         DMANow(3, &zero, &SCREENBLOCK[1], DMA_SOURCE_FIXED | 1024);
+       
+        // DMANow(3, allBlackTiles, &CHARBLOCK[2], allBlackTilesLen / 2);
+        // DMANow(3, allBlackMap, &SCREENBLOCK[1], allBlackMapLen / 2);
     }
+    
 }
 
 void drawFlashlightBattery() {

@@ -46,13 +46,13 @@ unsigned short oldButtons;
 
 void initialize() {
     // Set up basic registers 
-    REG_DISPCTL = MODE(0) | BG_ENABLE(0) |BG_ENABLE(2) | BG_ENABLE(3) | SPRITE_ENABLE;
+    REG_DISPCTL = MODE(0) | BG_ENABLE(2) | BG_ENABLE(3) | SPRITE_ENABLE;
     // set up orignal background
     REG_BG3CNT = BG_SCREENBLOCK(0) | BG_CHARBLOCK(3) | 3;
     // light bg
     REG_BG2CNT = BG_SCREENBLOCK(1) | BG_CHARBLOCK(2) | 1;
     // for letters (prob should not be called bg1)
-    REG_BG0CNT = BG_SCREENBLOCK(2) | BG_CHARBLOCK(1) | 0;
+    //REG_BG0CNT = BG_SCREENBLOCK(2) | BG_CHARBLOCK(1) | 0;
 
     buttons = REG_BUTTONS;
     oldButtons = 0;
@@ -102,16 +102,13 @@ void game() {
         mgba_printf("start button pressed, go to pause");
         goToPause();
     }
-    if (BUTTON_PRESSED(BUTTON_DOWN)) {
-        mgba_printf("modified tile");
-        SCREENBLOCK[2].tilemap[OFFSET(6, 2, 32)] = TILEMAP_ENTRY_TILEID(2);
-    }
+    // if (BUTTON_PRESSED(BUTTON_DOWN)) {
+    //     mgba_printf("modified tile");
+    //     SCREENBLOCK[2].tilemap[OFFSET(6, 2, 32)] = TILEMAP_ENTRY_TILEID(2);
+    // }
     updateGame();
     drawGame();
     waitForVBlank();
-    // for parallax
-    REG_BG3HOFF = hOff;
-    REG_BG3VOFF = vOff;
     DMANow(3, shadowOAM, OAM, 128*4);
     if (lives < 1 || batteryRemaining < 0) {
         goToLose();

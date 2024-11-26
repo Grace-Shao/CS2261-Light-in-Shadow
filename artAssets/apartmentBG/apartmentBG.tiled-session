@@ -13,18 +13,18 @@
             "scaleInEditor": 1
         },
         "apartmentBGMap.tmx": {
-            "scale": 2.1412109375,
+            "scale": 4,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 297.96223661406555,
-                "y": 158.55514001641887
+                "x": 100.75,
+                "y": 86.875
             }
         },
         "apartmentBGMap.tmx#PixelLandInteriors": {
             "scaleInDock": 1
         },
         "interiorsPalette.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 3,
             "scaleInEditor": 1
         },
         "interiorsPalette2.tsx": {
@@ -45,9 +45,9 @@
     ],
     "project": "apartmentBG.tiled-project",
     "recentFiles": [
+        "interiorsPalette.tsx",
         "apartmentBGMap.tmx",
         "interiorsPalette2.tsx",
-        "interiorsPalette.tsx",
         "PixelLandInteriors.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
