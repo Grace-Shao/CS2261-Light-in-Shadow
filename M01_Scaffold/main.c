@@ -10,7 +10,7 @@
 #include "enemy.h"
 #include "flashlight.h"
 #include "doorKeys.h"
-#include "cracks.h"
+#include "vfx.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -127,6 +127,7 @@ void game() {
 }
 
 void level2() {
+    flashRed();
     spawnCracks();
 
     updateGame();
