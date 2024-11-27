@@ -15,6 +15,7 @@ void keyCollision();
 void drawKeys();
 void enterDoor();
 void drawDoors();
+void displayKeysInUI();
 
 // special key struct that inherits from sprite, w few extra capabilities
 typedef struct KEY{

@@ -128,6 +128,7 @@ void game() {
 
 void level2() {
     spawnCracks();
+
     updateGame();
     drawGame();
     waitForVBlank();

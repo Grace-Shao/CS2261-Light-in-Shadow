@@ -12,7 +12,10 @@
 #include <time.h>
 
 KEY keys[KEYCOUNT];
+KEY collectedKeys[KEYCOUNT];
+int collectedKeyCount = 0;
 DOOR doors[DOORCOUNT];
+
 SPRITE player;
 
 // keys are oam 20-22
@@ -95,7 +98,7 @@ void initKeysLevel2() {
         keys[2].base.isActive = 1;
     }
     // turn keys of other levels off
-    keys[0].base.isActive = 1;
+    keys[0].base.isActive = 0;
 
     keys[1].base.x = 100;
     keys[1].base.y = 75;
@@ -113,12 +116,20 @@ void initDoorsLevel2(){
     doors[1].base.isActive = 1;
 }
 void keyCollision() {
+    mgba_printf("Collected Keys Count: %d\n", collectedKeyCount);
+    for (int i = 0; i < collectedKeyCount; i++) {
+        mgba_printf("Collected Key %d at position (%d, %d)\n", i, collectedKeys[i].base.x, collectedKeys[i].base.y);
+    }
     for (int i = 0; i < KEYCOUNT; i++) {
         if (keys[i].base.isActive && collision(player.x, player.y, player.width, player.height, keys[i].base.x, keys[i].base.y, keys[i].base.width, keys[i].base.height)) {
             keys[i].base.isActive = 0;
+
+            // add to collected keys arr
             keys[i].isCollected = 1;
+            collectedKeys[collectedKeyCount] = keys[i];
+            collectedKeyCount += 1;
+
             shadowOAM[keys[i].base.oamIndex].attr0 = ATTR0_HIDE;
-            displayKeysInUI(i);
             mgba_printf("Collided with key %d\n", i);
         }
     }
@@ -157,7 +168,8 @@ void drawKeys() {
         if (keys[i].base.isActive) {
             shadowOAM[keys[i].base.oamIndex].attr0 = ATTR0_TALL | ATTR0_Y(keys[i].base.y - vOff);
             shadowOAM[keys[i].base.oamIndex].attr1 = ATTR1_X(keys[i].base.x - hOff) | ATTR1_TINY;
-            shadowOAM[keys[i].base.oamIndex].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(2) | ATTR2_TILEID(6, 25);
+            // setting the keys to their own unique sprites
+            shadowOAM[keys[i].base.oamIndex].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(2) | ATTR2_TILEID(6 + i, 25);
         }
     }
 }
@@ -167,16 +179,17 @@ void drawDoors() {
         if (doors[i].base.isActive) {
             shadowOAM[doors[i].base.oamIndex].attr0 = ATTR0_TALL | ATTR0_Y(doors[i].base.y - vOff);
             shadowOAM[doors[i].base.oamIndex].attr1 = ATTR1_X(doors[i].base.x - hOff) | ATTR1_MEDIUM;
-            shadowOAM[doors[i].base.oamIndex].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(2) | ATTR2_TILEID(16, 4);
+            shadowOAM[doors[i].base.oamIndex].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(0) | ATTR2_TILEID(16, 4);
         }
     }
 }
 
 // TODO: has a problem of not saving after each lvl, fix later
-void displayKeysInUI(i) {
-    shadowOAM[keys[i].base.oamIndex].attr0 = ATTR0_TALL | ATTR0_Y(5);
-    // space out the keys based on their index
-    shadowOAM[keys[i].base.oamIndex].attr1 = ATTR1_X(50 + (i * 5)) | ATTR1_TINY;
-    //SCREENBLOCK[0].tilemap[OFFSET(15, 2, 32)] = TILEMAP_ENTRY_TILEID(2);
-
+void displayKeysInUI() {
+    for (int i = 0; i < collectedKeyCount; i++) {
+        shadowOAM[collectedKeys[i].base.oamIndex].attr0 = ATTR0_TALL | ATTR0_Y(5);
+        // space out the keys based on their index
+        shadowOAM[collectedKeys[i].base.oamIndex].attr1 = ATTR1_X(50 + (i * 10)) | ATTR1_TINY;
+        // didn't modify attr2 bc the unique tileId's are set in drawKeys
+    }
 }

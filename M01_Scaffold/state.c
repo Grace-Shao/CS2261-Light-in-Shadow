@@ -82,8 +82,8 @@ void goToGame() {
 
 
     deactivateAllDoors();
-    // initKeysLevel1();
-    // initDoorsLevel1();
+    initKeysLevel1();
+    initDoorsLevel1();
     
     // DMA bg
     DMANow(3, interiorsPaletteTiles, &CHARBLOCK[3], interiorsPaletteTilesLen /2);
@@ -115,8 +115,8 @@ void goToLevel2() {
     mgba_printf("going to lvl2");
     hideSprites();
     deactivateAllDoors();
-    // initDoorsLevel2();
-    // initKeysLevel2();
+    initDoorsLevel2();
+    initKeysLevel2();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*8);
     
