@@ -59,7 +59,7 @@ void goToStart() {
     //DMANow(3, redMoonPal, BG_PALETTE, interiorsPalettePalLen / 2);
     DMANow(3, redMoonMap, &SCREENBLOCK[0], redMoonMapLen / 2);
 
-    DMANow(3, cloudsTiles, &CHARBLOCK[2], cloudsMapLen/2);
+    DMANow(3, cloudsTiles, &CHARBLOCK[2], cloudsTilesLen/2);
     DMANow(3, cloudsPal, BG_PALETTE, cloudsPalLen / 2);
     DMANow(3, cloudsMap, &SCREENBLOCK[2], cloudsMapLen / 2);
 
