@@ -10,6 +10,7 @@
 #include "enemy.h"
 #include "flashlight.h"
 #include "doorKeys.h"
+#include "cracks.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -106,7 +107,7 @@ void game() {
         mgba_printf("modified tile");
         SCREENBLOCK[0].tilemap[OFFSET(6, 2, 32)] = TILEMAP_ENTRY_TILEID(12);
     }
-
+    spawnCracks();
     // if (BUTTON_PRESSED(BUTTON_DOWN)) {
     //     mgba_printf("modified tile");
     //     SCREENBLOCK[2].tilemap[OFFSET(6, 2, 32)] = TILEMAP_ENTRY_TILEID(2);
@@ -126,6 +127,7 @@ void game() {
 }
 
 void level2() {
+    spawnCracks();
     updateGame();
     drawGame();
     waitForVBlank();
