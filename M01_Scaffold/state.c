@@ -67,6 +67,12 @@ void goToStart() {
 }
 
 void goToInstructions() {
+    // clear out prev bgs
+    volatile short zero = 0;
+    DMANow(3, &zero, &SCREENBLOCK[2], DMA_SOURCE_FIXED | 1024);
+    DMANow(3, &zero, &SCREENBLOCK[0], DMA_SOURCE_FIXED | 1024);
+
+
     DMANow(3, instructionsTiles, &CHARBLOCK[3], instructionsTilesLen/2);
     DMANow(3, instructionsPal, BG_PALETTE, instructionsPalLen / 2);
     DMANow(3, instructionsMap, &SCREENBLOCK[0], instructionsMapLen / 2);
