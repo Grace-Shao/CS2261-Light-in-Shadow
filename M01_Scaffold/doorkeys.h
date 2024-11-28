@@ -21,6 +21,7 @@ void displayKeysInUI();
 typedef struct KEY{
     SPRITE base; // Embed the SPRITE struct
     int isCollected;
+    int tileID;
 } KEY;
 
 typedef struct DOOR{

@@ -33,10 +33,10 @@ void spawnCracks() {
 void flashRed() {
     if (rand() % 100 < 10) { // 10% chance to flash red
         u16 originalColor = BG_PALETTE[3];
-        BG_PALETTE[3] = RGB(31, 0, 0); // Dark red
+        BG_PALETTE[1] = RGB(31, 0, 0); // Dark red
     }
     if (rand() % 100 < 30) { // 30% chance to change back to original color
-        BG_PALETTE[3] = RGB(0, 0, 0);
+        BG_PALETTE[1] = RGB(1, 1, 1);
     }
 
 }

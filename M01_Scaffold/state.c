@@ -156,7 +156,7 @@ void goToLose() {
 
     // clear the flashlight
     volatile short zero = 0;
-    DMANow(3, &zero, &SCREENBLOCK[1], DMA_SOURCE_FIXED | 1024);
+    DMANow(3, &zero, &SCREENBLOCK[2], DMA_SOURCE_FIXED | 1024);
     
     hideSprites();
     waitForVBlank();
