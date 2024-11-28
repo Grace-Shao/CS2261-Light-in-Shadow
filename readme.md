@@ -9,16 +9,18 @@
 - enemy eyes show even in the darkness and flickers (how cool is that!!)
 ## Fin in M3
 - keys can unlock doors and be displayed in the ui
-- large bg, lvl 1 is done
+- large bg, all levels are done but the art in each lvl is questionable lol
 - parallax title screen
-- audio
+- audio (theme and button clicks)
 - tilemodification in lvl1 and 2 (can see cracks in the walls forming) (see vfx.c)
-- palette modification in lvl 2 (can see cracks and other black stuff turning red) (see vfx.c)
+- palette modification in lvl 2 (can see cracks and other black stuff flashing red, also forest bg flashes red) (see vfx.c)
 - instructions done
+- 2 animated sprites (player and monster)
 
 
 ## What still needs to be added
-- better level design
+- better level design (hard to tell what lvl u r in when in the dark)
+- bug fixing and making sure the game is fun
 
 ## Any bugs you have found
 - sometimes when dying, the flashlight turns from black to white
