@@ -1,6 +1,8 @@
 #include "helpers/gba.h"
 #include "helpers/mode0.h"
 #include "helpers/sprites.h"
+#include "helpers/digitalSound.h"
+#include "playSound.h"
 #include "print.h"
 #include "game.h"
 #include "state.h"
@@ -8,6 +10,7 @@
 #include "enemy.h"
 #include "flashlight.h"
 #include "doorKeys.h"
+#include "vfx.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -44,20 +47,21 @@ unsigned short oldButtons;
 
 void initialize() {
     // Set up basic registers 
-    REG_DISPCTL = MODE(0) | BG_ENABLE(0) |BG_ENABLE(2) | BG_ENABLE(3) | SPRITE_ENABLE;
+    REG_DISPCTL = MODE(0) | BG_ENABLE(2) | BG_ENABLE(3) | SPRITE_ENABLE;
     // set up orignal background
-    REG_BG3CNT = BG_SCREENBLOCK(0) | BG_CHARBLOCK(3) | 3;
+    REG_BG3CNT = BG_SCREENBLOCK(0) | BG_CHARBLOCK(3) | BG_SIZE_WIDE | 3;
     // light bg
-    REG_BG2CNT = BG_SCREENBLOCK(1) | BG_CHARBLOCK(2) | 1;
+    REG_BG2CNT = BG_SCREENBLOCK(2) | BG_CHARBLOCK(2) | 1;
     // for letters (prob should not be called bg1)
-    REG_BG0CNT = BG_SCREENBLOCK(2) | BG_CHARBLOCK(1) | 0;
+    //REG_BG0CNT = BG_SCREENBLOCK(2) | BG_CHARBLOCK(1) | 0;
 
     buttons = REG_BUTTONS;
     oldButtons = 0;
 
     mgba_open();
     mgba_printf("initialized");
-    //initSound();
+    setUpInterrupts();
+    setupSounds();
     goToStart();
 }
 
@@ -101,8 +105,13 @@ void game() {
     }
     if (BUTTON_PRESSED(BUTTON_DOWN)) {
         mgba_printf("modified tile");
-        SCREENBLOCK[2].tilemap[OFFSET(6, 2, 32)] = TILEMAP_ENTRY_TILEID(2);
+        SCREENBLOCK[0].tilemap[OFFSET(6, 2, 32)] = TILEMAP_ENTRY_TILEID(12);
     }
+    spawnCracks();
+    // if (BUTTON_PRESSED(BUTTON_DOWN)) {
+    //     mgba_printf("modified tile");
+    //     SCREENBLOCK[2].tilemap[OFFSET(6, 2, 32)] = TILEMAP_ENTRY_TILEID(2);
+    // }
     updateGame();
     drawGame();
     waitForVBlank();
@@ -118,6 +127,9 @@ void game() {
 }
 
 void level2() {
+    flashRed();
+    spawnCracks();
+
     updateGame();
     drawGame();
     waitForVBlank();
@@ -140,8 +152,6 @@ void level3() {
         goToLose();
     }
 }
-
-
 
 void pause() {
     if (BUTTON_PRESSED(BUTTON_START)) {

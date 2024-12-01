@@ -14,6 +14,8 @@
 // bg/sprite imports
 #include "artAssetsGBA/spritesheet2.h"
 #include "artAssetsGBA/apartmentBGMap.h"
+#include "artAssetsGBA/apartmentBGMapOnly.h"
+#include "artAssetsGBA/apartmentBGWide.h"
 #include "artAssetsGBA/interiorsPalette.h"
 #include "artAssetsGBA/letters.h"
 #include "artAssetsGBA/clouds.h"
@@ -49,6 +51,7 @@ void updateGameState(STATE state) {
 }
 
 void goToStart() {
+    playTheme();
     initGame();
 
     // dma the moon into bg3
@@ -56,14 +59,20 @@ void goToStart() {
     //DMANow(3, redMoonPal, BG_PALETTE, interiorsPalettePalLen / 2);
     DMANow(3, redMoonMap, &SCREENBLOCK[0], redMoonMapLen / 2);
 
-    DMANow(3, cloudsTiles, &CHARBLOCK[2], cloudsMapLen/2);
+    DMANow(3, cloudsTiles, &CHARBLOCK[2], cloudsTilesLen/2);
     DMANow(3, cloudsPal, BG_PALETTE, cloudsPalLen / 2);
-    DMANow(3, cloudsMap, &SCREENBLOCK[1], cloudsMapLen / 2);
+    DMANow(3, cloudsMap, &SCREENBLOCK[2], cloudsMapLen / 2);
 
     state = START;
 }
 
 void goToInstructions() {
+    // clear out prev bgs
+    volatile short zero = 0;
+    DMANow(3, &zero, &SCREENBLOCK[2], DMA_SOURCE_FIXED | 1024);
+    DMANow(3, &zero, &SCREENBLOCK[0], DMA_SOURCE_FIXED | 1024);
+
+
     DMANow(3, instructionsTiles, &CHARBLOCK[3], instructionsTilesLen/2);
     DMANow(3, instructionsPal, BG_PALETTE, instructionsPalLen / 2);
     DMANow(3, instructionsMap, &SCREENBLOCK[0], instructionsMapLen / 2);
@@ -85,11 +94,11 @@ void goToGame() {
     // DMA bg
     DMANow(3, interiorsPaletteTiles, &CHARBLOCK[3], interiorsPaletteTilesLen /2);
     DMANow(3, interiorsPalettePal, BG_PALETTE, interiorsPalettePalLen / 2);
-    DMANow(3, apartmentBGMapMap, &SCREENBLOCK[0], apartmentBGMapLen / 2);
+    DMANow(3, apartmentBGWideMap, &SCREENBLOCK[0], apartmentBGWideLen / 2);
 
     // DMA flashlight (starts r)
-    DMANow(3, lightRightTiles, &CHARBLOCK[2], lightRightTilesLen/2);
-    DMANow(3, lightRightMap, &SCREENBLOCK[1], lightRightMapLen / 2);
+    // DMANow(3, lightRightTiles, &CHARBLOCK[2], lightRightTilesLen/2);
+    // DMANow(3, lightRightMap, &SCREENBLOCK[1], lightRightMapLen / 2);
 
     // DMA sprite info 
     DMANow(3, spritesheet2Tiles, &CHARBLOCK[4], spritesheet2TilesLen / 2);
@@ -98,9 +107,9 @@ void goToGame() {
     // dma letters (will use the same bg pal)
     DMANow(3, lettersTiles, &CHARBLOCK[1], lettersTilesLen / 2);
     //DMANow(3, lettersMap, &SCREENBLOCK[2], lettersMapLen / 2);
-    
+      
     // Clear what was on bg0cnt letters bg before
-    DMANow(3, 0, &SCREENBLOCK[2], lettersMapLen / 2);
+    //DMANow(3, 0, &SCREENBLOCK[4], lettersMapLen / 2);
 
     hideSprites();
     waitForVBlank();
@@ -144,6 +153,10 @@ void goToPause() {
 void goToLose() {
     // reset bg3 hoff so lose screen is centered
     REG_BG3HOFF = 0;
+
+    // clear the flashlight
+    volatile short zero = 0;
+    DMANow(3, &zero, &SCREENBLOCK[2], DMA_SOURCE_FIXED | 1024);
     
     hideSprites();
     waitForVBlank();

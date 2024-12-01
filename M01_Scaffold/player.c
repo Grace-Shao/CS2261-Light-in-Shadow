@@ -63,16 +63,19 @@ void centerPlayer() {
     hOff = player.x - (SCREENWIDTH - player.width) / 2;
     vOff = player.y - (SCREENHEIGHT - player.height) / 2;
 
+    // commented this out so flashlight is always centered
     // restrict camera movement to map
-    if (hOff < 0) hOff = 0;
-    if (vOff < 0) vOff = 0;
-    if (hOff > (MAPWIDTH - SCREENWIDTH)) hOff = (MAPWIDTH - SCREENWIDTH);
-    if (vOff > (MAPHEIGHT - SCREENHEIGHT)) vOff = (MAPHEIGHT - SCREENHEIGHT);
-
-
+    // if (hOff < 0) hOff = 0;
+    // if (vOff < 0) vOff = 0;
+    // if (hOff > (MAPWIDTH - SCREENWIDTH)) hOff = (MAPWIDTH - SCREENWIDTH);
+    // if (vOff > (MAPHEIGHT - SCREENHEIGHT)) vOff = (MAPHEIGHT - SCREENHEIGHT);
 }
 
 void drawPlayer() {
+    // reg_bg must be done in vblank period
+    REG_BG3HOFF = hOff;
+    REG_BG3VOFF = vOff;
+
     // player in shadowOAM
     shadowOAM[player.oamIndex].attr0 = ATTR0_TALL | ATTR0_Y(player.y  - vOff);
     shadowOAM[player.oamIndex].attr1 = ATTR1_X(player.x - hOff) | ATTR1_MEDIUM;

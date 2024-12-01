@@ -29,6 +29,7 @@ void initGame() {
 }
 
 void updateGame() {
+    displayKeysInUI();
     updateEnemies();
     updatePlayer();
     toggleFlashlight();
@@ -46,7 +47,4 @@ void drawGame() {
     drawFlashlightBattery();
     drawKeys();
     drawDoors();
-    // for parallax
-    REG_BG3HOFF = hOff;
-    REG_BG3VOFF = vOff;
 }

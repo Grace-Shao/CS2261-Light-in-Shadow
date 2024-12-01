@@ -6,5 +6,6 @@
 #define apartmentBGMapLen (2048)
 
 extern const unsigned short apartmentBGMapMap[1024];
+extern const unsigned short apartmentBGMapMap[1024];
 
 #endif

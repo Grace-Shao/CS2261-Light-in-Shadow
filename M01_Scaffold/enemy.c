@@ -127,16 +127,16 @@ void updateEnemies() {
             }
         }
         // Implement attack logic here
-        // For example, move towards the player
+        // For example, move towards the player "screen coordinates" hOff and vOff
         if (enemies[i].isActive && enemies[i].isAttacking) {
-            if (enemies[i].x < player.x) {
+            if (enemies[i].x < player.x - hOff) {
                 enemies[i].x += 1;
-            } else if (enemies[i].x > player.x) {
+            } else if (enemies[i].x > player.x - hOff) {
                 enemies[i].x -= 1;
             }
-            if (enemies[i].y < player.y) {
+            if (enemies[i].y < player.y - vOff) {
                 enemies[i].y += 1;
-            } else if (enemies[i].y > player.y) {
+            } else if (enemies[i].y > player.y - vOff) {
                 enemies[i].y -= 1;
             }
         }
@@ -205,8 +205,8 @@ void checkEnemyCollision(int i) {
     if (enemies[i].isActive) {
         // check enemy collision with flashlight
         freezeEnemies(&enemies[i]);
-        // Check for collision with player
-        if (collision(player.x, player.y, 10, 10, enemies[i].x, enemies[i].y, 10, 10)) {
+        // Check for collision with player's screen coordinates
+        if (collision(player.x - hOff, player.y - vOff, 10, 10, enemies[i].x, enemies[i].y, 10, 10)) {
             player.currentFrame = 0;
             enemies[i].isActive = 0;
             // hide sprites isn't working
@@ -219,6 +219,7 @@ void checkEnemyCollision(int i) {
             mgba_printf("Lives remaining: %d\n", lives);
             mgba_printf("Collision with enemy %d at x = %d, y = %d\n", i, enemies[i].x, enemies[i].y);
             mgba_printf("Player coordinates: x = %d, y = %d\n", player.x, player.y);
+            mgba_printf("Player screen coordinates: x = %d, y = %d\n", player.x - hOff, player.y - vOff);
         }           
     }
 }

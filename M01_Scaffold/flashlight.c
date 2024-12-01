@@ -6,6 +6,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "flashlight.h"
+#include "playSound.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -16,6 +17,7 @@
 #include "artAssetsGBA/lightLeft.h"
 #include "artAssetsGBA/lightUp.h"
 #include "artAssetsGBA/lightDown.h"
+#include "artAssetsGBA/allBlack.h"
 
 // variable intial settings are redefined in main
 int isFlashlightOn = 0;
@@ -34,6 +36,7 @@ void initFlashlightBattery() {
 
 void toggleFlashlight() {
     if (BUTTON_PRESSED(BUTTON_RIGHT) || BUTTON_PRESSED(BUTTON_LEFT) || BUTTON_PRESSED(BUTTON_UP) || BUTTON_PRESSED(BUTTON_DOWN)) {
+        playButtonClick();
         isFlashlightOn = !isFlashlightOn;
         if (isFlashlightOn == 0) {
             batteryRemaining -= 1;
@@ -62,23 +65,30 @@ void drawFlashlight() {
         // dma light
         if (flashlightDirection == 1) {
             DMANow(3, lightRightTiles, &CHARBLOCK[2], lightRightTilesLen/2);
-            DMANow(3, lightRightMap, &SCREENBLOCK[1], lightRightMapLen / 2);
+            DMANow(3, lightRightMap, &SCREENBLOCK[2], lightRightMapLen / 2);
         } else if (flashlightDirection == -1)
         {
             DMANow(3, lightLeftTiles, &CHARBLOCK[2], lightLeftTilesLen/2);
-            DMANow(3, lightLeftMap, &SCREENBLOCK[1], lightLeftMapLen / 2);
+            DMANow(3, lightLeftMap, &SCREENBLOCK[2], lightLeftMapLen / 2);
         } 
         else if (flashlightDirection == 2) {
             DMANow(3, lightUpTiles, &CHARBLOCK[2], lightUpTilesLen/2);
-            DMANow(3, lightUpMap, &SCREENBLOCK[1], lightUpMapLen / 2);
+            DMANow(3, lightUpMap, &SCREENBLOCK[2], lightUpMapLen / 2);
         } else if (flashlightDirection == -2) {
             DMANow(3, lightDownTiles, &CHARBLOCK[2], lightDownTilesLen/2);
-            DMANow(3, lightDownMap, &SCREENBLOCK[1], lightDownMapLen / 2);
+            DMANow(3, lightDownMap, &SCREENBLOCK[2], lightDownMapLen / 2);
         }
     } else {
         // Clear the light map
-        DMANow(3, 0, &SCREENBLOCK[1], backgroundMapLen / 2);
+        // TODO: DEL LATER, CLEARS FLASHLIGHT TESTING PURP
+       
+        // volatile short zero = 0;
+        // DMANow(3, &zero, &SCREENBLOCK[2], DMA_SOURCE_FIXED | 1024);
+       
+        DMANow(3, allBlackTiles, &CHARBLOCK[2], allBlackTilesLen / 2);
+        DMANow(3, allBlackMap, &SCREENBLOCK[2], allBlackMapLen / 2);
     }
+    
 }
 
 void drawFlashlightBattery() {
