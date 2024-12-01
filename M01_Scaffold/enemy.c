@@ -154,6 +154,17 @@ void updateEnemies() {
             enemies[i].timeUntilNextFrame = 13;
         }
         checkEnemyCollision(i);
+
+        // if enemy recently collided w flashlight, have a collision cooldown (enemy will be displayed for 1/2 sec)
+        if (enemies[i].collisionCooldown > 0) {
+            mgba_printf("collision cooldown", enemies[i].collisionCooldown);
+            enemies[i].collisionCooldown -= 1;
+
+            // can finally hide that enemy
+            if (enemies[i].collisionCooldown == 0) {
+                shadowOAM[enemies[i].oamIndex].attr0 = ATTR0_HIDE;
+            }
+        }
     }
 }
 // todo: enemy doesn't freeze
@@ -171,6 +182,7 @@ void freezeEnemies(SPRITE *enemy) {
             collision(225, 26, 14, 109, enemyX, enemyY, enemyWidth, enemyHeight)) {
             mgba_printf("collided w flashlight");
             shadowOAM[enemy->oamIndex].attr0 = ATTR0_HIDE;
+            enemy->collisionCooldown = 30;
             enemy->isActive = 0;
             mgba_printf("Enemy isActive: %d\n", enemy->isActive);
         } 
@@ -182,6 +194,7 @@ void freezeEnemies(SPRITE *enemy) {
             collision(88, 9, 64, 22, enemyX, enemyY, enemyWidth, enemyHeight)) {
             mgba_printf("collided w flashlight");
             shadowOAM[enemy->oamIndex].attr0 = ATTR0_HIDE;
+            enemy->collisionCooldown = 30;
             enemy->isActive = 0;
             mgba_printf("Enemy isActive: %d\n", enemy->isActive);
         }
@@ -193,6 +206,7 @@ void freezeEnemies(SPRITE *enemy) {
             collision(80, 65, 32, 30, enemyX, enemyY, enemyWidth, enemyHeight)) {
             mgba_printf("collided w flashlight");
             shadowOAM[enemy->oamIndex].attr0 = ATTR0_HIDE;
+            enemy->collisionCooldown = 30;
             enemy->isActive = 0;
             mgba_printf("Enemy isActive: %d\n", enemy->isActive);
         }
@@ -227,7 +241,7 @@ void checkEnemyCollision(int i) {
 // if on palRow 1, can only see red eyes, if flashlight shone on them, show whole body
 void drawEnemies() {
     for (int i = 0; i < ENEMYCOUNT; i++) {
-        if (enemies[i].isActive) {
+        if (enemies[i].isActive || enemies[i].collisionCooldown > 0) {
             drawEnemyEyes(&enemies[i]);
             shadowOAM[enemies[i].oamIndex].attr0 = ATTR0_TALL | ATTR0_Y(enemies[i].y);
             shadowOAM[enemies[i].oamIndex].attr1 = ATTR1_X(enemies[i].x) | ATTR1_MEDIUM;

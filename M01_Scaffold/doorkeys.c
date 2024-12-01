@@ -116,10 +116,10 @@ void initDoorsLevel2(){
     doors[1].base.isActive = 1;
 }
 void keyCollision() {
-    mgba_printf("Collected Keys Count: %d\n", collectedKeyCount);
-    for (int i = 0; i < collectedKeyCount; i++) {
-        mgba_printf("Collected Key %d at position (%d, %d)\n", i, collectedKeys[i].base.x, collectedKeys[i].base.y);
-    }
+    // mgba_printf("Collected Keys Count: %d\n", collectedKeyCount);
+    // for (int i = 0; i < collectedKeyCount; i++) {
+    //     mgba_printf("Collected Key %d at position (%d, %d)\n", i, collectedKeys[i].base.x, collectedKeys[i].base.y);
+    // }
     for (int i = 0; i < KEYCOUNT; i++) {
         if (keys[i].base.isActive && collision(player.x, player.y, player.width, player.height, keys[i].base.x, keys[i].base.y, keys[i].base.width, keys[i].base.height)) {
             keys[i].base.isActive = 0;
