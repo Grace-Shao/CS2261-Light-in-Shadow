@@ -38,5 +38,4 @@ void flashRed() {
     if (rand() % 100 < 30) { // 30% chance to change back to original color
         BG_PALETTE[1] = RGB(1, 1, 1);
     }
-
 }

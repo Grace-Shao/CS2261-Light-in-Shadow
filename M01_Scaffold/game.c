@@ -1,6 +1,7 @@
 #include "helpers/gba.h"
 #include "helpers/mode0.h"
 #include "helpers/sprites.h"
+#include "state.h"
 #include "print.h"
 #include "game.h"
 #include "player.h"
@@ -47,4 +48,13 @@ void drawGame() {
     drawFlashlightBattery();
     drawKeys();
     drawDoors();
+}
+
+void indicateLevelOfGame() {
+    if (state == GAME) {
+        // Display Level 1
+    } else if (state == LEVEL2) {
+        // Display Level 2
+    }
+    
 }

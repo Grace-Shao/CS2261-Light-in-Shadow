@@ -16,7 +16,6 @@
 
 // bg/sprite imports
 #include "artAssetsGBA/spritesheet2.h"
-#include "artAssetsGBA/apartmentBGMap.h"
 #include "artAssetsGBA/instructions.h"
 #include "artAssetsGBA/loseScreen.h"
 #include "artAssetsGBA/forestBG.h"

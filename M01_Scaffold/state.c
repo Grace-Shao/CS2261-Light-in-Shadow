@@ -13,10 +13,10 @@
 
 // bg/sprite imports
 #include "artAssetsGBA/spritesheet2.h"
-#include "artAssetsGBA/apartmentBGMap.h"
-#include "artAssetsGBA/apartmentBGMapOnly.h"
 #include "artAssetsGBA/apartmentBGWide.h"
+#include "artAssetsGBA/apartmentBGMapLvl2.h"
 #include "artAssetsGBA/interiorsPalette.h"
+#include "artAssetsGBA/interiorsPalette2.h"
 #include "artAssetsGBA/letters.h"
 #include "artAssetsGBA/clouds.h"
 #include "artAssetsGBA/redMoon.h"
@@ -105,11 +105,8 @@ void goToGame() {
     DMANow(3, spritesheet2Pal, SPRITE_PAL, spritesheet2PalLen / 2);
 
     // dma letters (will use the same bg pal)
-    DMANow(3, lettersTiles, &CHARBLOCK[1], lettersTilesLen / 2);
+    //DMANow(3, lettersTiles, &CHARBLOCK[1], lettersTilesLen / 2);
     //DMANow(3, lettersMap, &SCREENBLOCK[2], lettersMapLen / 2);
-      
-    // Clear what was on bg0cnt letters bg before
-    //DMANow(3, 0, &SCREENBLOCK[4], lettersMapLen / 2);
 
     hideSprites();
     waitForVBlank();
@@ -119,6 +116,11 @@ void goToGame() {
 
 void goToLevel2() {
     mgba_printf("going to lvl2");
+    // This map is broken
+    // DMANow(3, interiorsPalette2Tiles,  &CHARBLOCK[3], interiorsPaletteTilesLen /2);
+    // DMANow(3, interiorsPalette2Pal,  BG_PALETTE, interiorsPalette2PalLen /2);
+    DMANow(3, apartmentBGMapLvl2Map,  &SCREENBLOCK[0], apartmentBGMapLvl2Len /2);
+
     hideSprites();
     deactivateAllDoors();
     initDoorsLevel2();

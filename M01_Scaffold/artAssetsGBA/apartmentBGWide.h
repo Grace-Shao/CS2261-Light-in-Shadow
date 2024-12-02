@@ -6,5 +6,6 @@
 #define apartmentBGWideLen (4096)
 
 extern const unsigned short apartmentBGWideMap[2048];
+// extern const unsigned short apartmentBGWideMap[2048];
 
 #endif
