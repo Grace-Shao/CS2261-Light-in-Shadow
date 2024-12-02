@@ -45,7 +45,7 @@ void initBasicDoors() {
     doors[2].base.y = 80;
     doors[3].base.x = 220;
     doors[3].base.y = 80;
-    doors[4].base.x = 15;
+    doors[4].base.x = 30;
     doors[4].base.y = 80;
 
     // each door has a different lvl they belong in (lvl 1 is first game lvl)

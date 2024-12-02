@@ -142,6 +142,9 @@ void goToLevel3() {
     DMANow(3, forestBGPal, BG_PALETTE, forestBGPalLen / 2);
     DMANow(3, forestBGMap, &SCREENBLOCK[0], forestBGMapLen / 2);
 
+    REG_BG3HOFF = 0;
+    REG_BG3VOFF = 0;
+
     deactivateAllDoors();
     hideSprites();
     waitForVBlank();

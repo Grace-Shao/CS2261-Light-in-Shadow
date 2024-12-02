@@ -5,11 +5,11 @@
 //
 //	forestBG, 512x256@4, 
 //	+ palette 256 entries, not compressed
-//	+ 249 tiles (t|f|p reduced) not compressed
+//	+ 392 tiles (t|f|p reduced) not compressed
 //	+ regular map (in SBBs), not compressed, 64x32 
-//	Total size: 512 + 7968 + 4096 = 12576
+//	Total size: 512 + 12544 + 4096 = 17152
 //
-//	Time-stamp: 2024-11-24, 14:19:55
+//	Time-stamp: 2024-12-02, 17:57:25
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.3
 //	( http://www.coranac.com/projects/#grit )
 //
@@ -18,8 +18,8 @@
 #ifndef GRIT_FORESTBG_H
 #define GRIT_FORESTBG_H
 
-#define forestBGTilesLen 7968
-extern const unsigned short forestBGTiles[3984];
+#define forestBGTilesLen 12544
+extern const unsigned short forestBGTiles[6272];
 
 #define forestBGMapLen 4096
 extern const unsigned short forestBGMap[2048];
