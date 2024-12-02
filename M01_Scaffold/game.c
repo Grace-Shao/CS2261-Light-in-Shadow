@@ -42,6 +42,7 @@ void updateGame() {
 }
 
 void drawGame() {
+    drawLevelUI();
     drawPlayer();
     drawEnemies();
     drawFlashlight();
@@ -50,11 +51,20 @@ void drawGame() {
     drawDoors();
 }
 
-void indicateLevelOfGame() {
+// shadowOAM at 30
+void drawLevelUI() {
+    shadowOAM[30].attr0 = ATTR0_WIDE | ATTR0_Y(10);
+    shadowOAM[30].attr1 = ATTR1_X(SCREENWIDTH / 2 - 5) | ATTR1_SMALL;
     if (state == GAME) {
-        // Display Level 1
+        // Display Floor 1
+        shadowOAM[30].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(0) | ATTR2_TILEID(0, 28);
+
     } else if (state == LEVEL2) {
-        // Display Level 2
+        // Display Floor 2
+        shadowOAM[30].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(0) | ATTR2_TILEID(0, 29);
+
+    } else if (state == LEVEL3) {
+        // Display outside
+        shadowOAM[30].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(0) | ATTR2_TILEID(0, 30);
     }
-    
 }

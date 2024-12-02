@@ -115,6 +115,10 @@ void initDoorsLevel2(){
     doors[2].base.isActive = 1;
     doors[1].base.isActive = 1;
 }
+
+void initDoorsLevel3(){
+    doors[4].base.isActive = 1;
+}
 void keyCollision() {
     // mgba_printf("Collected Keys Count: %d\n", collectedKeyCount);
     // for (int i = 0; i < collectedKeyCount; i++) {

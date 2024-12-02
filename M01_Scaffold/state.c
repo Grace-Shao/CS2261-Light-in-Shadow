@@ -39,6 +39,9 @@ void updateGameState(STATE state) {
         case LEVEL2:
             level2();
             break;
+        case LEVEL3:
+            level3();
+            break;
         case PAUSE:
             pause();
             break;
@@ -143,9 +146,7 @@ void goToLevel3() {
     hideSprites();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*8);
-    
-    // initGame();
-    state = LEVEL2;    
+    state = LEVEL3;    
 }
 
 void goToPause() {

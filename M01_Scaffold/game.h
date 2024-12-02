@@ -14,6 +14,6 @@ extern int vOff;
 void initGame();
 void updateGame();
 void drawGame();
-void displayScoreAndLives();
+void drawLevelUI();
 
 #endif
