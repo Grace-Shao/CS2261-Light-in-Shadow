@@ -243,12 +243,11 @@ void drawEnemies() {
     for (int i = 0; i < ENEMYCOUNT; i++) {
         if (enemies[i].isActive || enemies[i].collisionCooldown > 0) {
             drawEnemyEyes(&enemies[i]);
-            shadowOAM[enemies[i].oamIndex].attr0 = ATTR0_TALL | ATTR0_Y(enemies[i].y);
+            shadowOAM[enemies[i].oamIndex].attr0 = ATTR0_SQUARE | ATTR0_Y(enemies[i].y);
             shadowOAM[enemies[i].oamIndex].attr1 = ATTR1_X(enemies[i].x) | ATTR1_MEDIUM;
             // another way is the hide the sprite in random intervals (first tile is w eyes, 2nd is no eyes)
-            int tileID = (rand() % 4 == 0) ? ATTR2_TILEID(0, 16) : ATTR2_TILEID(3, 16);
-            shadowOAM[enemies[i].oamIndex].attr2 = ATTR2_PALROW(1) | ATTR2_PRIORITY(0) | tileID; 
-            //ATTR2_TILEID(enemies[i].currentFrame * 3, 16 + enemies[i].direction * 3);
+            //int tileID = (rand() % 4 == 0) ? ATTR2_TILEID(0, 16) : ATTR2_TILEID(3, 16);
+            shadowOAM[enemies[i].oamIndex].attr2 = ATTR2_PALROW(1) | ATTR2_PRIORITY(0) | ATTR2_TILEID(enemies[i].currentFrame * 4, 16 + enemies[i].direction * 4);
         }
     }  
 }

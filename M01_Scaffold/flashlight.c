@@ -82,11 +82,11 @@ void drawFlashlight() {
         // Clear the light map
         // TODO: DEL LATER, CLEARS FLASHLIGHT TESTING PURP
        
-        // volatile short zero = 0;
-        // DMANow(3, &zero, &SCREENBLOCK[2], DMA_SOURCE_FIXED | 1024);
+        volatile short zero = 0;
+        DMANow(3, &zero, &SCREENBLOCK[2], DMA_SOURCE_FIXED | 1024);
        
-        DMANow(3, allBlackTiles, &CHARBLOCK[2], allBlackTilesLen / 2);
-        DMANow(3, allBlackMap, &SCREENBLOCK[2], allBlackMapLen / 2);
+        // DMANow(3, allBlackTiles, &CHARBLOCK[2], allBlackTilesLen / 2);
+        // DMANow(3, allBlackMap, &SCREENBLOCK[2], allBlackMapLen / 2);
     }
     
 }
