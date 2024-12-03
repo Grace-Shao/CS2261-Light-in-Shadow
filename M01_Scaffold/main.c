@@ -36,6 +36,7 @@ void lose();
 
 // States
 STATE state = START;
+STATE prevState = GAME;
 OBJ_ATTR shadowOAM[128];
 typedef enum {DOWN, RIGHT, UP, LEFT} DIRECTION;
 
@@ -98,10 +99,6 @@ void instructions() {
 }
 
 void game() {
-    if (BUTTON_PRESSED(BUTTON_START)) {
-        mgba_printf("start button pressed, go to pause");
-        goToPause();
-    }
     if (BUTTON_PRESSED(BUTTON_DOWN)) {
         mgba_printf("modified tile");
         SCREENBLOCK[0].tilemap[OFFSET(6, 2, 32)] = TILEMAP_ENTRY_TILEID(12);
@@ -150,16 +147,22 @@ void level3() {
     if (lives < 1 || batteryRemaining < 0) {
         goToLose();
     }
-    if (BUTTON_PRESSED(BUTTON_START)) {
-        mgba_printf("start button pressed, go to lose");
+    if (BUTTON_PRESSED(BUTTON_SELECT)) {
+        mgba_printf("select button pressed, go to lose");
         goToLose();
     }
 }
 
 void pause() {
     if (BUTTON_PRESSED(BUTTON_START)) {
-        mgba_printf("start button pressed, go to pause");
-        goToGame();
+        mgba_printf("start button pressed, go to back to og state");
+        if (prevState == GAME) {
+            goToGame();
+        } else if (prevState == LEVEL2) {
+            goToLevel2();
+        } else if (prevState == LEVEL3) {
+            goToLevel3();
+        }
     }
 }
 

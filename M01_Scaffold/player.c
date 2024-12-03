@@ -60,15 +60,29 @@ void updatePlayer() {
 }
 
 void centerPlayer() {
+    // og only these 2 lines for centering the player was here (and worked)
     hOff = player.x - (SCREENWIDTH - player.width) / 2;
     vOff = player.y - (SCREENHEIGHT - player.height) / 2;
 
+    if (player.x < 0) player.x = 0;
+    if (player.y < 0) player.y = 0;
+    if ((player.x + player.width) > MAPWIDTH) player.x = MAPWIDTH - player.width;
+    if ((player.y + player.height) > MAPHEIGHT) player.y = MAPHEIGHT - player.height;
+
     // commented this out so flashlight is always centered
     // restrict camera movement to map
-    // if (hOff < 0) hOff = 0;
-    // if (vOff < 0) vOff = 0;
-    // if (hOff > (MAPWIDTH - SCREENWIDTH)) hOff = (MAPWIDTH - SCREENWIDTH);
-    // if (vOff > (MAPHEIGHT - SCREENHEIGHT)) vOff = (MAPHEIGHT - SCREENHEIGHT);
+    if (hOff < 0) {
+        hOff = player.x - (SCREENWIDTH - player.width) / 2;
+        };
+    if (vOff < 0) {
+        vOff = player.y - (SCREENHEIGHT - player.height) / 2;
+    }
+    if (hOff > (MAPWIDTH - SCREENWIDTH)) {
+        hOff = (MAPWIDTH - SCREENWIDTH);
+    }
+    if (vOff > (MAPHEIGHT - SCREENHEIGHT)) {
+        vOff = (MAPHEIGHT - SCREENHEIGHT);
+    }
 }
 
 void drawPlayer() {

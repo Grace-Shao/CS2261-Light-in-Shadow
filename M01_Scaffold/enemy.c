@@ -74,7 +74,7 @@ void selectEnemy() {
 
 // 50% chance of attacking
 void chanceOfEnemyAttack(int i) {
-    if (enemies[i].isActive && (rand() % 2 == 0)) {
+    if (enemies[i].isActive && (rand() % 4 == 0)) {
         mgba_printf("Enemy %d attacking! movement type: %d\n", i, enemies[i].movementType);
         enemies[i].isAttacking = 1;
     }

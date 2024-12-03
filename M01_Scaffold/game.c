@@ -30,6 +30,10 @@ void initGame() {
 }
 
 void updateGame() {
+    if (BUTTON_PRESSED(BUTTON_START)) {
+        mgba_printf("start button pressed, go to pause");
+        goToPause();
+    }
     displayKeysInUI();
     updateEnemies();
     updatePlayer();
@@ -58,13 +62,13 @@ void drawLevelUI() {
     if (state == GAME) {
         // Display Floor 1
         shadowOAM[30].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(0) | ATTR2_TILEID(0, 28);
-
     } else if (state == LEVEL2) {
         // Display Floor 2
         shadowOAM[30].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(0) | ATTR2_TILEID(0, 29);
-
     } else if (state == LEVEL3) {
         // Display outside
         shadowOAM[30].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(0) | ATTR2_TILEID(0, 30);
+    } else if (state == PAUSE) {
+        shadowOAM[30].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(0) | ATTR2_TILEID(0, 31);
     }
 }

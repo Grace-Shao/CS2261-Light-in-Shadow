@@ -153,6 +153,7 @@ void goToLevel3() {
 }
 
 void goToPause() {
+    prevState = state;
     state = PAUSE;
 }
 
