@@ -9,8 +9,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-  
-
 SPRITE enemies[ENEMYCOUNT]; // Definition of the global enemies array
 SPRITE player;
 
@@ -28,10 +26,11 @@ void initEnemies() {
         enemies[i].height = 12;
         enemies[i].isActive = 0;
         enemies[i].isAttacking = 0;
-        enemies[i].movementType = rand() % ENEMYCOUNT;
+        enemies[i].movementType = rand() % 4;
     }
 }
 
+// choses a random enemy and selects their movement type and x and y pos
 void enemyMovement() {
     int chosenEnemyIndex = rand() % ENEMYCOUNT;
     mgba_printf("Randomly chosen index: %d\n", chosenEnemyIndex);
@@ -39,7 +38,7 @@ void enemyMovement() {
     chosenEnemy->isAnimating = 1; 
 
     switch (chosenEnemy->movementType) {
-        // left side, move right
+        // top left side, move right
         case 0:
             // Movement case 0
             mgba_printf("Chosen enemy is movement 0\n");
@@ -47,6 +46,7 @@ void enemyMovement() {
             chosenEnemy->x = 10;
             chosenEnemy->y = 10;
             chosenEnemy->movementType = 0;
+            enemyAttack(chosenEnemyIndex);
             break;
         // left side move down
         case 1:
@@ -81,9 +81,10 @@ void enemyMovement() {
     }
 }
 
+// 50% chance of attacking
 void enemyAttack(int i) {
-    if (enemies[i].isActive && (rand() % 4 == 0)) {
-        mgba_printf("Enemy %d is attacking!\n", i);
+    if (enemies[i].isActive && (rand() % 2 == 0)) {
+        mgba_printf("Enemy %d attacking! movement type: %d\n", i, enemies[i].movementType);
         enemies[i].isAttacking = 1;
     }
 }
@@ -129,15 +130,37 @@ void updateEnemies() {
         // Implement attack logic here
         // For example, move towards the player "screen coordinates" hOff and vOff
         if (enemies[i].isActive && enemies[i].isAttacking) {
-            if (enemies[i].x < player.x - hOff) {
-                enemies[i].x += 1;
-            } else if (enemies[i].x > player.x - hOff) {
-                enemies[i].x -= 1;
-            }
-            if (enemies[i].y < player.y - vOff) {
-                enemies[i].y += 1;
-            } else if (enemies[i].y > player.y - vOff) {
-                enemies[i].y -= 1;
+            switch (enemies[i].movementType) {
+                case 0:
+                    if (enemies[i].y < player.y - vOff) {
+                        enemies[i].y += 1;
+                    } else if (enemies[i].x < player.x - hOff) {
+                        enemies[i].x += 1;
+                    }
+                    break;
+                case 1:
+                    if (enemies[i].x < player.x - hOff) {
+                        enemies[i].x += 1;
+                    } else if (enemies[i].y < player.y - vOff) {
+                        enemies[i].y += 1;
+                    }
+                    break;
+                case 2:
+                    if (enemies[i].y < player.y - vOff) {
+                        enemies[i].y += 1;
+                    } else if (enemies[i].x > player.x - hOff) {
+                        enemies[i].x -= 1;
+                    } else if (enemies[i].x < player.x - hOff) {
+                        enemies[i].x += 1;
+                    }
+                    break;
+                case 3:
+                    if (enemies[i].y > player.y - vOff) {
+                        enemies[i].y -= 1;
+                    } else if (enemies[i].x < player.x - hOff) {
+                        enemies[i].x += 1;
+                    }
+                    break;
             }
         }
 
@@ -167,6 +190,63 @@ void updateEnemies() {
         }
     }
 }
+
+void attackMovement(SPRITE *enemy, int movementType) {
+    if (enemy->isActive && enemy->isAttacking) {
+        switch (movementType) {
+            case 0: // Move directly to the player
+                mgba_printf("Move directly to player\n");
+                if (enemy->x < player.x) {
+                    enemy->x += 1;
+                } else if (enemy->x > player.x) {
+                    enemy->x -= 1;
+                }
+                if (enemy->y > player.y) {
+                    enemy->y -= 1;
+                }
+                break;
+
+            case 1: // Spawn on the left side and move right to the player
+                mgba_printf("Spawn on the left side and move right to player\n");
+                enemy->x = 0;
+                enemy->y = player.y;
+                if (enemy->x < player.x) {
+                    enemy->x += 1;
+                }
+                break;
+
+            case 2: // Spawn on the right side and move left to the player
+                mgba_printf("Spawn on the right side and move left to player\n");
+                enemy->x = SCREENWIDTH;
+                enemy->y = player.y;
+                if (enemy->x > player.x) {
+                    enemy->x -= 1;
+                }
+                break;
+
+            case 3: // Spawn on top and move downward to the player
+                mgba_printf("Spawn on top and move downward to player\n");
+                enemy->x = player.x;
+                enemy->y = 0;
+                if (enemy->y < player.y) {
+                    enemy->y += 1;
+                }
+                break;
+
+            case 4: // Spawn on bottom and move upward to the player
+                mgba_printf("Spawn on bottom and move upward to player\n");
+                enemy->x = player.x;
+                enemy->y = SCREENHEIGHT;
+                if (enemy->y > player.y) {
+                    enemy->y -= 1;
+                }
+                break;
+        }
+    }
+}
+
+
+
 // todo: enemy doesn't freeze
 void freezeEnemies(SPRITE *enemy) {
     int enemyX = enemy->x;
