@@ -139,6 +139,14 @@ void keyCollision() {
     }
 }
 
+void clearCollectedKeys() {
+    for (int i = 0; i < collectedKeyCount; i++) {
+        collectedKeys[i].isCollected = 0;
+        collectedKeys[i].base.isActive = 0;
+    }
+    collectedKeyCount = 0;
+}
+
 void enterDoor() {
     for (int i = 0; i < DOORCOUNT; i++) {
         // if the door is active and leads to somewhere and u collected the correct key

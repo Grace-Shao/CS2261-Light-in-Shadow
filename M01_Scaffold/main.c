@@ -150,6 +150,10 @@ void level3() {
     if (lives < 1 || batteryRemaining < 0) {
         goToLose();
     }
+    if (BUTTON_PRESSED(BUTTON_START)) {
+        mgba_printf("start button pressed, go to lose");
+        goToLose();
+    }
 }
 
 void pause() {

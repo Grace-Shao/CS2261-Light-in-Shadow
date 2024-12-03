@@ -160,6 +160,8 @@ void goToLose() {
     // reset bg3 hoff so lose screen is centered
     REG_BG3HOFF = 0;
 
+    clearCollectedKeys();
+
     // clear the flashlight
     volatile short zero = 0;
     DMANow(3, &zero, &SCREENBLOCK[2], DMA_SOURCE_FIXED | 1024);

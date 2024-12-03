@@ -12,6 +12,7 @@ void initDoorsLevel2();
 void initKeysLevel1();
 void initKeysLevel2();
 void keyCollision();
+void clearCollectedKeys();
 void drawKeys();
 void enterDoor();
 void drawDoors();
