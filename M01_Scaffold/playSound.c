@@ -11,6 +11,8 @@
 #include "helpers/digitalSound.h"
 #include "scaryTheme.h"
 #include "buttonClicked.h"
+#include "screech.h"
+#include "screech2.h"
 
 void playTheme() {
     mgba_printf("theme activate");
@@ -19,6 +21,14 @@ void playTheme() {
 
 void playButtonClick() {
     playSoundB(buttonClicked_data, buttonClicked_length, 0);
+}
+
+void playScreech() {
+    playSoundB(screech_data, screech_length, 0);
+}
+
+void playScreech2() {
+    playSoundB(screech2_data, screech2_length, 0);
 }
 
 void setUpInterrupts() {
@@ -57,6 +67,19 @@ void interruptHandler() {
                 if (soundB.looping) {
                     // loop sound
                     playSoundB(soundB.data, soundB.dataLength, soundB.looping);
+                } else {
+                    soundB.isPlaying = 0;
+                    REG_TM1CNT = TIMER_OFF;
+                    DMA[2].ctrl = 0;
+                }
+            }
+        }
+        if (soundC.isPlaying) {
+            soundC.vBlankCount++;
+            if (soundC.vBlankCount >= soundB.durationInVBlanks) {
+                if (soundC.looping) {
+                    // loop sound
+                    playSoundB(soundC.data, soundC.dataLength, soundC.looping);
                 } else {
                     soundB.isPlaying = 0;
                     REG_TM1CNT = TIMER_OFF;

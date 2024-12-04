@@ -3,6 +3,7 @@
 
 void playTheme();
 void playButtonClick();
+void playScreech();
 void setUpInterrupts();
 void interruptHandler();
 

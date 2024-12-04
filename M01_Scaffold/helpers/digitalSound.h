@@ -44,6 +44,7 @@ void stopSounds();
 // FIFO address defines
 #define REG_FIFO_A          (u16*)0x040000A0
 #define REG_FIFO_B          (u16*)0x040000A4
+#define REG_FIFO_C          (u16*)0x040000A8
 
 
 typedef struct {
@@ -60,5 +61,6 @@ typedef struct {
 
 SOUND soundA;
 SOUND soundB;
+SOUND soundC;
 
 #endif

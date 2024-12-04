@@ -5,6 +5,7 @@
 #include "game.h"
 #include "player.h"
 #include "enemy.h"
+#include "playSound.h"
 #include "flashlight.h"
 #include <stdlib.h>
 #include <time.h>
@@ -72,11 +73,17 @@ void selectEnemy() {
     chanceOfEnemyAttack(chosenEnemyIndex);
 }
 
-// 50% chance of attacking
+// 50% chance of attacking & play screech
 void chanceOfEnemyAttack(int i) {
     if (enemies[i].isActive && (rand() % 4 == 0)) {
         mgba_printf("Enemy %d attacking! movement type: %d\n", i, enemies[i].movementType);
         enemies[i].isAttacking = 1;
+        playScreech2();
+        if (rand() % 2 == 0) {
+            playScreech();
+        } else {
+            playScreech2();
+        }
     }
 }
 
