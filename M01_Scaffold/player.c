@@ -36,11 +36,13 @@ void updatePlayer() {
     int bottomY = player.y + player.height - 1;
 
     if (BUTTON_HELD(BUTTON_B) && player.x > 0) {
+        mgba_printf("Player X going L, X: %d, Y: %d", player.x, player.y);
         player.isAnimating = 1;
         player.direction = LEFT;
         player.x -= player.xVel;
     }
     if (BUTTON_HELD(BUTTON_A) && (player.x + player.width) < MAPWIDTH) {
+        mgba_printf("Player X going R X: %d, Y: %d", player.x, player.y);
         player.isAnimating = 1;
         player.direction = RIGHT;
         player.x += player.xVel;
