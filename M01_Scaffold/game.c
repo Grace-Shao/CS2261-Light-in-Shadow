@@ -30,6 +30,7 @@ void initGame() {
 }
 
 void updateGame() {
+    // todo: delete when turning in
     if (BUTTON_PRESSED(BUTTON_START)) {
         mgba_printf("start button pressed, go to pause");
         goToPause();
@@ -40,6 +41,12 @@ void updateGame() {
     toggleFlashlight();
     keyCollision();
     enterDoor();
+    if (BUTTON_PRESSED(BUTTON_LSHOULDER) && BUTTON_PRESSED(BUTTON_RSHOULDER)) {
+        isFlashlightCleared = !isFlashlightCleared;
+        mgba_printf("clearing flashlight, isFlashlight cleared %d", isFlashlightCleared);
+        clearFlashlight();
+    }
+
     if (frameCount % 500 == 0) {
         selectEnemy();
     }

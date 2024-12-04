@@ -20,8 +20,10 @@
 #include "artAssetsGBA/allBlack.h"
 
 // variable intial settings are redefined in main
-int isFlashlightOn = 0;
-int flashlightDirection = 0;
+// 0 is off, 1 is on
+int isFlashlightOn = 1;
+int isFlashlightCleared = 0;
+int flashlightDirection = 1;
 int batteryRemaining;
 
 SPRITE flashlightBattery;
@@ -36,9 +38,13 @@ void initFlashlightBattery() {
 
 void toggleFlashlight() {
     if (BUTTON_PRESSED(BUTTON_RIGHT) || BUTTON_PRESSED(BUTTON_LEFT) || BUTTON_PRESSED(BUTTON_UP) || BUTTON_PRESSED(BUTTON_DOWN)) {
-        playButtonClick();
+        // if the flashlight is not cleared, play sound
+        if (isFlashlightCleared == 0) {
+            playButtonClick();
+        }
+
         isFlashlightOn = !isFlashlightOn;
-        if (isFlashlightOn == 0) {
+        if (isFlashlightOn == 1) {
             batteryRemaining -= 1;
             mgba_printf("Battery remaining: %d", batteryRemaining);
         }
@@ -61,7 +67,9 @@ void toggleFlashlight() {
 }
 
 void drawFlashlight() {
-    if (isFlashlightOn) {
+    if (isFlashlightCleared == 1) {
+        clearFlashlight(); 
+    } else if (isFlashlightOn) {
         // dma light
         if (flashlightDirection == 1) {
             DMANow(3, lightRightTiles, &CHARBLOCK[2], lightRightTilesLen/2);
@@ -79,16 +87,15 @@ void drawFlashlight() {
             DMANow(3, lightDownMap, &SCREENBLOCK[2], lightDownMapLen / 2);
         }
     } else {
-        // Clear the light map
-        // TODO: DEL LATER, CLEARS FLASHLIGHT TESTING PURP
-       
-        volatile short zero = 0;
-        DMANow(3, &zero, &SCREENBLOCK[2], DMA_SOURCE_FIXED | 1024);
-       
-        // DMANow(3, allBlackTiles, &CHARBLOCK[2], allBlackTilesLen / 2);
-        // DMANow(3, allBlackMap, &SCREENBLOCK[2], allBlackMapLen / 2);
-    }
-    
+        DMANow(3, allBlackTiles, &CHARBLOCK[2], allBlackTilesLen / 2);
+        DMANow(3, allBlackMap, &SCREENBLOCK[2], allBlackMapLen / 2);
+    }   
+}
+
+// no mask on the screen anymore
+void clearFlashlight() {
+    volatile short zero = 0;
+    DMANow(3, &zero, &SCREENBLOCK[2], DMA_SOURCE_FIXED | 1024);
 }
 
 void drawFlashlightBattery() {
@@ -115,5 +122,4 @@ void drawFlashlightBattery() {
         tileIDY = 0;
     }
     shadowOAM[flashlightBattery.oamIndex].attr2 = ATTR2_PALROW(0) | ATTR2_PRIORITY(0) | ATTR2_TILEID(0 + tileIDX, 23 + tileIDY);
-
 }
