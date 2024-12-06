@@ -100,7 +100,7 @@ void initKeysLevel2() {
     // turn keys of other levels off
     keys[0].base.isActive = 0;
 
-    keys[1].base.x = 40;
+    keys[1].base.x = 1;
     keys[1].base.y = 75;
     keys[2].base.x = 400;
     keys[2].base.y = 75;

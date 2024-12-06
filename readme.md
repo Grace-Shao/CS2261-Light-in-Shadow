@@ -29,3 +29,7 @@
 ## Cheat
 - Toggling L shoulder and R shoulder will reveal the entire bg (no need for flashlight anymore)
 - ^not shown in demo
+
+## Bugs
+- The background does wrap around on the left and right sides, 
+- but hopefully this makes a trippy visual effect and the player will learn they cannot walk over
