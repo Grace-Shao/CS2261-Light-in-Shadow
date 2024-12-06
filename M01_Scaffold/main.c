@@ -117,10 +117,11 @@ void game() {
         goToLose();
     }
  
-    if (BUTTON_PRESSED(BUTTON_SELECT)) {
-        mgba_printf("select button pressed, go to lvl2");
-        goToLevel2();
-    }
+    // for testing purp
+    // if (BUTTON_PRESSED(BUTTON_SELECT)) {
+    //     mgba_printf("select button pressed, go to lvl2");
+    //     goToLevel2();
+    // }
 }
 
 void level2() {
@@ -134,10 +135,11 @@ void level2() {
     if (lives < 1 || batteryRemaining < 0) {
         goToLose();
     }
-    if (BUTTON_PRESSED(BUTTON_SELECT)) {
-        mgba_printf("select button pressed, go to lvl3");
-        goToLevel3();
-    }
+    // for testing purp
+    // if (BUTTON_PRESSED(BUTTON_SELECT)) {
+    //     mgba_printf("select button pressed, go to lvl3");
+    //     goToLevel3();
+    // }
 }
 
 void level3() {
@@ -148,10 +150,11 @@ void level3() {
     if (lives < 1 || batteryRemaining < 0) {
         goToLose();
     }
-    if (BUTTON_PRESSED(BUTTON_SELECT)) {
-        mgba_printf("select button pressed, go to lose");
-        goToLose();
-    }
+    // for testing purp
+    // if (BUTTON_PRESSED(BUTTON_SELECT)) {
+    //     mgba_printf("select button pressed, go to lose");
+    //     goToLose();
+    // }
     if (player.x >= 495) {
         goToWin();
     }
