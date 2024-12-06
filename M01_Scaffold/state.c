@@ -23,6 +23,7 @@
 #include "artAssetsGBA/lightRight.h"
 #include "artAssetsGBA/instructions.h"
 #include "artAssetsGBA/loseScreen.h"
+#include "artAssetsGBA/winScreen.h"
 #include "artAssetsGBA/forestBG.h"
 
 void updateGameState(STATE state) {
@@ -47,6 +48,9 @@ void updateGameState(STATE state) {
             break;
         case LOSE:
             lose();
+            break;
+        case WIN:
+            win();
             break;
         default:
             break;
@@ -178,5 +182,29 @@ void goToLose() {
     DMANow(3, LoseScreenPal, BG_PALETTE, LoseScreenPalLen / 2);
     DMANow(3, LoseScreenMap, &SCREENBLOCK[0], LoseScreenMapLen / 2);
     state = LOSE;
+}
+
+void goToWin() {
+    // reset bg3 hoff so win screen is centered
+    REG_BG3HOFF = 0;
+
+    clearCollectedKeys();
+
+    // clear the flashlight
+    volatile short zero = 0;
+    DMANow(3, &zero, &SCREENBLOCK[2], DMA_SOURCE_FIXED | 1024);
+    // clear prev bg3 and it's tiles
+    DMANow(3, &zero, &SCREENBLOCK[0], DMA_SOURCE_FIXED | 1024);
+    DMANow(3, &zero, &SCREENBLOCK[1], DMA_SOURCE_FIXED | 1024);
+    DMANow(3, &zero, &CHARBLOCK[2], DMA_SOURCE_FIXED | 1024);
+
+    hideSprites();
+    waitForVBlank();
+    DMANow(3, shadowOAM, OAM, 128*4);
+    // replaces the flashlight bg so it covers up the other sprites
+    DMANow(3, winScreenTiles, &CHARBLOCK[3], winScreenTilesLen/2);
+    DMANow(3, winScreenPal, BG_PALETTE, winScreenPalLen / 2);
+    DMANow(3, winScreenMap, &SCREENBLOCK[0], winScreenMapLen / 2);
+    state = WIN;
 
 }

@@ -34,6 +34,7 @@ void initialize();
 void goToLose();
 void lose();
 
+SPRITE player;
 // States
 STATE state = START;
 STATE prevState = GAME;
@@ -151,6 +152,9 @@ void level3() {
         mgba_printf("select button pressed, go to lose");
         goToLose();
     }
+    if (player.x >= 495) {
+        goToWin();
+    }
 }
 
 void pause() {
@@ -169,6 +173,13 @@ void pause() {
 void lose() {
     if (BUTTON_PRESSED(BUTTON_START)) {
         mgba_printf("start button pressed, go to start from lose");
+        goToStart();
+    }
+}
+
+void win() {
+    if (BUTTON_PRESSED(BUTTON_START)) {
+        mgba_printf("start button pressed, go to start from win");
         goToStart();
     }
 }
