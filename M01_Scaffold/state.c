@@ -22,6 +22,7 @@
 #include "artAssetsGBA/redMoon.h"
 #include "artAssetsGBA/lightRight.h"
 #include "artAssetsGBA/instructions.h"
+#include "artAssetsGBA/introCutscene1.h"
 #include "artAssetsGBA/loseScreen.h"
 #include "artAssetsGBA/winScreen.h"
 #include "artAssetsGBA/forestBG.h"
@@ -33,6 +34,9 @@ void updateGameState(STATE state) {
             break;
         case INSTRUCTIONS:
             instructions();
+            break;
+        case CUTSCENE:
+            cutscene();
             break;
         case GAME:
             game();
@@ -84,6 +88,15 @@ void goToInstructions() {
     DMANow(3, instructionsPal, BG_PALETTE, instructionsPalLen / 2);
     DMANow(3, instructionsMap, &SCREENBLOCK[0], instructionsMapLen / 2);
     state = INSTRUCTIONS;
+}
+
+void goToCutscene() {
+    // don't clear out for glichy?
+    DMANow(3, introCutscene1Tiles, &CHARBLOCK[3], introCutscene1TilesLen/2);
+    DMANow(3, introCutscene1Pal, BG_PALETTE, introCutscene1PalLen / 2);
+    DMANow(3, introCutscene1Map, &SCREENBLOCK[0], introCutscene1MapLen / 2);
+    playMomImScared();
+    state = CUTSCENE;
 }
 
 void goToGame() {

@@ -13,6 +13,7 @@
 #include "buttonClicked.h"
 #include "screech.h"
 #include "screech2.h"
+#include "momImScared.h"
 
 void playTheme() {
     mgba_printf("theme activate");
@@ -31,10 +32,13 @@ void playScreech2() {
     playSoundB(screech2_data, screech2_length, 0);
 }
 
+void playMomImScared() {
+    playSoundB(momImScared_data, momImScared_length, 0);
+}
+
 void setUpInterrupts() {
     REG_IME = 0;
 
-    // TODO 1.0: Enable VBlank interrupts
     REG_IE = IRQ_VBLANK;
     REG_DISPSTAT = DISPSTAT_VBLANK_IRQ;
 
@@ -67,19 +71,6 @@ void interruptHandler() {
                 if (soundB.looping) {
                     // loop sound
                     playSoundB(soundB.data, soundB.dataLength, soundB.looping);
-                } else {
-                    soundB.isPlaying = 0;
-                    REG_TM1CNT = TIMER_OFF;
-                    DMA[2].ctrl = 0;
-                }
-            }
-        }
-        if (soundC.isPlaying) {
-            soundC.vBlankCount++;
-            if (soundC.vBlankCount >= soundB.durationInVBlanks) {
-                if (soundC.looping) {
-                    // loop sound
-                    playSoundB(soundC.data, soundC.dataLength, soundC.looping);
                 } else {
                     soundB.isPlaying = 0;
                     REG_TM1CNT = TIMER_OFF;

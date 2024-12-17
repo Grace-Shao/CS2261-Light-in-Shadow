@@ -4,6 +4,8 @@
 void playTheme();
 void playButtonClick();
 void playScreech();
+void playScreech2();
+void playMomImScared();
 void setUpInterrupts();
 void interruptHandler();
 
