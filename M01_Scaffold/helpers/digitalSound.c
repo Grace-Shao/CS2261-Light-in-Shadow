@@ -40,27 +40,8 @@ void playSoundA(const signed char* sound, int length, int loops) {
 
 
 void playSoundB(const signed char* sound, int length, int loops) {
-
+    mgba_printf("playSound with length of %d", length);
     DMANow(2, sound, REG_FIFO_B, DMA_DESTINATION_FIXED | DMA_AT_REFRESH | DMA_REPEAT | DMA_32);
-
-    int cyclesPerSample = PROCESSOR_CYCLES_PER_SECOND / SOUND_FREQ;
-
-    REG_TM1CNT = 0;
-    REG_TM1D = 65536 - cyclesPerSample;
-    REG_TM1CNT = TIMER_ON;
-
-    soundB.data = sound;
-    soundB.dataLength = length;
-    soundB.looping = loops;
-    soundB.isPlaying = 1;
-    soundB.durationInVBlanks = (VBLANK_FREQ / SOUND_FREQ) * length;
-    soundB.vBlankCount = 0;
-
-}
-
-void playSoundC(const signed char* sound, int length, int loops) {
-
-    DMANow(3, sound, REG_FIFO_C, DMA_DESTINATION_FIXED | DMA_AT_REFRESH | DMA_REPEAT | DMA_32);
 
     int cyclesPerSample = PROCESSOR_CYCLES_PER_SECOND / SOUND_FREQ;
 

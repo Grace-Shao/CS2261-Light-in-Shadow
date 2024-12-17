@@ -21,17 +21,11 @@
 #include "artAssetsGBA/forestBG.h"
 
 void start();
-void goToStart();
 void instructions();
-void goToInstructions();
 void game();
-void goToGame();
-void goToPause();
 void pause();
-void goToWin();
 void win();
 void initialize();
-void goToLose();
 void lose();
 
 SPRITE player;
@@ -95,20 +89,19 @@ void start() {
 void instructions() {
     if (BUTTON_PRESSED(BUTTON_START)) {
         mgba_printf("start button pressed, go to game");
+        goToCutscene();
+    }
+}
+
+void cutscene() {
+    if (BUTTON_PRESSED(BUTTON_START)) {
+        mgba_printf("start button pressed, go to cutscene");
         goToGame();
     }
 }
 
 void game() {
-    if (BUTTON_PRESSED(BUTTON_DOWN)) {
-        mgba_printf("modified tile");
-        SCREENBLOCK[0].tilemap[OFFSET(6, 2, 32)] = TILEMAP_ENTRY_TILEID(12);
-    }
     spawnCracks();
-    // if (BUTTON_PRESSED(BUTTON_DOWN)) {
-    //     mgba_printf("modified tile");
-    //     SCREENBLOCK[2].tilemap[OFFSET(6, 2, 32)] = TILEMAP_ENTRY_TILEID(2);
-    // }
     updateGame();
     drawGame();
     waitForVBlank();
