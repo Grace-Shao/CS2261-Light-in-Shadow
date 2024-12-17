@@ -16,7 +16,6 @@
 
 // bg/sprite imports
 #include "artAssetsGBA/spritesheet2.h"
-#include "artAssetsGBA/apartmentBGMap.h"
 #include "artAssetsGBA/instructions.h"
 #include "artAssetsGBA/loseScreen.h"
 #include "artAssetsGBA/forestBG.h"
@@ -35,8 +34,10 @@ void initialize();
 void goToLose();
 void lose();
 
+SPRITE player;
 // States
 STATE state = START;
+STATE prevState = GAME;
 OBJ_ATTR shadowOAM[128];
 typedef enum {DOWN, RIGHT, UP, LEFT} DIRECTION;
 
@@ -99,10 +100,6 @@ void instructions() {
 }
 
 void game() {
-    if (BUTTON_PRESSED(BUTTON_START)) {
-        mgba_printf("start button pressed, go to pause");
-        goToPause();
-    }
     if (BUTTON_PRESSED(BUTTON_DOWN)) {
         mgba_printf("modified tile");
         SCREENBLOCK[0].tilemap[OFFSET(6, 2, 32)] = TILEMAP_ENTRY_TILEID(12);
@@ -120,10 +117,11 @@ void game() {
         goToLose();
     }
  
-    if (BUTTON_PRESSED(BUTTON_SELECT)) {
-        mgba_printf("select button pressed, go to lvl2");
-        goToLevel2();
-    }
+    // for testing purp
+    // if (BUTTON_PRESSED(BUTTON_SELECT)) {
+    //     mgba_printf("select button pressed, go to lvl2");
+    //     goToLevel2();
+    // }
 }
 
 void level2() {
@@ -137,10 +135,11 @@ void level2() {
     if (lives < 1 || batteryRemaining < 0) {
         goToLose();
     }
-    if (BUTTON_PRESSED(BUTTON_SELECT)) {
-        mgba_printf("select button pressed, go to lvl3");
-        goToLevel3();
-    }
+    // for testing purp
+    // if (BUTTON_PRESSED(BUTTON_SELECT)) {
+    //     mgba_printf("select button pressed, go to lvl3");
+    //     goToLevel3();
+    // }
 }
 
 void level3() {
@@ -151,18 +150,39 @@ void level3() {
     if (lives < 1 || batteryRemaining < 0) {
         goToLose();
     }
+    // for testing purp
+    // if (BUTTON_PRESSED(BUTTON_SELECT)) {
+    //     mgba_printf("select button pressed, go to lose");
+    //     goToLose();
+    // }
+    if (player.x >= 495) {
+        goToWin();
+    }
 }
 
 void pause() {
     if (BUTTON_PRESSED(BUTTON_START)) {
-        mgba_printf("start button pressed, go to pause");
-        goToGame();
+        mgba_printf("start button pressed, go to back to og state");
+        if (prevState == GAME) {
+            goToGame();
+        } else if (prevState == LEVEL2) {
+            goToLevel2();
+        } else if (prevState == LEVEL3) {
+            goToLevel3();
+        }
     }
 }
 
 void lose() {
     if (BUTTON_PRESSED(BUTTON_START)) {
         mgba_printf("start button pressed, go to start from lose");
+        goToStart();
+    }
+}
+
+void win() {
+    if (BUTTON_PRESSED(BUTTON_START)) {
+        mgba_printf("start button pressed, go to start from win");
         goToStart();
     }
 }

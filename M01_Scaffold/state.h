@@ -3,6 +3,8 @@
 
 typedef enum STATE {START, INSTRUCTIONS, GAME, LEVEL2, LEVEL3, PAUSE, LOSE, WIN} STATE;
 extern STATE state;
+extern STATE prevState;
+
 
 // Function prototypes
 void updateGameState(STATE state);

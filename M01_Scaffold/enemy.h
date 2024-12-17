@@ -7,7 +7,7 @@
 #define ENEMYCOUNT 3
 
 void initEnemies();
-void enemyMovement();
+void selectEnemy();
 void updateEnemies();
 void drawEnemies();
 void freezeEnemies();

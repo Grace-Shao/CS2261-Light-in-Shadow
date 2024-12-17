@@ -13,16 +13,17 @@
 
 // bg/sprite imports
 #include "artAssetsGBA/spritesheet2.h"
-#include "artAssetsGBA/apartmentBGMap.h"
-#include "artAssetsGBA/apartmentBGMapOnly.h"
 #include "artAssetsGBA/apartmentBGWide.h"
+#include "artAssetsGBA/apartmentBGMapLvl2.h"
 #include "artAssetsGBA/interiorsPalette.h"
+#include "artAssetsGBA/interiorsPalette2.h"
 #include "artAssetsGBA/letters.h"
 #include "artAssetsGBA/clouds.h"
 #include "artAssetsGBA/redMoon.h"
 #include "artAssetsGBA/lightRight.h"
 #include "artAssetsGBA/instructions.h"
 #include "artAssetsGBA/loseScreen.h"
+#include "artAssetsGBA/winScreen.h"
 #include "artAssetsGBA/forestBG.h"
 
 void updateGameState(STATE state) {
@@ -39,11 +40,17 @@ void updateGameState(STATE state) {
         case LEVEL2:
             level2();
             break;
+        case LEVEL3:
+            level3();
+            break;
         case PAUSE:
             pause();
             break;
         case LOSE:
             lose();
+            break;
+        case WIN:
+            win();
             break;
         default:
             break;
@@ -105,11 +112,8 @@ void goToGame() {
     DMANow(3, spritesheet2Pal, SPRITE_PAL, spritesheet2PalLen / 2);
 
     // dma letters (will use the same bg pal)
-    DMANow(3, lettersTiles, &CHARBLOCK[1], lettersTilesLen / 2);
+    //DMANow(3, lettersTiles, &CHARBLOCK[1], lettersTilesLen / 2);
     //DMANow(3, lettersMap, &SCREENBLOCK[2], lettersMapLen / 2);
-      
-    // Clear what was on bg0cnt letters bg before
-    //DMANow(3, 0, &SCREENBLOCK[4], lettersMapLen / 2);
 
     hideSprites();
     waitForVBlank();
@@ -119,6 +123,11 @@ void goToGame() {
 
 void goToLevel2() {
     mgba_printf("going to lvl2");
+    // This map is broken
+    // DMANow(3, interiorsPalette2Tiles,  &CHARBLOCK[3], interiorsPaletteTilesLen /2);
+    // DMANow(3, interiorsPalette2Pal,  BG_PALETTE, interiorsPalette2PalLen /2);
+    DMANow(3, apartmentBGMapLvl2Map,  &SCREENBLOCK[0], apartmentBGMapLvl2Len /2);
+
     hideSprites();
     deactivateAllDoors();
     initDoorsLevel2();
@@ -137,16 +146,18 @@ void goToLevel3() {
     DMANow(3, forestBGPal, BG_PALETTE, forestBGPalLen / 2);
     DMANow(3, forestBGMap, &SCREENBLOCK[0], forestBGMapLen / 2);
 
+    REG_BG3HOFF = 0;
+    REG_BG3VOFF = 0;
+
     deactivateAllDoors();
     hideSprites();
     waitForVBlank();
     DMANow(3, shadowOAM, OAM, 128*8);
-    
-    // initGame();
-    state = LEVEL2;    
+    state = LEVEL3;    
 }
 
 void goToPause() {
+    prevState = state;
     state = PAUSE;
 }
 
@@ -154,9 +165,14 @@ void goToLose() {
     // reset bg3 hoff so lose screen is centered
     REG_BG3HOFF = 0;
 
+    clearCollectedKeys();
+
     // clear the flashlight
     volatile short zero = 0;
     DMANow(3, &zero, &SCREENBLOCK[2], DMA_SOURCE_FIXED | 1024);
+    // clear prev bg3
+    DMANow(3, &zero, &SCREENBLOCK[0], DMA_SOURCE_FIXED | 1024);
+    DMANow(3, &zero, &SCREENBLOCK[1], DMA_SOURCE_FIXED | 1024);
     
     hideSprites();
     waitForVBlank();
@@ -166,5 +182,29 @@ void goToLose() {
     DMANow(3, LoseScreenPal, BG_PALETTE, LoseScreenPalLen / 2);
     DMANow(3, LoseScreenMap, &SCREENBLOCK[0], LoseScreenMapLen / 2);
     state = LOSE;
+}
+
+void goToWin() {
+    // reset bg3 hoff so win screen is centered
+    REG_BG3HOFF = 0;
+
+    clearCollectedKeys();
+
+    // clear the flashlight
+    volatile short zero = 0;
+    DMANow(3, &zero, &SCREENBLOCK[2], DMA_SOURCE_FIXED | 1024);
+    // clear prev bg3 and it's tiles
+    DMANow(3, &zero, &SCREENBLOCK[0], DMA_SOURCE_FIXED | 1024);
+    DMANow(3, &zero, &SCREENBLOCK[1], DMA_SOURCE_FIXED | 1024);
+    DMANow(3, &zero, &CHARBLOCK[2], DMA_SOURCE_FIXED | 1024);
+
+    hideSprites();
+    waitForVBlank();
+    DMANow(3, shadowOAM, OAM, 128*4);
+    // replaces the flashlight bg so it covers up the other sprites
+    DMANow(3, winScreenTiles, &CHARBLOCK[3], winScreenTilesLen/2);
+    DMANow(3, winScreenPal, BG_PALETTE, winScreenPalLen / 2);
+    DMANow(3, winScreenMap, &SCREENBLOCK[0], winScreenMapLen / 2);
+    state = WIN;
 
 }

@@ -81,6 +81,7 @@ typedef struct {
     int numFrames;
     int movementType;
 
+    int collisionCooldown;
     int hide;
     u8 oamIndex; 
 } SPRITE;
