@@ -235,7 +235,7 @@ void freezeEnemies(SPRITE *enemy) {
     } 
     // left
     if (flashlightDirection == -1 && isFlashlightOn) {
-        if (collision(12, 40, 28, 80, enemyX, enemyY, enemyWidth, enemyHeight) ||
+        if (collision(0, 40, 28, 80, enemyX, enemyY, enemyWidth, enemyHeight) ||
             collision(40, 48, 32, 56, enemyX, enemyY, enemyWidth, enemyHeight) ||
             collision(80, 65, 32, 30, enemyX, enemyY, enemyWidth, enemyHeight)) {
             mgba_printf("collided w flashlight");
