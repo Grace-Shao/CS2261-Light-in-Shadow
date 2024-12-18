@@ -1,5 +1,5 @@
 ## Demo Preview
-[![Youtube Thumbnail](https://img.youtube.com/vi/ry8N25u0-dI/0.jpg)](https://www.youtube.com/watch?v=ry8N25u0-dI)
+[![Youtube Thumbnail](https://img.youtube.com/vi/XVdCIBfNs9Q/0.jpg)](https://www.youtube.com/watch?v=XVdCIBfNs9Q)
 
 ## How to play the game
 - GOAL: escape from all the monsters and make it outside
