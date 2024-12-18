@@ -91,7 +91,11 @@ void goToInstructions() {
 }
 
 void goToCutscene() {
-    // don't clear out for glichy?
+    // clear out prev bgs
+    volatile short zero = 0;
+    DMANow(3, &zero, &SCREENBLOCK[2], DMA_SOURCE_FIXED | 1024);
+    DMANow(3, &zero, &SCREENBLOCK[0], DMA_SOURCE_FIXED | 1024);
+
     DMANow(3, introCutscene1Tiles, &CHARBLOCK[3], introCutscene1TilesLen/2);
     DMANow(3, introCutscene1Pal, BG_PALETTE, introCutscene1PalLen / 2);
     DMANow(3, introCutscene1Map, &SCREENBLOCK[0], introCutscene1MapLen / 2);
