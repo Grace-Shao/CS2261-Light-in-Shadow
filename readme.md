@@ -1,3 +1,6 @@
+## Demo Preview
+[![Youtube Thumbnail](https://img.youtube.com/vi/ry8N25u0-dI/0.jpg)](https://www.youtube.com/watch?v=ry8N25u0-dI)
+
 ## How to play the game
 - GOAL: escape from all the monsters and make it outside
 - press START to go to the next screen or pause/unpause the game
